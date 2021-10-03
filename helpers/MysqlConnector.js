@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const knex = require("knex");
 
+// Connect Knex.js to database
 const MysqlConnector = (
   user,
   password,
