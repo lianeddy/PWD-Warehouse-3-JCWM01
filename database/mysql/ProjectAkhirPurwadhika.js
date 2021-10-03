@@ -1,16 +1,23 @@
 const { Model } = require("objection");
 const { MysqlConnector, TimeModule } = require("../../helpers");
+const config = require("dotenv").config();
+const objectionSoftDelete = require("objection-js-soft-delete");
 
 let MysqlConnectorTmp = MysqlConnector(
-  "root",
-  "sarewes23",
-  "purwadhika_project_akhir"
+  process.env.DB_USER, // "root",
+  process.env.DB_PASS, // "sarewes23",
+  process.env.DB_DATABASE, // "purwadhika_project_akhir"
+  process.env.DB_HOST,
+  process.env.DB_PORT
 );
 
-class ProjectAkhirPurwadhika extends Model {
-  // constructor(baseTable = "") {
-  //   this.baseTable = baseTable;
-  // }
+const softDelete = objectionSoftDelete.default({
+  columnName: "deleted_at",
+  deletedValue: new Date(),
+  notDeletedValue: null,
+});
+
+class ProjectAkhirPurwadhika extends softDelete(Model) {
   async $beforeInsert() {
     this.created_at = TimeModule.timeNowFormatMysql();
     this.updated_at = TimeModule.timeNowFormatMysql();
@@ -18,8 +25,6 @@ class ProjectAkhirPurwadhika extends Model {
   async $beforeUpdate() {
     this.updated_at = TimeModule.timeNowFormatMysql();
   }
-
-  deleteDataById() {}
 }
 
 ProjectAkhirPurwadhika.knex(MysqlConnectorTmp);
