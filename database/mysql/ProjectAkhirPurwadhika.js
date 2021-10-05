@@ -3,7 +3,7 @@ const { MysqlConnector, TimeModule } = require("../../helpers");
 
 let MysqlConnectorTmp = MysqlConnector(
   "root",
-  "sarewes23",
+  "coco1506",
   "purwadhika_project_akhir"
 );
 
