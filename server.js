@@ -1,13 +1,3 @@
-// const SysUser = require("./database/table/SysUser");
-
-// let main = async () => {
-//   let output = await SysUser.query().select("*").where("id_user", 11);
-//   console.log(output);
-//   process.exit();
-// };
-
-// main();
-
 const express = require("express");
 const cors = require("cors");
 const bearerToken = require("express-bearer-token");
