@@ -1,9 +1,9 @@
-/* @import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
 
 * {
   box-sizing: border-box;
 }
-body {
+*/ body {
   background: #1c8ef9 !important;
   min-height: 100vh;
   display: flex;
@@ -11,7 +11,7 @@ body {
   font-family: "Fira Sans", sans-serif;
 }
 
-h1,
+* h1,
 h2,
 h3,
 h4,
@@ -44,7 +44,7 @@ html,
   text-align: left;
 }
 
-.auth-inner {
+.form-inner {
   width: 450px;
   margin: auto;
   background: #ffffff;
@@ -58,8 +58,7 @@ html,
   border-color: #167bff;
   box-shadow: none;
 }
-
-.auth-wrapper h3 {
+*/ .auth-wrapper h3 {
   text-align: center;
   margin: 0;
   line-height: 1;
@@ -81,4 +80,4 @@ html,
 
 .forgot-password a {
   color: #167bff;
-} */
+}
