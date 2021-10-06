@@ -1,4 +1,4 @@
-const AppKabKota = require("./AppKabKota");
+const AppKabKota = require("./AppKabkota");
 const { ProjectAkhirPurwadhika } = require("../mysql/ProjectAkhirPurwadhika");
 
 class AppPropinsi extends ProjectAkhirPurwadhika {
