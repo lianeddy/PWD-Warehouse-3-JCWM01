@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Login from "./jsx/pages/login";
 import Landing from "./jsx/pages/landing";
+import register from "./jsx/pages/register";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Switch>
+              <Route path="/register" component={register} />
               <Route path="/login" component={Login} />
               <Route path="/" component={Landing} />
             </Switch>

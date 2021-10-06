@@ -4,6 +4,8 @@ const MysqlConnector = require("./MysqlConnector");
 const RandomHelper = require("./RandomHelper");
 const { db } = require("./Database");
 const { createToken } = require("./createToken");
+const { auth } = require("./authToken");
+const { transporter } = require("./nodemailer");
 
 module.exports = {
   MysqlConnector,
@@ -12,4 +14,6 @@ module.exports = {
   Faker,
   db,
   createToken,
+  auth,
+  transporter,
 };

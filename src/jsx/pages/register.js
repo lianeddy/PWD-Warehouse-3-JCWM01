@@ -6,7 +6,7 @@ import { authLogin } from "../../actions";
 import "./login.css";
 import { Redirect } from "react-router";
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,16 @@ class Login extends React.Component {
           Account not found !
         </div>
         <form>
-          <h3>Sign In</h3>
+          <h3>Sign Up</h3>
+
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Username"
+            />
+          </div>
 
           <div className="form-group">
             <label>Email address</label>
@@ -61,7 +70,6 @@ class Login extends React.Component {
               type="email"
               className="form-control"
               placeholder="Enter email"
-              ref={(e) => (this.inputEmail = e)}
             />
           </div>
 
@@ -71,32 +79,14 @@ class Login extends React.Component {
               type="password"
               className="form-control"
               placeholder="Enter password"
-              ref={(e) => (this.inputPassword = e)}
             />
           </div>
 
-          <div className="form-group">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
-              </label>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            onClick={this.onBtnLogin}
-          >
-            Login
+          <button type="submit" className="btn btn-primary btn-block">
+            Sign Up
           </button>
           <p className="forgot-password text-right">
-            Dont have an <a href="/register"> account?</a>
+            Already registered <a href="/login">sign in?</a>
           </p>
         </form>
       </div>
@@ -104,4 +94,4 @@ class Login extends React.Component {
   }
 }
 
-export default connect(null, { authLogin })(Login);
+export default connect(null, { authLogin })(Register);
