@@ -4,6 +4,8 @@ const TimeModule = require("./TimeModule");
 const MysqlConnector = require("./MysqlConnector");
 const RandomHelper = require("./RandomHelper");
 const RajaOngkirHelper = require("./RajaOngkirHelper");
+const { db } = require("./Database");
+const { createToken } = require("./createToken");
 
 module.exports = {
   MysqlConnector,
@@ -12,4 +14,6 @@ module.exports = {
   Faker,
   StorageHelper,
   RajaOngkirHelper,
+  db,
+  createToken,
 };

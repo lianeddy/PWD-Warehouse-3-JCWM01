@@ -1,12 +1,20 @@
-const AppPropinsi = require("./database/table/AppPropinsi");
+const express = require("express");
+const cors = require("cors");
+const bearerToken = require("express-bearer-token");
 
-let main = async () => {
-  let output = await AppPropinsi.query().insert({
-    nm_propinsi: "Mantap Jiwa",
-  });
-  output = await AppPropinsi.query().select("*");
-  console.table(output);
-  process.exit();
-};
+const port = 3300;
+const app = express();
 
-main();
+app.use(cors());
+app.use(express.json());
+app.use(bearerToken());
+
+app.get("/", (req, res) => {
+  res.status(200).send("Hello");
+});
+
+const { userRouters } = require("./routers");
+
+app.use("/users", userRouters);
+
+app.listen(port, () => console.log(`API Running: ${port}`));
