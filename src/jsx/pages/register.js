@@ -28,16 +28,16 @@ class Register extends React.Component {
         email,
         password,
       })
-        .then((res) => console.log(res.data))
+        .then((res) => console.log(res.data.message))
         .catch((err) => console.log(err));
     }
   };
 
   render() {
-    if (this.state.redirect) {
-      // this.setState({})
-      return <Redirect to="/" />;
-    }
+    // if (this.state.redirect) {
+    //   // this.setState({})
+    //   return <Redirect to="/" />;
+    // }
 
     return (
       <div className="form-inner">

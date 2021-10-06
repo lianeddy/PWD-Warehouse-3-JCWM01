@@ -10,7 +10,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alertShow: "none",
+      alertMessages: "",
       redirect: false,
     };
   }
@@ -28,7 +28,9 @@ class Login extends React.Component {
           localStorage.setItem("dataToken", result.data.token);
           //action
           this.props.authLogin(result.data.dataLogin);
+          console.log(result.data.message);
           this.setState({ redirect: true });
+          this.setState({ alertMessages: result.data.message });
           console.log("Login Success");
           this.inputUsername.value = "";
           this.inputPassword.value = "";
@@ -40,18 +42,19 @@ class Login extends React.Component {
   render() {
     if (this.state.redirect) {
       // this.setState({})
+      alert(this.alertMessages);
       return <Redirect to="/" />;
     }
 
     return (
       <div className="form-inner">
-        <div
+        {/* <div
           className="alert alert-danger"
           style={{ display: this.state.alertShow }}
           role="alert"
         >
           Account not found !
-        </div>
+        </div> */}
         <form>
           <h3>Sign In</h3>
 

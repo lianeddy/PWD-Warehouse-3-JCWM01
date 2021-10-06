@@ -30,7 +30,7 @@ module.exports = {
         } else {
           res
             .status(200)
-            .send({ dataLogin: results[0], token, message: "Login Success" });
+            .send({ dataLogin: results[0], token, message: "Login Berhasil" });
         }
       } else {
         res.status(400).send({ message: "email/password not match" });
@@ -50,6 +50,13 @@ module.exports = {
     db.query(insertQuery, (err, results) => {
       console.log(results);
       if (err) res.status(500).send(err);
+      if (results) {
+        res
+          .status(200)
+          .send({
+            message: "Register Success, please check your email for verified",
+          });
+      }
     });
   },
 };
