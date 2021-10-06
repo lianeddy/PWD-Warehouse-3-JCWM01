@@ -15,26 +15,22 @@ class Register extends React.Component {
     };
   }
 
-  onBtnLogin = () => {
-    Axios.post(`${URL_API}/users/login`, {
-      email: this.inputEmail.value,
-      password: this.inputPassword.value,
-    })
-      .then((result) => {
-        console.log(result.data.length);
-        if ((result.data.length = undefined)) {
-          this.setState({ alertShow: "block" });
-        } else {
-          localStorage.setItem("dataToken", result.data.token);
-          //action
-          this.props.authLogin(result.data.dataLogin);
-          this.setState({ redirect: true });
-          console.log("Login Success");
-          this.inputUsername.value = "";
-          this.inputPassword.value = "";
-        }
+  onBtnRegister = () => {
+    let username = this.inputUsername.value;
+    let email = this.inputEmail.value;
+    let password = this.inputPassword.value;
+
+    if (username == "" || email == "" || password == "") {
+      alert("Fill in all the form");
+    } else {
+      Axios.post(`${URL_API}/users/register`, {
+        username,
+        email,
+        password,
       })
-      .catch((err) => console.log(err));
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
+    }
   };
 
   render() {
@@ -61,6 +57,7 @@ class Register extends React.Component {
               type="text"
               className="form-control"
               placeholder="Username"
+              ref={(e) => (this.inputUsername = e)}
             />
           </div>
 
@@ -70,6 +67,7 @@ class Register extends React.Component {
               type="email"
               className="form-control"
               placeholder="Enter email"
+              ref={(e) => (this.inputEmail = e)}
             />
           </div>
 
@@ -79,10 +77,15 @@ class Register extends React.Component {
               type="password"
               className="form-control"
               placeholder="Enter password"
+              ref={(e) => (this.inputPassword = e)}
             />
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block">
+          <button
+            type="submit"
+            className="btn btn-primary btn-block"
+            onClick={this.onBtnRegister}
+          >
             Sign Up
           </button>
           <p className="forgot-password text-right">

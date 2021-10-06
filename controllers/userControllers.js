@@ -37,4 +37,19 @@ module.exports = {
       }
     });
   },
+  addData: (req, res) => {
+    let { username, email, password } = req.body;
+    password = Crypto.createHmac("sha1", "hash123")
+      .update(password)
+      .digest("hex"); //hashing  before store in database
+    let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
+      username
+    )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null)`;
+    console.log(username, email, password);
+    console.log(insertQuery);
+    db.query(insertQuery, (err, results) => {
+      console.log(results);
+      if (err) res.status(500).send(err);
+    });
+  },
 };
