@@ -45,63 +45,68 @@ class Login extends React.Component {
     }
 
     return (
-      <div className="form-inner">
-        <div
-          className="alert alert-danger"
-          style={{ display: this.state.alertShow }}
-          role="alert"
-        >
-          Account not found !
-        </div>
-        <form>
-          <h3>Sign In</h3>
-
-          <div className="form-group">
-            <label>Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter email"
-              ref={(e) => (this.inputEmail = e)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type={this.passwordShown ? "text" : "password"}
-              className="form-control"
-              placeholder="Enter password"
-              ref={(e) => (this.inputPassword = e)}
-            />
-          </div>
-
-          <div className="form-group">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-                onClick={this.togglePassword}
-              />
-              <label className="custom-control-label" htmlFor="customCheck1">
-                Show Password
-              </label>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            onClick={this.onBtnLogin}
+      // <div className="auth-wrapper">
+      <div className="intro">
+        <div className="form-inner">
+          <div
+            className="alert alert-danger"
+            style={{ display: this.state.alertShow }}
+            role="alert"
           >
-            Login
-          </button>
-          <p className="forgot-password text-right">
-            Dont have an <a href="/register"> account?</a>
-          </p>
-        </form>
+            Account not found !
+          </div>
+          <form>
+            <h3>Sign In</h3>
+
+            <div className="form-group">
+              <label>Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter email"
+                ref={(e) => (this.inputEmail = e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type={this.passwordShown ? "text" : "password"}
+                className="form-control"
+                placeholder="Enter password"
+                ref={(e) => (this.inputPassword = e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <div className="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="customCheck1"
+                  onClick={this.togglePassword}
+                />
+                <label className="custom-control-label" htmlFor="customCheck1">
+                  Show Password
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-primary btn-block"
+              onClick={this.onBtnLogin}
+            >
+              Login
+            </button>
+            <p className="forgot-password text-right">
+              Dont have an <a href="/register"> account?</a>
+            </p>
+          </form>
+        </div>
+        //{" "}
       </div>
+      // </div>
     );
   }
 }
