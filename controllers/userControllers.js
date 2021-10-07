@@ -1,5 +1,6 @@
 const Crypto = require("crypto");
 const { db, createToken } = require("../helpers/index");
+const transporter = require("../helpers/nodemailer");
 
 module.exports = {
   getData: (req, res) => {
@@ -50,13 +51,64 @@ module.exports = {
     db.query(insertQuery, (err, results) => {
       console.log(results);
       if (err) res.status(500).send(err);
-      if (results) {
-        res
-          .status(200)
-          .send({
-            message: "Register Success, please check your email for verified",
+      if (results.insertId) {
+        //get data
+        let getQuery = `Select * from sys_user where id_user = ${results.insertId};`;
+        db.query(getQuery, (errGet, resultsGet) => {
+          if (errGet) {
+            console.log(errGet);
+            res.status(500).send(errGet);
+          }
+
+          //material for token
+          let { id_user, username, email, password, is_valid } = resultsGet[0];
+          //create token
+          let token = createToken({
+            id_user,
+            username,
+            email,
+            password,
+            is_valid,
           });
+
+          //configuration for send an email
+          let mail = {
+            from: `Admin <armerray@gmail.com>`,
+            to: `${email}`,
+            subject: `Account Verification`,
+            html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
+          };
+
+          //send an email
+          transporter.sendMail(mail, (errMail, resMail) => {
+            if (errMail) {
+              console.log(errMail);
+              res.status(500).send({
+                message: "Registeration failed!",
+                success: false,
+                err: errMail,
+              });
+            }
+            res.status(200).send({
+              message: "Registeration success, please check your email!",
+              success: true,
+            });
+          });
+        });
       }
+    });
+  },
+  //change status middleware
+  verification: (req, res) => {
+    console.log(req.user);
+    let updateQuery = `Update sys_user set is_valid=1 where id_user = ${req.user.id_user}`;
+
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err);
+      }
+      res.status(200).send({ message: "Acoount Verified", success: true });
     });
   },
 };

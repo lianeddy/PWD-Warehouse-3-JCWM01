@@ -10,7 +10,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alertMessages: "",
+      alertShow: "none",
       redirect: false,
     };
   }
@@ -21,40 +21,38 @@ class Login extends React.Component {
       password: this.inputPassword.value,
     })
       .then((result) => {
-        console.log(result.data.length);
-        if ((result.data.length = undefined)) {
-          this.setState({ alertShow: "block" });
-        } else {
-          localStorage.setItem("dataToken", result.data.token);
-          //action
-          this.props.authLogin(result.data.dataLogin);
-          console.log(result.data.message);
-          this.setState({ redirect: true });
-          this.setState({ alertMessages: result.data.message });
-          console.log("Login Success");
-          this.inputUsername.value = "";
-          this.inputPassword.value = "";
-        }
+        localStorage.setItem("dataToken", result.data.token);
+        //action
+        this.props.authLogin(result.data.dataLogin);
+        this.setState({ redirect: true });
+        console.log("Login Success");
+        this.inputUsername.value = "";
+        this.inputPassword.value = "";
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err.message);
+        this.setState({ alertShow: "block" });
+      });
+  };
+
+  togglePassword = () => {
+    this.setState({ passwordShown: true });
   };
 
   render() {
     if (this.state.redirect) {
-      // this.setState({})
-      alert(this.alertMessages);
       return <Redirect to="/" />;
     }
 
     return (
       <div className="form-inner">
-        {/* <div
+        <div
           className="alert alert-danger"
           style={{ display: this.state.alertShow }}
           role="alert"
         >
           Account not found !
-        </div> */}
+        </div>
         <form>
           <h3>Sign In</h3>
 
@@ -71,7 +69,7 @@ class Login extends React.Component {
           <div className="form-group">
             <label>Password</label>
             <input
-              type="password"
+              type={this.passwordShown ? "text" : "password"}
               className="form-control"
               placeholder="Enter password"
               ref={(e) => (this.inputPassword = e)}
@@ -84,9 +82,10 @@ class Login extends React.Component {
                 type="checkbox"
                 className="custom-control-input"
                 id="customCheck1"
+                onClick={this.togglePassword}
               />
               <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
+                Show Password
               </label>
             </div>
           </div>

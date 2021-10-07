@@ -10,7 +10,6 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alertShow: "none",
       redirect: false,
     };
   }
@@ -28,26 +27,28 @@ class Register extends React.Component {
         email,
         password,
       })
-        .then((res) => console.log(res.data.message))
+        .then((res) => {
+          console.log(res.data.message);
+          alert("Register success, check your email for verification");
+        })
         .catch((err) => console.log(err));
     }
   };
 
   render() {
-    // if (this.state.redirect) {
-    //   // this.setState({})
-    //   return <Redirect to="/" />;
-    // }
+    if (this.state.redirect) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <div className="form-inner">
-        <div
+        {/* <div
           className="alert alert-danger"
           style={{ display: this.state.alertShow }}
           role="alert"
         >
-          Account not found !
-        </div>
+          Register success, check your email for verification
+        </div> */}
         <form>
           <h3>Sign Up</h3>
 
@@ -79,6 +80,20 @@ class Register extends React.Component {
               placeholder="Enter password"
               ref={(e) => (this.inputPassword = e)}
             />
+          </div>
+
+          <div className="form-group">
+            <div className="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customCheck1"
+                onClick={this.togglePassword}
+              />
+              <label className="custom-control-label" htmlFor="customCheck1">
+                Show Password
+              </label>
+            </div>
           </div>
 
           <button

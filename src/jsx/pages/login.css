@@ -3,7 +3,8 @@
 * {
   box-sizing: border-box;
 }
-*/ body {
+
+body {
   background: #1c8ef9 !important;
   min-height: 100vh;
   display: flex;
@@ -11,7 +12,7 @@
   font-family: "Fira Sans", sans-serif;
 }
 
-* h1,
+h1,
 h2,
 h3,
 h4,
@@ -45,6 +46,7 @@ html,
 }
 
 .form-inner {
+  /* margin: 200px; */
   width: 450px;
   margin: auto;
   background: #ffffff;
@@ -58,7 +60,8 @@ html,
   border-color: #167bff;
   box-shadow: none;
 }
-*/ .auth-wrapper h3 {
+
+.auth-wrapper h3 {
   text-align: center;
   margin: 0;
   line-height: 1;
