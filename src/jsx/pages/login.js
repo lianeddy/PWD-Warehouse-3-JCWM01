@@ -2,7 +2,7 @@ import React from "react";
 import Axios from "axios";
 import { URL_API } from "../../helper";
 import { connect } from "react-redux";
-import { authLogin } from "../../actions";
+import { authLogin } from "../../redux/actions/user";
 import "./login.css";
 import { Redirect } from "react-router";
 
@@ -106,4 +106,8 @@ class Login extends React.Component {
   }
 }
 
-export default connect(null, { authLogin })(Login);
+const mapDispatchToProps = {
+  authLogin,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
