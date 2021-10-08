@@ -15,7 +15,9 @@ import { configureStore } from "@reduxjs/toolkit";
 // const storeReducer = createStore(Reducers);
 const storeReducer = configureStore({
   reducer: Reducers,
-  middleware: applyMiddleware(ReduxThunk),
+  // middleware: applyMiddleware(ReduxThunk),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(ReduxThunk),
 });
 
 ReactDOM.render(
