@@ -1,7 +1,7 @@
 const SysFile = require("./SysFile");
 const SysAuthorization = require("./SysAuthorization");
 const AppPropinsi = require("./AppPropinsi");
-const AppKabKota = require("./AppKabkota");
+const AppKabkota = require("./AppKabkota");
 const SysUser = require("./SysUser");
 const AppDataAlamatUser = require("./AppDataAlamatUser");
 
@@ -10,6 +10,6 @@ module.exports = {
   SysUser,
   SysAuthorization,
   AppDataAlamatUser,
-  AppKabKota,
+  AppKabkota,
   SysFile,
 };
