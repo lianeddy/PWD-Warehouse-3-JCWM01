@@ -4,7 +4,7 @@ const {
   AppDataAlamatUserController,
   AppPropinsiController,
   AppKabkotaController,
-  // UserImageController,
+  UserImageController,
 } = require("../controllers");
 const { auth } = require("../helpers");
 
@@ -23,7 +23,7 @@ routers.get("/multi-address/filter-provinsi", AppPropinsiController.getData);
 routers.get("/multi-address/filter-kabkota", AppKabkotaController.getData);
 
 // Profile Image
-// routers.post("/profile-image", UserImageController.addData);
-// routers.patch("/profile-image/:id", UserImageController.updateData);
+routers.post("/profile-image", UserImageController.addData);
+routers.patch("/profile-image/:id", UserImageController.updateData);
 
 module.exports = routers;

@@ -4,7 +4,7 @@ const fs = require("fs");
 const config = require("dotenv").config();
 
 const ID = "id_user";
-const NAME_FILE = "profile-image";
+const NAME_FILE = "profile-images";
 
 module.exports = {
   getData: async (req, res, next) => {
@@ -39,26 +39,49 @@ module.exports = {
   },
   addData: (req, res, next) => {
     try {
+      // console.log(typeof req.body.data);
+      // console.log(req.files);
       let path = "profile-image";
-      let outUploader = StorageHelper.uploader(path, "profile-image").fields({
-        name: "file_image",
-      });
-      console.table(req.body);
+      let outUploader = StorageHelper.uploader(path, "profile-image").fields([
+        {
+          name: "file",
+        },
+      ]);
       outUploader(req, res, async (err) => {
-        if (err) next();
-        const { file } = req.file_image;
+        // console.log("RUN outUploade");
+        // console.log(req);
+        if (err) {
+          console.error(err);
+          next();
+        }
+
+        // Parsing url file
+        const { file } = req.files;
         const filePath = file ? path + "/" + file[0].filename : null;
 
+        // Parsing data
         let data = JSON.parse(req.body.data);
         data.url_file = filePath;
         data.nm_file = NAME_FILE;
         data.create_user = data.id_user;
 
-        let output = await SysFile.query().insert(req.body);
-        if (output) res.status(201).send(output);
-        else {
+        let checkData = await SysFile.query().where(
+          ID,
+          JSON.parse(req.body.data).id_user
+        );
+        if (checkData.length === 0) {
+          // Simpan data ke table
+          let output = await SysFile.query().insert(data);
+          if (output) res.status(201).send({ message: "success", code: 1 });
+          else {
+            fs.unlinkSync(process.env.FILE_STORAGE + filePath);
+            next();
+          }
+        } else {
           fs.unlinkSync(process.env.FILE_STORAGE + filePath);
-          next();
+          res
+            .status(200)
+            .send({ message: "Data profile image anda sudah ada !!", code: 0 });
         }
       });
     } catch (error) {
@@ -67,38 +90,45 @@ module.exports = {
     }
   },
   updateData: async (req, res, next) => {
-    try {
-      let path = "profile-image";
-      let uploader = StorageHelper(path, "profile-image").fields({
-        name: "file_image",
-      });
-      uploader(req, res, async (err) => {
-        if (err) next();
-        const { file } = req.file_image;
-        const filePath = file ? path + "/" + file[0].filename : null;
-
-        let data = JSON.parse(req.body.data);
-        data.url_file = filePath;
-        data.nm_file = NAME_FILE;
-        data.create_user = data.id_user;
-
-        let output = await SysFile.query()
-          .update(req.body)
-          .where(ID, req.params.id);
-        if (output)
-          res.status(200).send({
-            message: "success",
-            code: 1,
-          });
-        else {
-          fs.unlinkSync(process.env.FILE_STORAGE + filePath);
-          next();
-        }
-      });
-    } catch (error) {
-      console.error(error);
-      next();
-    }
+    // try {
+    //   // console.log(req.body);
+    //   // console.log(req.files);
+    //   let path = "profile-image";
+    //   let outUploader = StorageHelper.uploader(path, "profile-image").fields([
+    //     {
+    //       name: "file",
+    //     },
+    //   ]);
+    //   outUploader(req, res, async (err) => {
+    //     // console.log("RUN outUploade");
+    //     // console.log(req.body);
+    //     if (err) {
+    //       console.error(err);
+    //       next();
+    //     }
+    //     const { file } = req.files;
+    //     const filePath = file ? path + "/" + file[0].filename : null;
+    //     let data = { url_file: filePath };
+    //     // console.table(data);
+    //     let output = await SysFile.query()
+    //       .update(data)
+    //       .where(ID, req.params.id)
+    //       .where("nm_file", NAME_FILE);
+    //     console.table(output);
+    //     if (output)
+    //       res.status(200).send({
+    //         message: "Update profile image berhasil !!",
+    //         code: 1,
+    //       });
+    //     else {
+    //       fs.unlinkSync(process.env.FILE_STORAGE + filePath);
+    //       next();
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    //   next();
+    // }
   },
   deleteData: async (req, res, next) => {
     let output = await SysFile.query().where(ID, req.params.id).delete();
