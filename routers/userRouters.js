@@ -6,10 +6,13 @@ const {
   AppKabkotaController,
   // UserImageController,
 } = require("../controllers");
+const { auth } = require("../helpers");
 
 const routers = express.Router();
 
 routers.post("/login", userControllers.getData);
+routers.post("/register", userControllers.addData);
+routers.patch("/verified", auth, userControllers.verification);
 
 // Endpoint CRUD multi-address user
 routers.get("/multi-address", AppDataAlamatUserController.getData);
