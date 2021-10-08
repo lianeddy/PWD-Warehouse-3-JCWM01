@@ -43,11 +43,9 @@ const UploadProfileUserComponent = ({
 
     if (isAdd) {
       let dataSend = {
-        // id_user: props.userGlobal.id,
-        id_user: "0",
+        id_user: idUser,
         nm_file: "profile-images",
-        // create_user: props.userGlobal.id,
-        create_user: "0",
+        create_user: idUser,
       };
       formData.append("data", JSON.stringify(dataSend));
       formData.append("file", data.addFile);
@@ -73,14 +71,6 @@ const UploadProfileUserComponent = ({
         });
     }
     if (isUpdate) {
-      // let dataSend = {
-      //   // id_user: props.userGlobal.id,
-      //   id_user: "0",
-      //   nm_file: "profile-images",
-      //   // create_user: props.userGlobal.id,
-      //   create_user: "0",
-      // };
-      // formData.append("data", JSON.stringify(dataSend));
       formData.append("file", data.addFile);
       Axios.patch(`${URL_API}/users/profile-image/${idUser}`, formData)
         .then((result) => {
