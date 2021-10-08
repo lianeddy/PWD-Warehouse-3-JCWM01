@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Login from "./jsx/pages/login";
 import Landing from "./jsx/pages/landing";
+import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAlamatUserView";
 
 function App() {
   return (
@@ -14,6 +15,10 @@ function App() {
           <div className="auth-inner">
             <Switch>
               <Route path="/login" component={Login} />
+              <Route
+                path="/users/multi-address"
+                component={AppDataAlamatUserView}
+              />
               <Route path="/" component={Landing} />
             </Switch>
           </div>
