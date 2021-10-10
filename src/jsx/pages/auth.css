@@ -5,7 +5,7 @@
 }
 
 .intro {
-  background: #1c8ef9 !important;
+  background: #ffffff !important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
@@ -79,4 +79,8 @@ span {
 
 .forgot-password a {
   color: #167bff;
+}
+
+.btn-auth {
+  margin-top: 13px;
 }
