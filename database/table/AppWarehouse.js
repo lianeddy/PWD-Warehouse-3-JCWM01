@@ -1,9 +1,9 @@
-const AppKabKota = require("./AppKabkota");
+const AppKabKota = require("./AppKabKota");
 const { ProjectAkhirPurwadhika } = require("../mysql/ProjectAkhirPurwadhika");
 
 class AppPropinsi extends ProjectAkhirPurwadhika {
   static get tableName() {
-    return "app_propinsi";
+    return "app_warehouse";
   }
 
   static get relationMappings() {

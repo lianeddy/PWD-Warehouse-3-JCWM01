@@ -9,6 +9,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bearerToken());
 
+app.use(express.static("public"));
+
 app.get("/", (req, res) => {
   res.status(200).send("Hello");
 });
