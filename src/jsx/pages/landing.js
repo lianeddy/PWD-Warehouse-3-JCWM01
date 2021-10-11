@@ -1,7 +1,10 @@
 import React from "react";
+import Dasboard from "../components/dashboard";
 
-const Landing = () => {
-  return <h1>Landing Page</h1>;
-};
+class Landing extends React.Component {
+  render() {
+    return <Dasboard />;
+  }
+}
 
 export default Landing;

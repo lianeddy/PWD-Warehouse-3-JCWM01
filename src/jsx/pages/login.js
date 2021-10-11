@@ -3,8 +3,9 @@ import Axios from "axios";
 import { URL_API } from "../../helper";
 import { connect } from "react-redux";
 import { authLogin } from "../../redux/actions/user";
-import "./login.css";
+import "./auth.css";
 import { Redirect } from "react-router";
+import Swal from "sweetalert2";
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Login extends React.Component {
   }
 
   onBtnLogin = () => {
+    this.setState({ disableBtn: true });
     Axios.post(`${URL_API}/users/login`, {
       email: this.inputEmail.value,
       password: this.inputPassword.value,
@@ -35,17 +37,12 @@ class Login extends React.Component {
       });
   };
 
-  togglePassword = () => {
-    this.setState({ passwordShown: true });
-  };
-
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;
     }
 
     return (
-      // <div className="auth-wrapper">
       <div className="intro">
         <div className="form-inner">
           <div
@@ -53,60 +50,43 @@ class Login extends React.Component {
             style={{ display: this.state.alertShow }}
             role="alert"
           >
-            Account not found !
+            Account not found
           </div>
-          <form>
-            <h3>Sign In</h3>
 
-            <div className="form-group">
-              <label>Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter email"
-                ref={(e) => (this.inputEmail = e)}
-              />
-            </div>
+          <h3>Sign In</h3>
 
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type={this.passwordShown ? "text" : "password"}
-                className="form-control"
-                placeholder="Enter password"
-                ref={(e) => (this.inputPassword = e)}
-              />
-            </div>
+          <div className="form-group">
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              ref={(e) => (this.inputEmail = e)}
+            />
+          </div>
 
-            <div className="form-group">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="customCheck1"
-                  onClick={this.togglePassword}
-                />
-                <label className="custom-control-label" htmlFor="customCheck1">
-                  Show Password
-                </label>
-              </div>
-            </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type={this.passwordShown ? "text" : "password"}
+              className="form-control"
+              placeholder="Enter password"
+              ref={(e) => (this.inputPassword = e)}
+            />
+          </div>
 
-            <button
-              type="button"
-              className="btn btn-primary btn-block"
-              onClick={this.onBtnLogin}
-            >
-              Login
-            </button>
-            <p className="forgot-password text-right">
-              Dont have an <a href="/register"> account?</a>
-            </p>
-          </form>
+          <button
+            type="button"
+            className="btn btn-primary btn-block btn-auth"
+            onClick={this.onBtnLogin}
+          >
+            Login
+          </button>
+          <p className="forgot-password text-right">
+            Dont have an <a href="/register"> account?</a>
+          </p>
         </div>
-        //{" "}
       </div>
-      // </div>
     );
   }
 }
