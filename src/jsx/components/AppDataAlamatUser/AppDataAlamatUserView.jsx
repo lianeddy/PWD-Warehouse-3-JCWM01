@@ -9,7 +9,7 @@ import AppDataAlamatUserCreateUpdate from "./AppDataAlamatUserCreateUpdate";
 import { SwalFire } from "../../../utility/SwalFire";
 import { NumberPagination } from "../../../utility/NumberPagination";
 import { BoostrapPaginator } from "../../../utility/BootstraPaginator";
-import SelectCategory from "../SelectCategory";
+// import SelectCategory from "../SelectCategory";
 import Spacer from "../Spacer";
 import BtnFilterCari from "../BtnFilterCari";
 import { URL_API } from "../../../helper";
@@ -181,9 +181,9 @@ class AppDataAlamatUserView extends React.Component {
           <div>
             <Card body className="mb-3">
               <Spacer className="mt-3" />
-              <SelectCategory label="Nama Provinsi" onSearch={""} />
+              {/* <SelectCategory label="Nama Provinsi" onSearch={""} /> */}
               <Spacer className="mb-3" />
-              <SelectCategory label="Nama Kabupaten / Kota" />
+              {/* <SelectCategory label="Nama Kabupaten / Kota" /> */}
               <Spacer className="mb-3" />
               <BtnFilterCari />
             </Card>
