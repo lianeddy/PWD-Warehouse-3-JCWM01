@@ -3,16 +3,26 @@ import { connect } from "react-redux";
 import {
   getDataMultiAddress,
   modalIsOpen,
+  setDefaultMultiAddress,
+  deleteDataMultiAddress,
 } from "../../../redux/actions/userMultiAddressAction";
-import { Modal, Button, Table, Card, Col } from "react-bootstrap";
+import { Modal, Button, Table, Card, Col, Badge } from "react-bootstrap";
 import AppDataAlamatUserCreateUpdate from "./AppDataAlamatUserCreateUpdate";
 import { SwalFire } from "../../../utility/SwalFire";
 import { NumberPagination } from "../../../utility/NumberPagination";
-import { BoostrapPaginator } from "../../../utility/BootstraPaginator";
-import SelectCategory from "../SelectCategory";
+// import { BoostrapPaginator } from "../../../utility/BootstraPaginator";
+import InputAutocomplete from "../InputAutocomplete";
 import Spacer from "../Spacer";
 import BtnFilterCari from "../BtnFilterCari";
 import { URL_API } from "../../../helper";
+import {
+  getDataFilterProvinsi,
+  setLoadingFilterProvinsi,
+} from "../../../redux/actions/filterProvinsiAction";
+import {
+  getDataFilterKabkota,
+  setLoadingFilterKabkota,
+} from "../../../redux/actions/filterKabkotaAction";
 
 class AppDataAlamatUserView extends React.Component {
   state = {
@@ -23,36 +33,40 @@ class AppDataAlamatUserView extends React.Component {
     dataTable: [],
     pagesNow: 0,
     maxPerPage: 10,
-    id_propinsi: "",
-    id_kabkota: "",
-    isLoadingFilterProvinsi: false,
+    id_propinsi_filter: null,
+    id_kabkota_filter: null,
     isLoadingFilterKabKota: false,
-    optionsFilterProvinsi: [],
+    optionsFilterKabKota: [],
+    multiAddressLocal: this.props.multiAddressGlobal.multiAddressList,
   };
 
   componentDidMount() {
     this.props.getDataMultiAddress(
-      this.state.pagesNow,
-      null,
-      null,
-      this.state.maxPerPage
-    );
-    let outPaging = BoostrapPaginator(
-      "/users/multi-address?pages=",
       this.props.multiAddressGlobal.pagesNow,
+      this.state.id_propinsi_filter,
+      this.state.id_kabkota_filter,
       this.props.multiAddressGlobal.maxPerPage,
-      1000
-    ).render();
-    document.getElementById("pagination").innerHTML = outPaging;
+      this.props.userGlobal.id
+    );
+    // let outPaging = BoostrapPaginator(
+    //   "/users/multi-address?pages=",
+    //   this.props.multiAddressGlobal.pagesNow,
+    //   this.props.multiAddressGlobal.maxPerPage,
+    //   1000
+    // ).render();
+    // document.getElementById("pagination").innerHTML = outPaging;
   }
 
-  ge;
+  componentDidUpdate() {
+    console.log("COMPONENT UPDATE");
+  }
 
   tambahModalHandler = () => {
     // alert("CLICK tambahModalHandler");
     this.setState({
       ...this.state,
       isAddData: true,
+      modalData: {},
       modalTitle: "Tambah Data",
     });
     this.props.modalIsOpen(true);
@@ -62,25 +76,48 @@ class AppDataAlamatUserView extends React.Component {
     this.setState({
       ...this.state,
       isAddData: false,
-      modalData: {},
+      modalData: data,
       modalTitle: "Update Data",
     });
     this.props.modalIsOpen(true);
   };
 
-  setDefaultModalHandler = (id) => {
+  deleteBtnHandler = (data) => {
     SwalFire.fire({
-      title: <p>Hello World</p>,
-      footer: "Copyright 2018",
-      didOpen: () => {
-        // `MySwal` is a subclass of `Swal`
-        //   with all the same instance & static methods
-        SwalFire.clickConfirm();
-      },
-    }).then(() => {
-      return SwalFire.fire(<p>Shorthand works too</p>);
+      title: "Anda yakin?",
+      text: `Menghapus data alamat ${data.nm_data_alamat_user}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mengirim data update
+        const { id_data_alamat_user, id_user } = data;
+        let dataUpdate = { is_default: 1, id_user };
+        this.props.deleteDataMultiAddress(id_data_alamat_user, dataUpdate);
+      }
     });
   };
+
+  // setDefaultModalHandler = (data) => {
+  //   // console.log(data);
+  //   SwalFire.fire({
+  //     title: "Anda yakin?",
+  //     text: `Menjadikan ini sebagai default alamat`,
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       // Mengirim data update
+  //       const { id_data_alamat_user, id_user } = data;
+  //       let dataUpdate = { is_default: 1, id_user };
+  //       this.props.setDefaultMultiAddress(id_data_alamat_user, dataUpdate);
+  //     }
+  //   });
+  // };
 
   renderTable = () => {
     // console.log("Data Render Table");
@@ -101,7 +138,11 @@ class AppDataAlamatUserView extends React.Component {
           <td>
             {NumberPagination(no, this.state.pagesNow, this.state.maxPerPage)}
           </td>
-          <td>{is_default ? "Default" : ""}</td>
+          <td>
+            <Badge bg={is_default ? "primary" : "secondary"}>
+              {is_default ? "Ya" : "Tidak"}
+            </Badge>
+          </td>
           <td>{nm_data_alamat_user}</td>
           <td>{contact_data_alamat_user}</td>
           <td>{address_data_alamat_user}</td>
@@ -116,19 +157,28 @@ class AppDataAlamatUserView extends React.Component {
               : ""}
           </td>
           <td>
-            <button
+            {/* <button
               type="button"
-              className="btn btn-sm btn-success me-1"
+              className="btn btn-sm btn-success me-1 mb-1"
+              disabled={el.is_default}
               onClick={() => this.setDefaultModalHandler(el)}
             >
               Set Default
+            </button> */}
+            <button
+              type="button"
+              className="btn btn-sm btn-warning me-1 mb-1"
+              onClick={() => this.updateModalHandler(el)}
+            >
+              Update
             </button>
             <button
               type="button"
-              className="btn btn-sm btn-warning"
-              onClick={() => this.updateModalHandler(el.id_data_alamat_user)}
+              className="btn btn-sm btn-danger mb-1"
+              disabled={el.is_default}
+              onClick={() => this.deleteBtnHandler(el)}
             >
-              Update
+              Delete
             </button>
           </td>
         </tr>
@@ -137,28 +187,58 @@ class AppDataAlamatUserView extends React.Component {
     return output;
   };
 
-  filterSearchProvinsi = (query) => {
+  handleChangeFilterProvinsi = (el) => {
+    console.log("handleChange");
+    console.log(el);
     this.setState({
       ...this.state,
-      isLoadingFilterProvinsi: true,
+      id_propinsi_filter: el.length != 0 ? el[0].id_propinsi : "",
     });
-
-    fetch(`${URL_API}?q=${query}+in:login&page=1&per_page=50`)
-      .then((resp) => resp.json())
-      .then(({ items }) => {
-        const options = items.map((i) => ({
-          avatar_url: i.avatar_url,
-          id: i.id,
-          login: i.login,
-        }));
-
-        // setOptions(options);
-        this.setState({
-          ...this.state,
-          isLoadingFilterProvinsi: false,
-        });
-      });
   };
+
+  handleSearchFilterProvinsi = (query) => {
+    // this.setState({ ...this.state, isLoadingFilterProvinsi: true });
+    // this.props.filterProvinsiGlobal.isLoading = true;
+    this.props.setLoadingFilterProvinsi(true);
+    this.props.getDataFilterProvinsi({ nm_propinsi: query });
+  };
+
+  renderFilterProvinsi = (option, props) => (
+    <>
+      <span>{option.nm_propinsi}</span>
+    </>
+  );
+
+  handleChangeFilterKabKota = (el) => {
+    console.log("handleChange");
+    console.log(el);
+    this.setState({
+      ...this.state,
+      id_kabkota_filter: el.length != 0 ? el[0].id_kabkota : "",
+    });
+  };
+
+  handleSearchFilterKabkota = (query) => {
+    // this.setState({ ...this.state, isLoadingFilterProvinsi: true });
+    // this.props.filterProvinsiGlobal.isLoading = true;
+    this.props.setLoadingFilterKabkota(true);
+    let data = {
+      nm_kabkota: query,
+    };
+    if (this.state.id_propinsi_filter != null) {
+      data = {
+        ...data,
+        id_propinsi: this.state.id_propinsi_filter,
+      };
+    }
+    this.props.getDataFilterKabkota(data);
+  };
+
+  renderFilterKabKota = (option, props) => (
+    <>
+      <span>{option.nm_kabkota}</span>
+    </>
+  );
 
   render() {
     return (
@@ -181,9 +261,32 @@ class AppDataAlamatUserView extends React.Component {
           <div>
             <Card body className="mb-3">
               <Spacer className="mt-3" />
-              <SelectCategory label="Nama Provinsi" onSearch={""} />
+              <InputAutocomplete
+                label="Nama Provinsi"
+                onChange={(e) => this.handleChangeFilterProvinsi(e)}
+                optionsProps={this.props.filterProvinsiGlobal.provinsiList}
+                isLoading={this.props.filterProvinsiGlobal.isLoading}
+                handleSearch={this.handleSearchFilterProvinsi}
+                placeholder="Ketik nama provinsi"
+                id="filter-provinsi"
+                renderMenuItemChildren={this.renderFilterProvinsi}
+                labelKey={(options) => `${options.nm_propinsi}`}
+              />
               <Spacer className="mb-3" />
-              <SelectCategory label="Nama Kabupaten / Kota" />
+              <InputAutocomplete
+                label="Nama Kabupaten / Kota"
+                onChange={(e) => this.handleChangeFilterKabKota(e)}
+                optionsProps={this.props.filterKabkotaGlobal.optionsFilter}
+                isLoading={
+                  this.props.filterKabkotaGlobal.isLoadingFilterKabKota
+                }
+                handleSearch={this.handleSearchFilterKabkota}
+                placeholder="Ketik nama kabupatern / kota"
+                id="filter-kabkota"
+                renderMenuItemChildren={this.renderFilterKabKota}
+                // labelKey={(options) => `${options.type} ${options.nm_kabkota}`}
+                labelKey="nm_kabkota"
+              />
               <Spacer className="mb-3" />
               <BtnFilterCari />
             </Card>
@@ -221,12 +324,21 @@ class AppDataAlamatUserView extends React.Component {
 const mapStateToProps = (state) => {
   return {
     multiAddressGlobal: state.userMultiAddressReducer,
+    filterProvinsiGlobal: state.filterProvinsiReducer,
+    filterKabkotaGlobal: state.filterKabkotaReducer,
+    userGlobal: state.authReducer,
   };
 };
 
 const mapDispatchToProps = {
   getDataMultiAddress,
   modalIsOpen,
+  setDefaultMultiAddress,
+  deleteDataMultiAddress,
+  getDataFilterProvinsi,
+  setLoadingFilterProvinsi,
+  getDataFilterKabkota,
+  setLoadingFilterKabkota,
 };
 
 export default connect(

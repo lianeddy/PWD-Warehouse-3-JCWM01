@@ -10,6 +10,7 @@ import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
               <Route
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
+              />
+              <Route
+                path="/users/example-component/typehead"
+                component={Typeahead}
               />
               <Route path="/" component={Landing} />
             </Switch>

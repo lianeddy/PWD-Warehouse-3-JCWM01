@@ -1,5 +1,5 @@
 const INIT_STATE = {
-  id: null,
+  id: 2,
   username: "",
   password: "",
   role: "",
