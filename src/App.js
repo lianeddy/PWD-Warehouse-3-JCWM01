@@ -7,6 +7,8 @@ import Login from "./jsx/pages/login";
 import Landing from "./jsx/pages/landing";
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
+import ChangePassword from "./jsx/pages/change.password";
+import ForgotPassword from "./jsx/pages/forgot.password";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
               <Route path="/register" component={register} />
               <Route path="/verification/:token" component={verification} />
               <Route path="/login" component={Login} />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>

@@ -25,6 +25,9 @@ class Dasboard extends React.Component {
               <a className="nav-link px-3" href="#">
                 Sign out
               </a>
+              <a className="nav-link px-3" href="/change-password">
+                Change Password
+              </a>
             </div>
           </div>
         </div>
