@@ -16,14 +16,16 @@ class ResetPassword extends React.Component {
     };
   }
 
-  submitBtn = (id) => {
+  submitBtn = () => {
     let email = this.email.value;
     this.setState({ disableBtn: true });
 
-    if (email === "") {
+    if (email == "") {
       alert("Form can't be empty");
     } else {
-      Axios.delete(`${URL_API}/users/forgot-password/`, {})
+      Axios.post(`${URL_API}/users/forgot-password/`, {
+        email,
+      })
         .then((res) => {
           console.log(res.data.message);
           Swal.fire("Reset Password success, please check your email");
@@ -59,9 +61,7 @@ class ResetPassword extends React.Component {
           <div className="form-group">
             <label>Your Email</label>
             <input
-              type="email041
-              
-              "
+              type="email"
               className="form-control"
               placeholder="Email"
               ref={(e) => (this.email = e)}

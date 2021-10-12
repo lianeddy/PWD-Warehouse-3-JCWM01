@@ -30,6 +30,7 @@ class ChangePassword extends React.Component {
       Axios.patch(`${URL_API}/users/change-password/`, {
         currentPassword,
         confirmPassword,
+        id_user: this.props.id_user,
       })
         .then((res) => {
           console.log(res.data.message);
@@ -46,6 +47,8 @@ class ChangePassword extends React.Component {
   };
 
   render() {
+    console.log(this.props.id_user);
+
     if (this.state.redirect) {
       return <Redirect to="/login" />;
     }
@@ -104,4 +107,10 @@ class ChangePassword extends React.Component {
   }
 }
 
-export default connect(null, null)(ChangePassword);
+const mapStateToProps = (state) => {
+  return {
+    id_user: state.authReducer.id_user,
+  };
+};
+
+export default connect(mapStateToProps, null)(ChangePassword);

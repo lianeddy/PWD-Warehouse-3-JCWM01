@@ -113,14 +113,14 @@ module.exports = {
     });
   },
   changePassword: (req, res) => {
-    let { currentPassword, confirmPassword, username } = req.body;
+    let { currentPassword, confirmPassword, id_user } = req.body;
 
     currentPassword = Crypto.createHmac("sha1", "hash123")
       .update(currentPassword)
       .digest("hex");
 
-    let selectQuery = `SELECT password FROM sys_user WHERE password = ${db.escape(
-      currentPassword
+    let selectQuery = `SELECT password FROM sys_user WHERE id_user = ${db.escape(
+      id_user
     )}`;
     console.log(selectQuery);
 
@@ -130,7 +130,7 @@ module.exports = {
 
     let updateQuery = `UPDATE sys_user SET password = ${db.escape(
       confirmPassword
-    )} WHERE currentPassword = ${db.escape(currentPassword)}`;
+    )} WHERE id_user = ${db.escape(id_user)}`;
     console.log(updateQuery);
 
     db.query(selectQuery, (err, results) => {
@@ -149,4 +149,58 @@ module.exports = {
       }
     });
   },
+
+  // forgotPassword: (req, res) => {
+  //   let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(
+  //     req.body.email
+  //   )}`;
+  //   console.log(selectQuery);
+
+  //   db.query(selectQuery, (err, results) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     }
+
+  //     if (results[0]) {
+  //       return res
+  //         .status(200)
+  //         .send({ userData: results[0], message: "Email exists" });
+  //     } else {
+  //       return res
+  //         .status(200)
+  //         .send({ userData: null, message: "Email doesn't exist" });
+  //     }
+  //   });
+  // },
+
+  // fPassword: (req, res) => {
+  //   let selectQuery = `SELECT * FROM user WHERE id_user = ${db.escape(
+  //     req.params.id
+  //   )}`;
+  //   console.log(selectQuery);
+
+  //   req.body.newPassword = Crypto.createHmac("sha1", "hash123")
+  //     .update(req.body.newPassword)
+  //     .digest("hex");
+
+  //   let updateQuery = `UPDATE user SET password = ${db.escape(
+  //     req.body.newPassword
+  //   )} WHERE id_user = ${db.escape(req.params.id)}`;
+  //   console.log(updateQuery);
+
+  //   db.query(selectQuery, (err, results) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     }
+
+  //     if (results[0]) {
+  //       db.query(updateQuery, (err2, results2) => {
+  //         if (err2) return res.status(500).send(err2);
+  //         return res.status(200).send(results2);
+  //       });
+  //     }
+  //   });
+  // },
 };
