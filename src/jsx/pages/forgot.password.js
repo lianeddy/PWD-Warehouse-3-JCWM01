@@ -21,7 +21,7 @@ class ResetPassword extends React.Component {
     this.setState({ disableBtn: true });
 
     if (email == "") {
-      alert("Form can't be empty");
+      alert("Email can't be empty");
     } else {
       Axios.post(`${URL_API}/users/forgot-password/`, {
         email,
