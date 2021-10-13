@@ -10,8 +10,7 @@ const getDataMultiAddressHandler = (
   id_user,
   dispatch
 ) => {
-  console.log("RUN GET DATA MULTI ADDRESS");
-  let paramsNow = { pages, maxpage };
+  let paramsNow = { pages, maxpage, id_user };
   if (id_propinsi != null || id_kabkota != null) {
     paramsNow = {
       ...paramsNow,

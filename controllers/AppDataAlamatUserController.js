@@ -10,7 +10,7 @@ module.exports = {
     if (req.query.hasOwnProperty("pages")) pages = req.query.pages;
     if (req.query.hasOwnProperty("maxpage")) maxPerPage = req.query.maxpage;
 
-    let qryString = "id_user=2 AND";
+    let qryString = `id_user=${req.query.id_user} AND`;
     // Filter Propinsi
     if (req.query.hasOwnProperty("id_propinsi")) {
       qryString += ` id_propinsi='${req.query.id_propinsi}' AND`;
