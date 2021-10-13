@@ -92,6 +92,7 @@ class ChangePassword extends React.Component {
               className="form-control"
               placeholder="Current Password"
               // onChange={this.inputHandler}
+              // name="currentPassword"
               ref={(e) => (this.currentPassword = e)}
             />
           </div>
@@ -102,6 +103,7 @@ class ChangePassword extends React.Component {
               className="form-control"
               placeholder="New Password"
               // onChange={this.inputHandler}
+              // name="newPassword"
               ref={(e) => (this.newPassword = e)}
             />
           </div>
@@ -112,6 +114,7 @@ class ChangePassword extends React.Component {
               className="form-control"
               placeholder="Confirm Password"
               // onChange={this.inputHandler}
+              // name="confirmPassword"
               ref={(e) => (this.confirmPassword = e)}
             />
           </div>
