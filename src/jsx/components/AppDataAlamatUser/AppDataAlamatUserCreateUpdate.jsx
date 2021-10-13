@@ -9,12 +9,17 @@ import {
 import {
   setLoadingFilterKabkota,
   getDataFilterKabkota,
+  setTmpSelectedKabkota,
+  setSelectedKabkota,
 } from "../../../redux/actions/filterKabkotaAction";
 import {
   setLoadingFilterProvinsi,
   getDataFilterProvinsi,
+  setTmpSelectedProvinsi,
+  setSelectedProvinsi,
 } from "../../../redux/actions/filterProvinsiAction";
 import InputAutocomplete from "../InputAutocomplete";
+import { isEmpty } from "../../../utility/Checker";
 
 class AppDataAlamatUserCreateUpdate extends React.Component {
   state = {
@@ -26,6 +31,86 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
     id_kabkota_now: null,
     id_propinsi_old: null,
     id_kabkota_old: null,
+    id_data_alamat_user: 0,
+  };
+
+  componentDidUpdate() {
+    if (
+      this.props.modalData.id_data_alamat_user != this.state.id_data_alamat_user
+    ) {
+      console.log("componentDidUpdate State Update !!");
+      this.setState({
+        ...this.state,
+        id_data_alamat_user: this.props.modalData.id_data_alamat_user,
+        address_data_alamat_user: this.checkProperty(
+          this.props.modalData,
+          "address_data_alamat_user"
+        ),
+        contact_data_alamat_user: this.checkProperty(
+          this.props.modalData,
+          "contact_data_alamat_user"
+        ),
+        nm_data_alamat_user: this.checkProperty(
+          this.props.modalData,
+          "nm_data_alamat_user"
+        ),
+        id_propinsi_now: null,
+        id_kabkota_now: null,
+        id_propinsi_old: this.checkProperty(
+          this.props.modalData,
+          "datapropinsi",
+          "id_propinsi"
+        ),
+        id_kabkota_old: this.checkProperty(
+          this.props.modalData,
+          "datakabkota",
+          "id_kabkota"
+        ),
+      });
+
+      // console.table(this.props.modalData.datakabkota);
+
+      // Set Nama Propinsi Autocomplete
+      if (this.props.modalData.hasOwnProperty("datapropinsi")) {
+        const { nm_propinsi, id_propinsi } = this.props.modalData.datapropinsi;
+        const optionSelectedPropinsi = {
+          nm_propinsi: nm_propinsi,
+          id_propinsi: id_propinsi,
+        };
+        this.props.setTmpSelectedProvinsi(
+          [optionSelectedPropinsi],
+          [optionSelectedPropinsi]
+        );
+      }
+
+      // Set Nama Kabkota Autocomplete
+      if (this.props.modalData.hasOwnProperty("datakabkota")) {
+        const { nm_kabkota, type, id_kabkota } =
+          this.props.modalData.datakabkota;
+        const optionSelectedKabkota = {
+          nm_kabkota: `${type} ${nm_kabkota}`,
+          id_kabkota: id_kabkota,
+        };
+        this.props.setTmpSelectedKabkota(
+          [optionSelectedKabkota],
+          [optionSelectedKabkota]
+        );
+      }
+    }
+  }
+
+  checkProperty = (data = {}, nm_property, nm_property_2 = "") => {
+    if (data.hasOwnProperty(nm_property)) {
+      if (
+        typeof data[nm_property] == "object" ||
+        typeof data[nm_property] == "array"
+      ) {
+        return data[nm_property].hasOwnProperty(nm_property_2)
+          ? data[nm_property][nm_property_2]
+          : "";
+      }
+      return data[nm_property];
+    } else return "";
   };
 
   handleCloseModal = () => {
@@ -68,27 +153,16 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
       data = { ...data, id_propinsi: this.state.id_propinsi_old };
     if (this.state.id_kabkota_old != null)
       data = { ...data, id_kabkota: this.state.id_kabkota_old };
-    this.props.updateDataMultiAddress(data);
-  };
-
-  checkProperty = (data = {}, nm_property, nm_property_2 = "") => {
-    console.log(typeof data[nm_property]);
-    if (data.hasOwnProperty(nm_property)) {
-      if (
-        typeof data[nm_property] == "object" ||
-        typeof data[nm_property] == "array"
-      ) {
-        return data[nm_property].hasOwnProperty(nm_property_2)
-          ? data[nm_property][nm_property_2]
-          : "";
-      }
-      return data[nm_property];
-    } else return null;
+    this.props.updateDataMultiAddress(
+      this.props.modalData.id_data_alamat_user,
+      data
+    );
   };
 
   handleChangeFilterProvinsi = (el) => {
     console.log("handleChange");
     console.log(el);
+    this.props.setSelectedProvinsi(null);
     if (this.props.isAddData)
       this.setState({
         ...this.state,
@@ -102,8 +176,6 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
   };
 
   handleSearchFilterProvinsi = (query) => {
-    // this.setState({ ...this.state, isLoadingFilterProvinsi: true });
-    // this.props.filterProvinsiGlobal.isLoading = true;
     this.props.setLoadingFilterProvinsi(true);
     this.props.getDataFilterProvinsi({ nm_propinsi: query });
   };
@@ -117,6 +189,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
   handleChangeFilterKabKota = (el) => {
     console.log("handleChange");
     console.log(el);
+    this.props.setSelectedKabkota(null);
     if (this.props.isAddData)
       this.setState({
         ...this.state,
@@ -130,16 +203,20 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
   };
 
   handleSearchFilterKabkota = (query) => {
-    // this.setState({ ...this.state, isLoadingFilterProvinsi: true });
-    // this.props.filterProvinsiGlobal.isLoading = true;
     this.props.setLoadingFilterKabkota(true);
     let data = {
       nm_kabkota: query,
     };
-    if (this.state.id_propinsi_filter != null) {
+    if (this.state.id_propinsi_old != null) {
       data = {
         ...data,
-        id_propinsi: this.state.id_propinsi_filter,
+        id_propinsi: this.state.id_propinsi_old,
+      };
+    }
+    if (this.state.id_propinsi_now != null) {
+      data = {
+        ...data,
+        id_propinsi: this.state.id_propinsi_now,
       };
     }
     this.props.getDataFilterKabkota(data);
@@ -154,7 +231,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
   render() {
     return (
       <Modal
-        show={this.props.isShow}
+        show={this.props.multiAddressGlobalModal}
         onHide={this.handleCloseModal}
         keyboard={false}
         fullscreen={true}
@@ -178,10 +255,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Nama dari alamat"
-                    value={this.checkProperty(
-                      this.props.modalData,
-                      "nm_data_alamat_user"
-                    )}
+                    value={this.state.nm_data_alamat_user}
                     onChange={this.onInputchangeHandler}
                   />
                 </Col>
@@ -198,10 +272,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Contact yang dapat dihubungi"
-                    value={this.checkProperty(
-                      this.props.modalData,
-                      "contact_data_alamat_user"
-                    )}
+                    value={this.state.contact_data_alamat_user}
                     onChange={this.onInputchangeHandler}
                   />
                 </Col>
@@ -218,10 +289,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
                   <Form.Control
                     as="textarea"
                     style={{ height: "200px" }}
-                    value={this.checkProperty(
-                      this.props.modalData,
-                      "address_data_alamat_user"
-                    )}
+                    value={this.state.address_data_alamat_user}
                     onChange={this.onInputchangeHandler}
                   />
                 </Col>
@@ -229,7 +297,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
               <InputAutocomplete
                 label="Nama Provinsi"
                 onChange={(e) => this.handleChangeFilterProvinsi(e)}
-                optionsProps={this.props.filterProvinsiGlobal.provinsiList}
+                optionsProps={this.props.filterProvinsiGlobal.optionsFilter}
                 isLoading={this.props.filterProvinsiGlobal.isLoading}
                 handleSearch={this.handleSearchFilterProvinsi}
                 placeholder="Ketik nama provinsi"
@@ -242,27 +310,8 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
                 smAsync="12"
                 mdAsync="7"
                 lgAsync="7"
+                selected={this.props.filterProvinsiGlobal.selected}
               />
-              {/* <Form.Group as={Row}>
-                <Col sm="7">
-                  <Form.Control
-                    type="text"
-                    placeholder="Tuliskan nama provinsi"
-                    value={this.checkProperty(
-                      this.props.modalData,
-                      "datapropinsi",
-                      "id_propinsi"
-                    )}
-                    name={
-                      this.props.isAddData
-                        ? "id_propinsi_now"
-                        : "id_propinsi_old"
-                    }
-                    onChange={this.onInputchangeHandler}
-                    style={{ display: "none" }}
-                  />
-                </Col>
-              </Form.Group> */}
               <InputAutocomplete
                 label="Nama Kabupaten / Kota"
                 onChange={(e) => this.handleChangeFilterKabKota(e)}
@@ -282,23 +331,8 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
                 smAsync="12"
                 mdAsync="7"
                 lgAsync="7"
+                selected={this.props.filterKabkotaGlobal.selected}
               />
-              {/* <Form.Group as={Row} controlId="nm_data_alamat_user">
-                <Form.Control
-                  type="text"
-                  placeholder="Tuliskan nama provinsi"
-                  value={this.checkProperty(
-                    this.props.modalData,
-                    "datakabkota",
-                    "id_kabkota"
-                  )}
-                  name={
-                    this.props.isAddData ? "id_kabkota_now" : "id_kabkota_old"
-                  }
-                  style={{ display: "none" }}
-                  onChange={this.onInputchangeHandler}
-                />
-              </Form.Group> */}
             </Form>
           </Container>
         </Modal.Body>
@@ -317,7 +351,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    // multiAddressGlobalModal: state.userMultiAddressReducer.modalIsOpen,
+    multiAddressGlobalModal: state.userMultiAddressReducer.modalIsOpen,
     filterProvinsiGlobal: state.filterProvinsiReducer,
     filterKabkotaGlobal: state.filterKabkotaReducer,
     userGlobal: state.authReducer,
@@ -332,6 +366,10 @@ const mapDispatchToProps = {
   setLoadingFilterProvinsi,
   getDataFilterKabkota,
   setLoadingFilterKabkota,
+  setTmpSelectedKabkota,
+  setTmpSelectedProvinsi,
+  setSelectedProvinsi,
+  setSelectedKabkota,
 };
 
 export default connect(
