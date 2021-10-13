@@ -18,9 +18,13 @@ routers.patch("/verified", auth, userControllers.verification);
 routers.get("/multi-address", AppDataAlamatUserController.getData);
 routers.post("/multi-address", AppDataAlamatUserController.addData);
 routers.patch("/multi-address/:id", AppDataAlamatUserController.updateData);
+routers.patch(
+  "/multi-address/many-data/:id",
+  AppDataAlamatUserController.updateManyDataByIdUser
+);
 routers.delete("/multi-address/:id", AppDataAlamatUserController.deleteData);
-routers.get("/multi-address/filter-provinsi", AppPropinsiController.getData);
-routers.get("/multi-address/filter-kabkota", AppKabkotaController.getData);
+// routers.get("/multi-address/filter-provinsi", AppPropinsiController.getData);
+// routers.get("/multi-address/filter-kabkota", AppKabkotaController.getData);
 
 // Profile Image
 routers.post("/profile-image", UserImageController.addData);
