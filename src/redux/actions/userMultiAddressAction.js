@@ -30,6 +30,7 @@ const getDataMultiAddressHandler = (
         multiAddressList: result.data.results,
         maxPerPage: result.data.maxPerPage,
         pagesNow: result.data.pagesNow,
+        total: result.data.total,
       },
     });
   });
@@ -61,7 +62,7 @@ const addDataMultiAddress = (data) => {
         if (result.data.code) {
           SwalFire.fire("Add!", result.data.message, "success");
           getDataMultiAddressHandler(0, null, null, 10, data.id_user, dispatch);
-          modalIsOpen(false);
+          modalIsOpenRaw(dispatch, false);
         }
       })
       .catch((err) => {
@@ -77,6 +78,7 @@ const updateDataMultiAddress = (id, data) => {
         if (result.data.code) {
           SwalFire.fire("Updated!", result.data.message, "success");
           getDataMultiAddressHandler(0, null, null, 10, data.id_user, dispatch);
+          modalIsOpenRaw(dispatch, false);
         }
       })
       .catch((err) => {
@@ -100,12 +102,16 @@ const deleteDataMultiAddress = (id, data) => {
   };
 };
 
+const modalIsOpenRaw = (dispatch2, status) => {
+  dispatch2({
+    type: "MODAL_IS_OPEN",
+    payload: { modalIsOpen: status },
+  });
+};
+
 const modalIsOpen = (status) => {
   return (dispatch) => {
-    dispatch({
-      type: "MODAL_IS_OPEN",
-      payload: { modalIsOpen: status },
-    });
+    modalIsOpenRaw(dispatch, status);
   };
 };
 
