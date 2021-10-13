@@ -19,18 +19,18 @@ class ChangePassword extends React.Component {
     };
   }
 
-  state = {
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  };
+  // state = {
+  //   currentPassword: "",
+  //   newPassword: "",
+  //   confirmPassword: "",
+  // };
 
-  inputHandler = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
+  // inputHandler = (event) => {
+  //   const value = event.target.value;
+  //   const name = event.target.name;
 
-    this.setState({ [name]: value });
-  };
+  //   this.setState({ [name]: value });
+  // };
 
   saveBtn = () => {
     let currentPassword = this.currentPassword.value;
@@ -91,7 +91,7 @@ class ChangePassword extends React.Component {
               type="password"
               className="form-control"
               placeholder="Current Password"
-              onChange={this.inputHandler}
+              // onChange={this.inputHandler}
               ref={(e) => (this.currentPassword = e)}
             />
           </div>
@@ -101,7 +101,7 @@ class ChangePassword extends React.Component {
               type="password"
               className="form-control"
               placeholder="New Password"
-              onChange={this.inputHandler}
+              // onChange={this.inputHandler}
               ref={(e) => (this.newPassword = e)}
             />
           </div>
@@ -111,7 +111,7 @@ class ChangePassword extends React.Component {
               type="password"
               className="form-control"
               placeholder="Confirm Password"
-              onChange={this.inputHandler}
+              // onChange={this.inputHandler}
               ref={(e) => (this.confirmPassword = e)}
             />
           </div>
@@ -119,7 +119,8 @@ class ChangePassword extends React.Component {
           <button
             type="submit"
             className="btn btn-primary btn-block btn-auth"
-            onClick={() => this.saveBtn(this.state)}
+            onClick={this.saveBtn}
+            // onClick={() => this.saveBtn(this.state)}
             // disabled={this.state.disableBtn}
           >
             Save
