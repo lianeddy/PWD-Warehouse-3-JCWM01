@@ -18,6 +18,7 @@ const InputAutocomplete = ({
   smAsync = "12",
   mdAsync = "6",
   lgAsync = "6",
+  selected = null,
 }) => {
   // const handleChange = (selectedOptions) => {
   //   console.log("handleChange");
@@ -50,6 +51,7 @@ const InputAutocomplete = ({
             onChange={onChange}
             placeholder={placeholder}
             renderMenuItemChildren={renderMenuItemChildren}
+            selected={selected}
             // style={{ paddingLeft: "1%" }}
           />
         </Col>

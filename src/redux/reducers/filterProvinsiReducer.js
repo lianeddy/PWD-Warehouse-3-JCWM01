@@ -1,7 +1,8 @@
 const INIT_STATE = {
   provinsiList: [],
-  optionsFilter: {},
+  optionsFilter: [],
   isLoading: false,
+  selected: null,
 };
 
 export const filterProvinsiReducer = (state = INIT_STATE, action) => {

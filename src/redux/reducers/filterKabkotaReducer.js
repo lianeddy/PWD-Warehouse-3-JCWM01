@@ -2,6 +2,7 @@ const INIT_STATE = {
   kabkotaList: [],
   optionsFilter: [],
   isLoading: false,
+  selected: null,
 };
 
 export const filterKabkotaReducer = (state = INIT_STATE, action) => {

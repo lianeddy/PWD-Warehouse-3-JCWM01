@@ -32,3 +32,26 @@ export const setLoadingFilterKabkota = (status = false) => {
     });
   };
 };
+
+export const setTmpSelectedKabkota = (dataRaw, dataSelected) => {
+  return (dispatch) => {
+    dispatch({
+      type: "GET_FILTER_KABKOTA",
+      payload: {
+        optionsFilter: dataRaw,
+        selected: dataSelected,
+      },
+    });
+  };
+};
+
+export const setSelectedKabkota = (dataSelected) => {
+  return (dispatch) => {
+    dispatch({
+      type: "GET_FILTER_KABKOTA",
+      payload: {
+        selected: dataSelected,
+      },
+    });
+  };
+};
