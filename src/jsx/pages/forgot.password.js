@@ -6,7 +6,7 @@ import "./auth.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
-class ResetPassword extends React.Component {
+class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ class ResetPassword extends React.Component {
     };
   }
 
-  submitBtn = () => {
+  submitEmail = () => {
     let email = this.email.value;
     this.setState({ disableBtn: true });
 
@@ -25,24 +25,30 @@ class ResetPassword extends React.Component {
     } else {
       Axios.post(`${URL_API}/users/forgot-password/`, {
         email,
+        id_user: this.props.id_user,
       })
         .then((res) => {
           console.log(res.data.message);
-          Swal.fire("Reset Password success, please check your email");
+          Swal.fire({
+            title: "Password reset success!",
+            text: "check your email",
+            icon: "success",
+          });
           this.setState({
             alertShow: "block",
             redirect: true,
           });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          Swal.fire({ text: "Email not registered", icon: "error" });
+          console.log("Email not registered");
         });
     }
   };
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/forgot-password-update" />;
     }
 
     return (
@@ -53,13 +59,13 @@ class ResetPassword extends React.Component {
             style={{ display: this.state.alertShow }}
             role="alert"
           >
-            Change Password success
+            Reset Password success
           </div>
 
           <h3>Reset Password</h3>
 
           <div className="form-group">
-            <label>Your Email</label>
+            <label>Type your email</label>
             <input
               type="email"
               className="form-control"
@@ -71,10 +77,9 @@ class ResetPassword extends React.Component {
           <button
             type="submit"
             className="btn btn-primary btn-block btn-auth"
-            onClick={this.submitBtn}
-            disabled={this.state.disableBtn}
+            onClick={this.submitEmail}
           >
-            Save
+            Submit
           </button>
         </div>
       </div>
@@ -82,4 +87,10 @@ class ResetPassword extends React.Component {
   }
 }
 
-export default connect(null, null)(ResetPassword);
+const mapStateToProps = (state) => {
+  return {
+    id_user: state.authReducer.id_user,
+  };
+};
+
+export default connect(mapStateToProps, null)(ForgotPassword);

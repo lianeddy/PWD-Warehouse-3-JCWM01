@@ -74,7 +74,7 @@ module.exports = {
 
           //configuration for send an email
           let mail = {
-            from: `Admin <armerray@gmail.com>`,
+            from: `Admin <4dminPWDHshop@gmail.com>`,
             to: `${email}`,
             subject: `Account Verification`,
             html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
@@ -150,57 +150,76 @@ module.exports = {
     });
   },
 
-  // forgotPassword: (req, res) => {
-  //   let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(
-  //     req.body.email
-  //   )}`;
-  //   console.log(selectQuery);
+  forgotPassword: (req, res) => {
+    let { email } = req.body;
+    let selectQuery = `SELECT * FROM sys_user WHERE email = ${db.escape(
+      email
+    )}`;
+    console.log(selectQuery);
 
-  //   db.query(selectQuery, (err, results) => {
-  //     if (err) {
-  //       console.log(err);
-  //       return res.status(500).send(err);
-  //     }
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
 
-  //     if (results[0]) {
-  //       return res
-  //         .status(200)
-  //         .send({ userData: results[0], message: "Email exists" });
-  //     } else {
-  //       return res
-  //         .status(200)
-  //         .send({ userData: null, message: "Email doesn't exist" });
-  //     }
-  //   });
-  // },
+      if (results.length === 0) {
+        return res
+          .status(200)
+          .send({ userData: results[0], message: "Email doesn't  exists" });
+      } else {
+        let { id_user, username, email, password, is_valid } = results[0];
+        let token = createToken({
+          id_user,
+          username,
+          email,
+          password,
+          is_valid,
+        });
 
-  // fPassword: (req, res) => {
-  //   let selectQuery = `SELECT * FROM user WHERE id_user = ${db.escape(
-  //     req.params.id
-  //   )}`;
-  //   console.log(selectQuery);
+        let mail = {
+          from: `Admin <4dminPWDHshop@gmail.com>`,
+          to: `${email}`,
+          subject: `Reset Password`,
+          html: `<a href='http://localhost:3000/forgot-password-update/${id_user}/${token}'>Click here for access your account</a>`,
+        };
+        transporter.sendMail(mail, (errMail, restMail) => {
+          if (errMail) {
+            console.log(errMail);
+            res
+              .status(500)
+              .send({ message: "req forgot password failed", success: false });
+          }
+          res.status(200).send({
+            message: "Request Forgot Password Success  ✔",
+            success: true,
+          });
+        });
+      }
+    });
+  },
 
-  //   req.body.newPassword = Crypto.createHmac("sha1", "hash123")
-  //     .update(req.body.newPassword)
-  //     .digest("hex");
+  forgotPasswordUpdate: (req, res) => {
+    let { newPassword, id_user } = req.body;
 
-  //   let updateQuery = `UPDATE user SET password = ${db.escape(
-  //     req.body.newPassword
-  //   )} WHERE id_user = ${db.escape(req.params.id)}`;
-  //   console.log(updateQuery);
+    newPassword = Crypto.createHmac("sha1", "hash123")
+      .update(newPassword)
+      .digest("hex");
 
-  //   db.query(selectQuery, (err, results) => {
-  //     if (err) {
-  //       console.log(err);
-  //       return res.status(500).send(err);
-  //     }
-
-  //     if (results[0]) {
-  //       db.query(updateQuery, (err2, results2) => {
-  //         if (err2) return res.status(500).send(err2);
-  //         return res.status(200).send(results2);
-  //       });
-  //     }
-  //   });
-  // },
+    let updateQuery = `UPDATE sys_user SET password = ${db.escape(
+      newPassword
+    )} WHERE id_user = ${db.escape(id_user)}`;
+    console.log(updateQuery);
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: "update password failed", success: false });
+      }
+      res
+        .status(200)
+        .send({ message: "update password success ✔", success: true });
+    });
+  },
 };
