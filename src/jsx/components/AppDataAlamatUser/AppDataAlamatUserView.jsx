@@ -9,7 +9,10 @@ import {
 import { Modal, Button, Table, Card, Col, Badge } from "react-bootstrap";
 import AppDataAlamatUserCreateUpdate from "./AppDataAlamatUserCreateUpdate";
 import { SwalFire } from "../../../utility/SwalFire";
-import { NumberPagination } from "../../../utility/NumberPagination";
+import {
+  NumberPagination,
+  QueryParams,
+} from "../../../utility/NumberPagination";
 // import { BoostrapPaginator } from "../../../utility/BootstraPaginator";
 import InputAutocomplete from "../InputAutocomplete";
 import Spacer from "../Spacer";
@@ -23,6 +26,7 @@ import {
   getDataFilterKabkota,
   setLoadingFilterKabkota,
 } from "../../../redux/actions/filterKabkotaAction";
+import ReactPaginate from "react-paginate";
 
 class AppDataAlamatUserView extends React.Component {
   state = {
@@ -42,24 +46,19 @@ class AppDataAlamatUserView extends React.Component {
 
   componentDidMount() {
     this.props.getDataMultiAddress(
-      this.props.multiAddressGlobal.pagesNow,
+      this.state.pagesNow,
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
-      this.props.multiAddressGlobal.maxPerPage,
+      this.state.maxPerPage,
       this.props.userGlobal.id
     );
-    // let outPaging = BoostrapPaginator(
-    //   "/users/multi-address?pages=",
-    //   this.props.multiAddressGlobal.pagesNow,
-    //   this.props.multiAddressGlobal.maxPerPage,
-    //   1000
-    // ).render();
-    // document.getElementById("pagination").innerHTML = outPaging;
   }
 
-  componentDidUpdate() {
-    console.log("COMPONENT UPDATE");
-  }
+  // componentDidUpdate() {
+  //   console.log("COMPONENT UPDATE");
+  //   console.log(QueryParams(this.props.location.search).get("pages"));
+  //   console.log(QueryParams(this.props.location.search).get("maxpage"));
+  // }
 
   tambahModalHandler = () => {
     // alert("CLICK tambahModalHandler");
@@ -120,9 +119,16 @@ class AppDataAlamatUserView extends React.Component {
   // };
 
   renderTable = () => {
-    // console.log("Data Render Table");
-    // console.table(this.props.multiAddressGlobal.multiAddressList);
     let no = 0;
+    if (this.props.multiAddressGlobal.multiAddressList.length == 0) {
+      return (
+        <tr>
+          <td colSpan="8" className="text-center">
+            <em>Data Kosong</em>
+          </td>
+        </tr>
+      );
+    }
     let output = this.props.multiAddressGlobal.multiAddressList.map((el) => {
       const {
         nm_data_alamat_user,
@@ -197,8 +203,6 @@ class AppDataAlamatUserView extends React.Component {
   };
 
   handleSearchFilterProvinsi = (query) => {
-    // this.setState({ ...this.state, isLoadingFilterProvinsi: true });
-    // this.props.filterProvinsiGlobal.isLoading = true;
     this.props.setLoadingFilterProvinsi(true);
     this.props.getDataFilterProvinsi({ nm_propinsi: query });
   };
@@ -239,6 +243,47 @@ class AppDataAlamatUserView extends React.Component {
       <span>{option.nm_kabkota}</span>
     </>
   );
+
+  handlePageClick = (data) => {
+    console.log(data);
+    const { selected } = data;
+    this.props.getDataMultiAddress(
+      selected,
+      this.state.id_propinsi_filter,
+      this.state.id_kabkota_filter,
+      this.state.maxPerPage,
+      this.props.userGlobal.id
+    );
+    this.setState({
+      ...this.state,
+      pagesNow: selected,
+    });
+  };
+
+  handleFilter = () => {
+    this.props.getDataMultiAddress(
+      this.state.pagesNow,
+      this.state.id_propinsi_filter,
+      this.state.id_kabkota_filter,
+      this.state.maxPerPage,
+      this.props.userGlobal.id
+    );
+  };
+
+  handleFilterReset = () => {
+    this.props.getDataMultiAddress(
+      this.state.pagesNow,
+      null,
+      null,
+      this.state.maxPerPage,
+      this.props.userGlobal.id
+    );
+    this.setState({
+      ...this.state,
+      id_propinsi_filter: null,
+      id_kabkota_filter: null,
+    });
+  };
 
   render() {
     return (
@@ -288,7 +333,10 @@ class AppDataAlamatUserView extends React.Component {
                 labelKey="nm_kabkota"
               />
               <Spacer className="mb-3" />
-              <BtnFilterCari />
+              <BtnFilterCari
+                onReset={this.handleFilterReset}
+                onCari={this.handleFilter}
+              />
             </Card>
           </div>
           <div className="table-responsive">
@@ -307,7 +355,29 @@ class AppDataAlamatUserView extends React.Component {
               </thead>
               <tbody>{this.renderTable()}</tbody>
             </Table>
-            <div id="pagination"></div>
+            <div id="pagination">
+              <ReactPaginate
+                breakLabel={"..."}
+                pageCount={Math.ceil(
+                  this.props.multiAddressGlobal.total / this.state.maxPerPage
+                )}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                pageLinkClassName="page-link"
+                pageClassName="page-item"
+                nextLabel={"next"}
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                previousLabel={"previous"}
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+              />
+            </div>
           </div>
         </div>
         <AppDataAlamatUserCreateUpdate
