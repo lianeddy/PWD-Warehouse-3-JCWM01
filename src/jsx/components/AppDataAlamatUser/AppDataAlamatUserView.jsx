@@ -99,24 +99,24 @@ class AppDataAlamatUserView extends React.Component {
     });
   };
 
-  // setDefaultModalHandler = (data) => {
-  //   // console.log(data);
-  //   SwalFire.fire({
-  //     title: "Anda yakin?",
-  //     text: `Menjadikan ini sebagai default alamat`,
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       // Mengirim data update
-  //       const { id_data_alamat_user, id_user } = data;
-  //       let dataUpdate = { is_default: 1, id_user };
-  //       this.props.setDefaultMultiAddress(id_data_alamat_user, dataUpdate);
-  //     }
-  //   });
-  // };
+  setDefaultModalHandler = (data) => {
+    // console.log(data);
+    SwalFire.fire({
+      title: "Anda yakin?",
+      text: `Menjadikan ini sebagai default alamat`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mengirim data update
+        const { id_data_alamat_user, id_user } = data;
+        let dataUpdate = { is_default: 1, id_user };
+        this.props.setDefaultMultiAddress(id_data_alamat_user, dataUpdate);
+      }
+    });
+  };
 
   renderTable = () => {
     let no = 0;
@@ -163,14 +163,14 @@ class AppDataAlamatUserView extends React.Component {
               : ""}
           </td>
           <td>
-            {/* <button
+            <button
               type="button"
               className="btn btn-sm btn-success me-1 mb-1"
               disabled={el.is_default}
               onClick={() => this.setDefaultModalHandler(el)}
             >
               Set Default
-            </button> */}
+            </button>
             <button
               type="button"
               className="btn btn-sm btn-warning me-1 mb-1"
