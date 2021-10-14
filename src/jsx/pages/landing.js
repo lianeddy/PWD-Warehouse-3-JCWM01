@@ -209,7 +209,13 @@ const Landing = () => {
 
           {/* Render content */}
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            {renderProducts()}
+            <div class="album py-5 bg-light">
+              <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                  {renderProducts()}
+                </div>
+              </div>
+            </div>
           </main>
         </div>
       </div>
