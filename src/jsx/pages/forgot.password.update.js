@@ -1,7 +1,6 @@
 import React from "react";
 import Axios from "axios";
 import { URL_API } from "../../helper";
-import { connect } from "react-redux";
 import "./auth.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,14 +10,13 @@ class ForgotPasswordUpdate extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-
-      disableBtn: false,
+      // disableBtn: false,
     };
   }
 
   submitPassword = () => {
-    console.log(window.location.href);
-    console.log(this.props.match.params.token);
+    // console.log(window.location.href);
+    // console.log(this.props.match.params.token);
     let newPassword = this.newPassword.value;
     let confirmPassword = this.confirmPassword.value;
     this.setState({ disableBtn: true });
@@ -58,8 +56,6 @@ class ForgotPasswordUpdate extends React.Component {
   };
 
   render() {
-    console.log(this.props.id_user);
-
     if (this.state.redirect) {
       return <Redirect to="/login" />;
     }
@@ -91,7 +87,6 @@ class ForgotPasswordUpdate extends React.Component {
             type="submit"
             className="btn btn-primary btn-block btn-auth"
             onClick={this.submitPassword}
-            // onClick={() => this.saveBtn(id_user)}
             // disabled={this.state.disableBtn}
           >
             Save
@@ -102,10 +97,4 @@ class ForgotPasswordUpdate extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    id_user: state.authReducer.id_user,
-  };
-};
-
-export default connect(mapStateToProps, null)(ForgotPasswordUpdate);
+export default ForgotPasswordUpdate;

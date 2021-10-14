@@ -75,12 +75,10 @@ module.exports = {
 
           //configuration for send an email
           let mail = {
-            from: `Admin <4dminPWDHshop@gmail.com>`,
+            from: `Admin <armerray@gmail.com>`,
             to: `${email}`,
             subject: `Account Verification`,
-            html: `<p>Hai ${username}, you have been requested for reset password,
-            click this <a href='http://localhost:3000/verification/${token}'>Link</a> to continue
-                        if it's not yours just ignore it</p>`,
+            html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
           };
 
           //send an email
@@ -184,7 +182,10 @@ module.exports = {
           from: `Admin <4dminPWDHshop@gmail.com>`,
           to: `${email}`,
           subject: `Reset Password`,
-          html: `<a href='http://localhost:3000/forgot-password-update/${token}'>Click here for access your account</a>`,
+          html: `<p>Hai ${username}, you have been requested to reset your password, click link below to continue</p>
+          <p><a href='http://localhost:3000/forgot-password-update/${token}'>Click here to reset password</a></p>
+          <p>If it's not you, ignore this email</p>
+          <p>Thanks!</p>`,
         };
         transporter.sendMail(mail, (errMail, restMail) => {
           if (errMail) {

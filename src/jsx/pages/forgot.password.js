@@ -1,7 +1,6 @@
 import React from "react";
 import Axios from "axios";
 import { URL_API } from "../../helper";
-import { connect } from "react-redux";
 import "./auth.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -80,10 +79,4 @@ class ForgotPassword extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    id_user: state.authReducer.id_user,
-  };
-};
-
-export default connect(mapStateToProps, null)(ForgotPassword);
+export default ForgotPassword;
