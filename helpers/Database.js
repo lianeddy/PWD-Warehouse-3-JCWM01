@@ -8,6 +8,12 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
   multipleStatements: true,
+  // host: "localhost",
+  // user: "root",
+  // password: "Kusuma112*",
+  // database: "purwadhika_project_akhir",
+  // port: 3306,
+  // multipleStatements: true,
 });
 
 db.connect((err) => {

@@ -10,6 +10,8 @@ import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+import ChangePassword from "./jsx/pages/change.password";
+import ForgotPassword from "./jsx/pages/forgot.password";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
               />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>
