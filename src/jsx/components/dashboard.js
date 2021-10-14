@@ -8,7 +8,7 @@ class Dasboard extends React.Component {
       <div>
         <div className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
           <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
-            Company name
+            Warehouse 3
           </a>
           <button
             className="navbar-toggler position-absolute d-md-none collapsed"

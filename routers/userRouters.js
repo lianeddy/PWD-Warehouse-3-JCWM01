@@ -9,6 +9,10 @@ routers.post("/register", userControllers.addData);
 routers.patch("/verified", auth, userControllers.verification);
 routers.patch("/change-password", userControllers.changePassword);
 routers.post("/forgot-password", userControllers.forgotPassword);
-routers.patch("/forgot-password-update", userControllers.forgotPasswordUpdate);
+routers.patch(
+  "/forgot-password-update",
+  auth,
+  userControllers.forgotPasswordUpdate
+);
 
 module.exports = routers;

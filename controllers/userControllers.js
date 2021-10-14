@@ -1,6 +1,7 @@
 const Crypto = require("crypto");
 const { db, createToken } = require("../helpers/index");
 const transporter = require("../helpers/nodemailer");
+const { auth } = require("../helpers/authToken");
 
 module.exports = {
   getData: (req, res) => {
@@ -77,7 +78,9 @@ module.exports = {
             from: `Admin <4dminPWDHshop@gmail.com>`,
             to: `${email}`,
             subject: `Account Verification`,
-            html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
+            html: `<p>Hai ${username}, you have been requested for reset password,
+            click this <a href='http://localhost:3000/verification/${token}'>Link</a> to continue
+                        if it's not yours just ignore it</p>`,
           };
 
           //send an email
@@ -166,7 +169,7 @@ module.exports = {
       if (results.length === 0) {
         return res
           .status(200)
-          .send({ data: results[0], message: "Email doesn't  exists" });
+          .send({ data: results[0], message: "Email not " });
       } else {
         let { id_user, username, email, password, is_valid } = results[0];
         let token = createToken({
@@ -181,7 +184,7 @@ module.exports = {
           from: `Admin <4dminPWDHshop@gmail.com>`,
           to: `${email}`,
           subject: `Reset Password`,
-          html: `<a href='http://localhost:3000/forgot-password-update/${id_user}/${token}'>Click here for access your account</a>`,
+          html: `<a href='http://localhost:3000/forgot-password-update/${token}'>Click here for access your account</a>`,
         };
         transporter.sendMail(mail, (errMail, restMail) => {
           if (errMail) {
@@ -191,7 +194,7 @@ module.exports = {
               .send({ message: "req forgot password failed", success: false });
           }
           res.status(200).send({
-            message: "Request Forgot Password Success, check your email",
+            message: "Check your email to continue",
             success: true,
           });
         });
@@ -200,7 +203,8 @@ module.exports = {
   },
 
   forgotPasswordUpdate: (req, res) => {
-    let { newPassword, id_user } = req.body;
+    console.log(req.user.id_user);
+    let { newPassword } = req.body;
 
     newPassword = Crypto.createHmac("sha1", "hash123")
       .update(newPassword)
@@ -208,7 +212,7 @@ module.exports = {
 
     let updateQuery = `UPDATE sys_user SET password = ${db.escape(
       newPassword
-    )} WHERE id_user = ${db.escape(id_user)}`;
+    )} WHERE id_user = ${db.escape(req.user.id_user)}`;
     console.log(updateQuery);
     db.query(updateQuery, (err) => {
       if (err) {

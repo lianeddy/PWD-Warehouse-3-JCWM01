@@ -11,7 +11,6 @@ class ForgotPassword extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-      alertShow: "none",
       disableBtn: false,
     };
   }
@@ -31,14 +30,13 @@ class ForgotPassword extends React.Component {
             Swal.fire(res.data.message);
           } else {
             Swal.fire({
-              title: "Password reset success!",
+              title: "Reset Password Request success!",
               text: "check your email to continue",
               icon: "success",
             });
           }
 
           this.setState({
-            alertShow: "block",
             redirect: true,
           });
         })
@@ -51,20 +49,12 @@ class ForgotPassword extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/forgot-password-update" />;
+      return <Redirect to="/" />;
     }
 
     return (
       <div className="intro">
         <div className="form-inner">
-          <div
-            className="alert alert-danger"
-            style={{ display: this.state.alertShow }}
-            role="alert"
-          >
-            Reset Password success
-          </div>
-
           <h3>Reset Password</h3>
 
           <div className="form-group">

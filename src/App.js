@@ -10,6 +10,10 @@ import verification from "./jsx/pages/verification";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
+// import AddProfileImages from "./jsx/example/AddProfileImages";
+// import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+// import { Typeahead } from "react-bootstrap-typeahead";
+// // import Profile from "./jsx/pages/profile";
 
 function App() {
   return (
@@ -24,9 +28,11 @@ function App() {
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route
-                path="/forgot-password-update"
+                path="/forgot-password-update/:token"
                 component={ForgotPasswordUpdate}
               />
+              {/* <Route component={Profile} path="/profile/:id" /> */}
+
               <Route path="/" component={Landing} />
             </Switch>
           </div>

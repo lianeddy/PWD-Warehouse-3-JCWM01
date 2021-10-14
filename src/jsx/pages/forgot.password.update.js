@@ -11,28 +11,38 @@ class ForgotPasswordUpdate extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-      alertShow: "none",
+
       disableBtn: false,
     };
   }
 
   submitPassword = () => {
+    console.log(window.location.href);
+    console.log(this.props.match.params.token);
     let newPassword = this.newPassword.value;
     let confirmPassword = this.confirmPassword.value;
     this.setState({ disableBtn: true });
 
     if ((newPassword == "", confirmPassword == "")) {
-      alert("form can't be empty");
+      Swal.fire("Form can't be empty");
     } else if (newPassword !== confirmPassword) {
       Swal.fire({
         icon: "error",
         text: "New password did not match!",
       });
     } else {
-      Axios.patch(`${URL_API}/users/forgot-password-update/`, {
-        newPassword,
-        id_user: this.props.id_user,
-      })
+      Axios.patch(
+        `${URL_API}/users/forgot-password-update/`,
+        {
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.match.params.token}`,
+          },
+        }
+      )
+
         .then((res) => {
           console.log(res.data.message);
           Swal.fire({ icon: "success", title: "Password change success" });
@@ -57,14 +67,6 @@ class ForgotPasswordUpdate extends React.Component {
     return (
       <div className="intro">
         <div className="form-inner">
-          <div
-            className="alert alert-danger"
-            style={{ display: this.state.alertShow }}
-            role="alert"
-          >
-            Change Password success
-          </div>
-
           <h3>Input New Password</h3>
 
           <div className="form-group">
