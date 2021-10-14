@@ -1,8 +1,117 @@
 import React from "react";
+import Axios from "axios";
 import Card from "../components/Card";
 import "./landing.css";
+import { URL_API } from "../../helper";
 
 class Landing extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+      pagination: {
+        currentPage: 1,
+        previousPage: 0,
+        nextPage: 0,
+        maxPage: 1,
+        productsCount: 0,
+      },
+      filtering: {
+        byName: "",
+        byCategory: "",
+        sort: "",
+      },
+    };
+  }
+
+  fetchProducts = () => {
+    console.log(this.state.filtering.byCategory);
+    Axios.get(
+      `${URL_API}/products?page=${this.state.pagination.currentPage}&productName=${this.state.filtering.byName}&category=${this.state.filtering.byCategory}&sortBy=${this.state.filtering.sort}`
+    )
+      .then((res) => {
+        this.setState({
+          products: res.data.dataProduct,
+          pagination: {
+            ...this.state.pagination,
+            previousPage:
+              res.data.prevPage || this.state.pagination.previousPage,
+            nextPage: res.data.nextPage || this.state.pagination.nextPage,
+            productsCount:
+              res.data.productsCount || this.state.pagination.productsCount,
+            maxPage: res.data.maxPage || this.state.pagination.maxPage,
+          },
+        });
+
+        this.renderProducts();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  renderProducts = () => {
+    console.log(this.state.filtering.sort);
+
+    return this.state.products.map((product) => {
+      // console.log(product.nm_master_produk);
+      // console.log(product.URL);
+
+      return (
+        <Card
+          productName={product.nm_master_produk}
+          price={product.harga}
+          image={product.URL}
+        />
+      );
+    });
+  };
+
+  componentDidMount() {
+    this.fetchProducts();
+    // [this.state.pagination.currentPage, this.state.filtering];
+    this.renderProducts();
+  }
+
+  // componentDidUpdate(prepProps, prevState) {
+  //   if (
+  //     prevState.product !== this.state.products ||
+  //     prevState.pagination !== this.state.pagination ||
+  //     prevState.filtering !== this.state.filtering
+  //   ) {
+  //     this.fetchProducts();
+  //   }
+  // }
+
+  nextPageHandler = () => {
+    console.log(this.state.pagination.nextPage);
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        currentPage: this.state.pagination.currentPage + 1,
+      },
+    });
+    console.log(this.state.pagination.nextPage);
+  };
+
+  prevPageHandler = () => {
+    console.log(this.state.pagination.previousPage);
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        currentPage: this.state.pagination.currentPage - 1,
+      },
+    });
+    console.log(this.state.pagination.previousPage);
+  };
+
+  inputHandler = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({ filtering: { ...this.state.filtering, [name]: value } });
+  };
+
   render() {
     return (
       <div>
@@ -60,40 +169,42 @@ class Landing extends React.Component {
                     <strong>Find your product</strong>
                   </div>
                   <div className="card-body">
-                    <label htmlFor="searchProductName">Product Name</label>
+                    <label htmlFor="byName">Product Name</label>
                     {/* filter by name */}
                     <input
                       onChange={this.inputHandler}
-                      name="searchProductName"
+                      name="byName"
                       type="text"
                       className="form-control mb-3"
                     />
                     {/* Filter by categories */}
-                    <label htmlFor="searchCategory">Product Category</label>
+                    <label htmlFor="byCategory">Product Category</label>
                     <select
+                      name="byCategory"
                       onChange={this.inputHandler}
-                      name="searchCategory"
                       className="form-control"
                     >
                       <option value="">All Items</option>
-                      <option value="kaos">Kaos</option>
-                      <option value="celana">Celana</option>
-                      <option value="aksesoris">Aksesoris</option>
+                      <option value="Sport Performance">
+                        Sport Performance
+                      </option>
+                      <option value="Core / Neo">Core / Neo</option>
+                      <option value="Originals">Originals</option>
                     </select>
-                    <button
+                    {/* <button
                       onClick={this.searchBtnHandler}
                       className="btn btn-primary mt-3"
                     >
                       Search
-                    </button>
+                    </button> */}
                   </div>
 
                   {/* dropdown Sort Products */}
                   <div className="card-body">
-                    <label htmlFor="sortBy">Sort by</label>
+                    <label htmlFor="sort">Sort by</label>
                     <select
                       onChange={this.inputHandler}
-                      name="sortBy"
+                      name="sort"
                       className="form-control"
                     >
                       <option value="">Default</option>
@@ -109,15 +220,18 @@ class Landing extends React.Component {
                     <div className="d-flex flex-row justify-content-between align-items-center">
                       <button
                         // disabled={this.state.page === 1}
-                        // onClick={this.previousPageHandler}
+                        onClick={this.prevPageHandler}
                         className="btn btn-dark"
                       >
                         {"<"}
                       </button>
-                      <div>Page 1 of 4</div>
+                      <div>
+                        Page {this.state.pagination.currentPage} of{" "}
+                        {this.state.pagination.maxPage}
+                      </div>
                       <button
                         // disabled={this.state.page === this.state.maxPage}
-                        // onClick={this.nextPageHandler}
+                        onClick={this.nextPageHandler}
                         className="btn btn-dark"
                       >
                         {">"}
@@ -130,7 +244,7 @@ class Landing extends React.Component {
 
             {/* Render content */}
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              <Card />
+              {this.renderProducts()}
             </main>
           </div>
         </div>

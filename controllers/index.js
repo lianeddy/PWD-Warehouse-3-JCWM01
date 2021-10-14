@@ -3,6 +3,7 @@ const AppPropinsiController = require("./AppPropinsiController");
 const AppKabkotaController = require("./AppKabkotaController");
 const AppDataAlamatUserController = require("./AppDataAlamatUserController");
 const UserImageController = require("./UserImageController");
+const productControllers = require("./productControllers");
 
 module.exports = {
   userControllers,
@@ -10,4 +11,5 @@ module.exports = {
   AppPropinsiController,
   AppKabkotaController,
   UserImageController,
+  productControllers,
 };
