@@ -89,7 +89,7 @@ class ForgotPasswordUpdate extends React.Component {
             type="submit"
             className="btn btn-primary btn-block btn-auth"
             onClick={this.submitPassword}
-            // onClick={() => this.saveBtn(this.state)}
+            // onClick={() => this.saveBtn(id_user)}
             // disabled={this.state.disableBtn}
           >
             Save

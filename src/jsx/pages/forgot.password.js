@@ -25,15 +25,18 @@ class ForgotPassword extends React.Component {
     } else {
       Axios.post(`${URL_API}/users/forgot-password/`, {
         email,
-        id_user: this.props.id_user,
       })
         .then((res) => {
-          console.log(res.data.message);
-          Swal.fire({
-            title: "Password reset success!",
-            text: "check your email",
-            icon: "success",
-          });
+          if (res.data.message) {
+            Swal.fire(res.data.message);
+          } else {
+            Swal.fire({
+              title: "Password reset success!",
+              text: "check your email to continue",
+              icon: "success",
+            });
+          }
+
           this.setState({
             alertShow: "block",
             redirect: true,

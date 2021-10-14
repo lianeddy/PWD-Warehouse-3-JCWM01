@@ -166,7 +166,7 @@ module.exports = {
       if (results.length === 0) {
         return res
           .status(200)
-          .send({ userData: results[0], message: "Email doesn't  exists" });
+          .send({ data: results[0], message: "Email doesn't  exists" });
       } else {
         let { id_user, username, email, password, is_valid } = results[0];
         let token = createToken({
@@ -191,7 +191,7 @@ module.exports = {
               .send({ message: "req forgot password failed", success: false });
           }
           res.status(200).send({
-            message: "Request Forgot Password Success  ✔",
+            message: "Request Forgot Password Success, check your email",
             success: true,
           });
         });
@@ -210,7 +210,7 @@ module.exports = {
       newPassword
     )} WHERE id_user = ${db.escape(id_user)}`;
     console.log(updateQuery);
-    db.query(updateQuery, (err, results) => {
+    db.query(updateQuery, (err) => {
       if (err) {
         console.log(err);
         res
