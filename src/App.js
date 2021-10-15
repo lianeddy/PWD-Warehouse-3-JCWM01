@@ -11,6 +11,7 @@ import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import { Typeahead } from "react-bootstrap-typeahead";
+import DasboardExample from "./jsx/example/DashboardExample";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
               <Route path="/register" component={register} />
               <Route path="/verification/:token" component={verification} />
               <Route path="/login" component={Login} />
-              <Route
+              {/* <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
               />
@@ -37,8 +38,9 @@ function App() {
               <Route
                 path="/users/example-component/typehead"
                 component={Typeahead}
-              />
-              <Route path="/" component={Landing} />
+              /> */}
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>
