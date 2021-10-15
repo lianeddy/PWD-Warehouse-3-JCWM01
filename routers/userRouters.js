@@ -2,9 +2,8 @@ const express = require("express");
 const {
   userControllers,
   AppDataAlamatUserController,
-  AppPropinsiController,
-  AppKabkotaController,
   UserImageController,
+  AppWarehouseController,
 } = require("../controllers");
 const { auth } = require("../helpers");
 
@@ -29,5 +28,11 @@ routers.delete("/multi-address/:id", AppDataAlamatUserController.deleteData);
 // Profile Image
 routers.post("/profile-image", UserImageController.addData);
 routers.patch("/profile-image/:id", UserImageController.updateData);
+
+// Warehouse
+routers.get("/warehouse", AppWarehouseController.getData);
+routers.post("/warehouse", AppWarehouseController.addData);
+routers.patch("/warehouse", AppWarehouseController.updateData);
+routers.delete("/warehouse", AppWarehouseController.deleteData);
 
 module.exports = routers;
