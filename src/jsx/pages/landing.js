@@ -52,7 +52,7 @@ const Landing = () => {
         <Card
           productName={product.nm_master_produk}
           price={product.harga}
-          image={product.URL}
+          image={URL_API + product.URL}
         />
       );
     });

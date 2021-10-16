@@ -16,7 +16,7 @@ class Login extends React.Component {
     };
   }
 
-  onBtnLogin = () => {
+  onBtnLogin = (event) => {
     this.setState({ disableBtn: true });
     Axios.post(`${URL_API}/users/login`, {
       email: this.inputEmail.value,
@@ -32,6 +32,7 @@ class Login extends React.Component {
         this.inputPassword.value = "";
       })
       .catch((err) => {
+        event.preventDefault();
         console.log(err.message);
         this.setState({ alertShow: "block" });
       });
