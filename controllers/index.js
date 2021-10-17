@@ -5,6 +5,9 @@ const AppDataAlamatUserController = require("./AppDataAlamatUserController");
 const UserImageController = require("./UserImageController");
 const SysUserController = require("./SysUserController");
 const AppWarehouseController = require("./AppWarehouseController");
+const AppMasterProdukController = require("./AppMasterProdukController");
+const AppPermintaanProdukController = require("./AppPermintaanProdukController");
+const AppHistoryPersediaanProdukController = require("./AppHistoryPersediaanProdukController");
 
 module.exports = {
   userControllers,
@@ -14,4 +17,7 @@ module.exports = {
   UserImageController,
   SysUserController,
   AppWarehouseController,
+  AppPermintaanProdukController,
+  AppMasterProdukController,
+  AppHistoryPersediaanProdukController,
 };

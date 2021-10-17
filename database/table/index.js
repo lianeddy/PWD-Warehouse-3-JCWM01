@@ -1,3 +1,7 @@
+const AppHistoryPersediaanProduk = require("./AppHistoryPersediaanProduk");
+const AppPermintaanProduk = require("./AppPermintaanProduk");
+const AppTransaksiMasterProduk = require("./AppTransaksiMasterProduk");
+const AppMasterProduk = require("./AppMasterProduk");
 const SysFile = require("./SysFile");
 const SysAuthorization = require("./SysAuthorization");
 const AppPropinsi = require("./AppPropinsi");
@@ -14,4 +18,8 @@ module.exports = {
   AppKabkota,
   SysFile,
   AppWarehouse,
+  AppPermintaanProduk,
+  AppTransaksiMasterProduk,
+  AppMasterProduk,
+  AppHistoryPersediaanProduk,
 };
