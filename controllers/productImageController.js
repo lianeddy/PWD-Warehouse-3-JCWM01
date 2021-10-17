@@ -34,7 +34,7 @@ module.exports = {
         data.url_file = filePath;
         console.log(filePath);
 
-        // Simpan data ke table
+        // Simpan data ke table, untuk update per-id-product
         let sqlInsert = `Update app_master_produk set URL=${db.escape(
           filePath
         )} where id_master_produk=8;`;

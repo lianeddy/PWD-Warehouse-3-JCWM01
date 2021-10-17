@@ -21,6 +21,11 @@ const Landing = () => {
     sort: "",
   });
 
+  const [inputProduct, setInputProduct] = useState({
+    inputByName: "",
+    inputByCategory: "",
+  });
+
   const fetchProducts = () => {
     console.log(filtering.byCategory);
     Axios.get(
@@ -84,7 +89,17 @@ const Landing = () => {
     const value = event.target.value;
     const name = event.target.name;
 
+    setInputProduct({ ...inputProduct, [name]: value });
     setFiltering({ ...filtering, [name]: value });
+  };
+
+  const searchBtnHandler = () => {
+    setPagination({ ...pagination, currentPage: 1 });
+    setFiltering({
+      ...filtering,
+      byName: inputProduct.inputByName,
+      byCategory: inputProduct.inputByCategory,
+    });
   };
 
   return (
@@ -143,18 +158,18 @@ const Landing = () => {
                   <strong>Find your product</strong>
                 </div>
                 <div className="card-body">
-                  <label htmlFor="byName">Product Name</label>
+                  <label htmlFor="inputByName">Product Name</label>
                   {/* filter by name */}
                   <input
                     onChange={inputHandler}
-                    name="byName"
+                    name="inputByName"
                     type="text"
                     className="form-control mb-3"
                   />
                   {/* Filter by categories */}
-                  <label htmlFor="byCategory">Product Category</label>
+                  <label htmlFor="inputByCategory">Product Category</label>
                   <select
-                    name="byCategory"
+                    name="inputByCategory"
                     onChange={inputHandler}
                     className="form-control"
                   >
@@ -163,6 +178,12 @@ const Landing = () => {
                     <option value="Core / Neo">Core / Neo</option>
                     <option value="Originals">Originals</option>
                   </select>
+                  <button
+                    onClick={searchBtnHandler}
+                    className="btn btn-primary mt-3"
+                  >
+                    Search
+                  </button>
                 </div>
 
                 {/* dropdown Sort Products */}
