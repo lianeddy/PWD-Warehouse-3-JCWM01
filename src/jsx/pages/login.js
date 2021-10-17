@@ -24,6 +24,7 @@ class Login extends React.Component {
     })
       .then((result) => {
         localStorage.setItem("dataToken", result.data.token);
+        localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
         //action
         this.props.authLogin(result.data.dataLogin);
         this.setState({ redirect: true });

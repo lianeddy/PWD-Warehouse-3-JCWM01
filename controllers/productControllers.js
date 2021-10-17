@@ -64,14 +64,17 @@ module.exports = {
       // for compare by AZ or ZA
       const compareString = (x, y) => {
         if (
-          x.nm_master_produk.toLowerCase() > y.nm_master_produk.toLowerCase()
-        ) {
-          return 1;
-        } else if (
           x.nm_master_produk.toLowerCase() < y.nm_master_produk.toLowerCase()
         ) {
           return -1;
         }
+
+        if (
+          x.nm_master_produk.toLowerCase() > y.nm_master_produk.toLowerCase()
+        ) {
+          return 1;
+        }
+
         return 0;
       };
 
@@ -85,8 +88,10 @@ module.exports = {
           break;
         case "az":
           filteredResults.sort(compareString);
+          break;
         case "za":
           filteredResults.sort(compareString).reverse();
+          break;
         default:
           filteredResults;
           break;

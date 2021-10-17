@@ -15,12 +15,20 @@ module.exports = {
       console.log(results);
       if (err) res.status(500).send(err);
       if (results[0]) {
-        let { id_user, id_warehouse, username, email, password, is_valid } =
-          results[0];
+        let {
+          id_user,
+          id_warehouse,
+          id_role,
+          username,
+          email,
+          password,
+          is_valid,
+        } = results[0];
         console.log(results[0]);
         let token = createToken({
           id_user,
           id_warehouse,
+          id_role,
           username,
           email,
           password,
@@ -61,10 +69,12 @@ module.exports = {
           }
 
           //material for token
-          let { id_user, username, email, password, is_valid } = resultsGet[0];
+          let { id_user, id_role, username, email, password, is_valid } =
+            resultsGet[0];
           //create token
           let token = createToken({
             id_user,
+            id_role,
             username,
             email,
             password,

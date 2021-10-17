@@ -1,8 +1,11 @@
 const INIT_STATE = {
-  id: null,
+  id_user: null,
   username: "",
-  password: "",
-  role: "",
+  email: "",
+  id_role: 0,
+  id_warehouse: null,
+  birth_data: "",
+  gender: "",
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
