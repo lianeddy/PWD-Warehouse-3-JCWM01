@@ -15,9 +15,16 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello");
 });
 
-const { userRouters, UtilityRouters } = require("./routers");
+const {
+  userRouters,
+  UtilityRouters,
+  AppPermintaanProdukRouter,
+  AppHistoryPersediaanProdukRouter,
+} = require("./routers");
 
 app.use("/users", userRouters);
 app.use("/utility", UtilityRouters);
+app.use("/permintaan-produk", AppPermintaanProdukRouter);
+app.use("/history-persediaan-produk", AppHistoryPersediaanProdukRouter);
 
 app.listen(port, () => console.log(`API Running: ${port}`));
