@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -9,8 +9,23 @@ import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAla
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import DasboardExample from "./jsx/example/DashboardExample";
+import { connect } from "react-redux";
 
 function App() {
+  useEffect(() => {
+    //
+    const userLocalStorage = localStorage.getItem("dataToken");
+
+    if (userLocalStorage) {
+      const userData = JSON.parse(userLocalStorage);
+      // this.props.userKeepLogin(userData);
+      // this.props.getCartData(userData.id);
+    } else {
+      // this.props.checkStorage();
+      console.log("Data localStorage tidak ada");
+    }
+  }, []);
+
   return (
     <div className="App">
       <div className="auth-wrapper">
@@ -30,4 +45,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.authReducer,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
