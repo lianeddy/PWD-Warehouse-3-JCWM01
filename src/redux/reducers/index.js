@@ -4,6 +4,9 @@ import { userMultiAddressReducer } from "./userMultiAddressReducer";
 import { filterProvinsiReducer } from "./filterProvinsiReducer";
 import { filterKabkotaReducer } from "./filterKabkotaReducer";
 import { menuReducer } from "./menuReducer";
+import { permintaanProdukReducer } from "./permintaanProdukReducer";
+import { filterWarehouseReducer } from "./filterWarehouseReducer";
+import { filterMasterProdukReducer } from "./filterMasterProdukReducer";
 
 export const Reducers = combineReducers({
   authReducer,
@@ -11,4 +14,7 @@ export const Reducers = combineReducers({
   filterProvinsiReducer,
   filterKabkotaReducer,
   menuReducer,
+  permintaanProdukReducer,
+  filterWarehouseReducer,
+  filterMasterProdukReducer,
 });
