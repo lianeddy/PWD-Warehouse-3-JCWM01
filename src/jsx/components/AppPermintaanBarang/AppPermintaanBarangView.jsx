@@ -102,7 +102,7 @@ class AppPermintaanBarangView extends React.Component {
   batalBtnHandler = (data) => {
     SwalFire.fire({
       title: "Anda yakin?",
-      text: `Membatalkan permintaan barang ke warehouse ini`,
+      text: `Membatalkan permintaan produk ke warehouse ini`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -121,7 +121,7 @@ class AppPermintaanBarangView extends React.Component {
   tolakBtnHandler = (data) => {
     SwalFire.fire({
       title: "Anda yakin?",
-      text: `Menolak permintaan barang dari warehouse ini`,
+      text: `Menolak permintaan produk dari warehouse ini`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -141,7 +141,7 @@ class AppPermintaanBarangView extends React.Component {
     // console.log(data);
     SwalFire.fire({
       title: "Anda yakin?",
-      text: `Menerima permintaan barang dari warehouse ini`,
+      text: `Menerima permintaan produk dari warehouse ini`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -356,7 +356,7 @@ class AppPermintaanBarangView extends React.Component {
       <React.Fragment>
         <div className="col-md-12 col-lg-12 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2">Data Permintaan Barang</h1>
+            <h1 className="h2">Data Permintaan Produk</h1>
             <div className="btn-toolbar mb-2 mb-md-0">
               <div className="btn-group me-2">
                 <button
@@ -423,8 +423,8 @@ class AppPermintaanBarangView extends React.Component {
                       value={this.state.status_warehouse}
                     >
                       <option value="0">Semua</option>
-                      <option value="1">Warehouse Penerima</option>
-                      <option value="2">Warehouse Pengirim</option>
+                      <option value="1">Warehouse Penerima Permintaan</option>
+                      <option value="2">Warehouse Pengirim Permintaan</option>
                     </Form.Select>
                   </Col>
                 </Form.Group>
@@ -470,8 +470,8 @@ class AppPermintaanBarangView extends React.Component {
                   <th>#</th>
                   <th>Status</th>
                   <th>Nama Produk</th>
-                  <th>Warehouse Penerima</th>
-                  <th>Warehouse Pengirim</th>
+                  <th>Warehouse Penerima Permintaan</th>
+                  <th>Warehouse Pengirim Permintaan</th>
                   <th>Jumlah</th>
                   <th>Diterima Oleh</th>
                   <th>Aksi</th>
