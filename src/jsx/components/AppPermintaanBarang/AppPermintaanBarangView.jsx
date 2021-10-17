@@ -99,6 +99,25 @@ class AppPermintaanBarangView extends React.Component {
     this.props.modalIsOpen(true);
   };
 
+  batalBtnHandler = (data) => {
+    SwalFire.fire({
+      title: "Anda yakin?",
+      text: `Membatalkan permintaan barang ke warehouse ini`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "YA",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mengirim data update
+        const { id_data_alamat_user, id_user } = data;
+        let dataUpdate = { is_default: 1, id_user };
+        this.props.deleteDataMultiAddress(id_data_alamat_user, dataUpdate);
+      }
+    });
+  };
+
   tolakBtnHandler = (data) => {
     SwalFire.fire({
       title: "Anda yakin?",
@@ -158,6 +177,7 @@ class AppPermintaanBarangView extends React.Component {
           data_status,
           data_user,
           data_to_warehouse,
+          to_warehouse,
         } = el;
         no += 1;
         return (
@@ -191,31 +211,42 @@ class AppPermintaanBarangView extends React.Component {
               {data_user !== null ? data_user.username : "Data tidak ditemukan"}
             </td>
             <td>
-              <button
-                type="button"
-                className="btn btn-sm btn-success me-1 mb-1"
-                disabled={el.is_default}
-                onClick={() => this.terimaBtnHandler(el)}
-                disabled={is_accept ? true : false}
-              >
-                &#10003; Terima
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm btn-danger me-1 mb-1"
-                onClick={() => this.tolakBtnHandler(el)}
-                disabled={is_accept ? true : false}
-              >
-                &#10540; Tolak
-              </button>
-              {/* <button
-              type="button"
-              className="btn btn-sm btn-danger mb-1"
-              disabled={el.is_default}
-              onClick={() => this.deleteBtnHandler(el)}
-            >
-              Delete
-            </button> */}
+              {is_accept ? (
+                <Badge bg="info">Selesai</Badge>
+              ) : (
+                <>
+                  {to_warehouse == this.props.userGlobal.id_warehouse ? (
+                    <>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-success me-1 mb-1"
+                        disabled={el.is_default}
+                        onClick={() => this.terimaBtnHandler(el)}
+                        disabled={is_accept ? true : false}
+                      >
+                        &#10003; Terima
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger me-1 mb-1"
+                        onClick={() => this.tolakBtnHandler(el)}
+                        disabled={is_accept ? true : false}
+                      >
+                        &#10540; Tolak
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-danger mb-1"
+                      disabled={el.is_default}
+                      onClick={() => this.batalBtnHandler(el)}
+                    >
+                      &#9851; Batal
+                    </button>
+                  )}
+                </>
+              )}
             </td>
           </tr>
         );
@@ -374,6 +405,9 @@ class AppPermintaanBarangView extends React.Component {
                   />
                 </>
               ) : (
+                // (
+                //   ""
+                // )
                 <Form.Group
                   as={Row}
                   className="mb-3"
