@@ -11,6 +11,7 @@ import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
+import ProductDetail from "./jsx/pages/ProductDetail";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                 component={UpdateProfileImages}
               />
               <Route path="/uploadProduct" component={UploadProductImage} />
+              <Route path="/product-detail" component={ProductDetail} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>
