@@ -36,7 +36,10 @@ function App() {
                 component={UpdateProfileImages}
               />
               <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route path="/product-detail" component={ProductDetail} />
+              <Route
+                path="/product-detail/:id_master_produk"
+                component={ProductDetail}
+              />
               <Route path="/" component={Landing} />
             </Switch>
           </div>

@@ -55,6 +55,7 @@ const Landing = () => {
     return products.map((product) => {
       return (
         <Card
+          id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
           image={URL_API + product.URL}

@@ -1,12 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Axios from "axios";
+import { URL_API } from "../../helper";
 import "./productDetail.css";
 
-const ProductDetail = () => {
+const ProductDetail = (props) => {
+  //global state
+  const userGlobal = useSelector((state) => state.authReducer);
+  const { id_user } = userGlobal;
+
+  //Redirect
+  const [redirect, setRedirect] = useState(null);
+
+  //productDetailData
+  const [productDetail, setProductDetail] = useState([]);
+  const [otherInfo, setOtherInfo] = useState({
+    quantity: 1,
+    productNotFound: false,
+  });
+
   const [countAddToCart, setCountAddToCart] = useState(1);
 
+  //handle count input
   const handleInput = (e) => {
     setCountAddToCart(parseInt(e.target.value));
   };
+
+  const fetchProducts = () => {
+    Axios.get(`${URL_API}/products/${props.match.params.id_master_produk}`)
+      .then((res) => {
+        if (res.data.length) {
+          setProductDetail(res.data[0]);
+        } else {
+          setOtherInfo({ productNotFound: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchStock = () => {};
+
+  useEffect(() => {
+    fetchProducts();
+  });
+
+  const addToCartHandler = () => {};
 
   return (
     <div className="card-body">
@@ -15,19 +55,14 @@ const ProductDetail = () => {
           <div className="col-6">
             <img
               style={{ width: "100%" }}
-              src="https://content.adidas.co.in/static/Product-DB3114/UNISEX_Originals_VULCANIZED_SHOES_LOW_DB3114_1.jpg"
+              src={URL_API + productDetail.URL}
               alt=""
             />
           </div>
           <div className="col-6 d-flex flex-column justify-content-center">
-            <h4>Unisex adidas Originals Adi-Ease Shoes</h4>
-            <h5>$5999</h5>
-            <p>
-              Iconic style meets skate-specific features in these shoes built to
-              handle any situation. This version of the famous bare-bones skate
-              shoes features a printed upper with a vulcanized outsole that's
-              the standard for flexibility and board feel.
-            </p>
+            <h4>{productDetail.nm_master_produk}</h4>
+            <h5>${productDetail.harga}</h5>
+            <p>{productDetail.description}</p>
             <div className="d-flex flex-row align-items-center ">
               <button
                 onClick={() => setCountAddToCart(countAddToCart - 1)}

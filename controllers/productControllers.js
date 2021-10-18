@@ -112,6 +112,7 @@ module.exports = {
     });
   },
   getDataById: (req, res) => {
+    console.log(req.params);
     let scriptQuery = `SELECT id_master_produk, nm_master_produk, harga, description, nm_category_master_produk, URL FROM app_master_produk p JOIN app_category_master_produk c on p.id_category = c.id_category_master_produk WHERE id_master_produk=${db.escape(
       req.params.id_master_produk
     )};`;
