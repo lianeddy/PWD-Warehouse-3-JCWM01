@@ -15,8 +15,14 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello");
 });
 
-const { userRouters } = require("./routers");
+const {
+  userRouters,
+  productRouters,
+  uploadProductRouter,
+} = require("./routers");
 
 app.use("/users", userRouters);
+app.use("/products", productRouters);
+app.use("/upload", uploadProductRouter);
 
 app.listen(port, () => console.log(`API Running: ${port}`));

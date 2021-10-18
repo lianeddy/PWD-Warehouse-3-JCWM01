@@ -12,6 +12,7 @@ import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
+import UploadProductImage from "./jsx/example/UploadProductImage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               />
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>

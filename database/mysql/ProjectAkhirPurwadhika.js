@@ -4,11 +4,16 @@ const config = require("dotenv").config();
 const objectionSoftDelete = require("objection-js-soft-delete");
 
 let MysqlConnectorTmp = MysqlConnector(
-  process.env.DB_USER, // "root",
-  process.env.DB_PASS, // "sarewes23",
-  process.env.DB_DATABASE, // "purwadhika_project_akhir"
-  process.env.DB_HOST,
-  process.env.DB_PORT
+  // process.env.DB_USER, // "root",
+  // process.env.DB_PASS, // "sarewes23",
+  // process.env.DB_DATABASE, // "purwadhika_project_akhir"
+  // process.env.DB_HOST,
+  // process.env.DB_PORT
+  "root",
+  "password",
+  "purwadhika_project_akhir",
+  "localhost",
+  3306
 );
 
 const softDelete = objectionSoftDelete.default({

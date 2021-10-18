@@ -16,7 +16,7 @@ class Login extends React.Component {
     };
   }
 
-  onBtnLogin = () => {
+  onBtnLogin = (event) => {
     this.setState({ disableBtn: true });
     Axios.post(`${URL_API}/users/login`, {
       email: this.inputEmail.value,
@@ -24,6 +24,7 @@ class Login extends React.Component {
     })
       .then((result) => {
         localStorage.setItem("dataToken", result.data.token);
+        localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
         //action
         this.props.authLogin(result.data.dataLogin);
         this.setState({ redirect: true });
@@ -32,6 +33,7 @@ class Login extends React.Component {
         this.inputPassword.value = "";
       })
       .catch((err) => {
+        event.preventDefault();
         console.log(err.message);
         this.setState({ alertShow: "block" });
       });

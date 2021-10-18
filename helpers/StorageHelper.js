@@ -19,7 +19,8 @@ module.exports = {
     // Setting multer
     const storage = multer.diskStorage({
       destination: (req, file, cb) => {
-        const pathDir = process.env.FILE_STORAGE + directory;
+        // const pathDir = process.env.FILE_STORAGE + directory;
+        const pathDir = "./public/images" + directory;
 
         if (fs.existsSync(pathDir)) {
           cb(null, pathDir);
