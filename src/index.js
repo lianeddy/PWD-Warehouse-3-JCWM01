@@ -6,13 +6,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 //redux configuration
 import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import { Reducers } from "./redux/reducers";
 // import { createStore } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { Reducers } from "./redux/reducers";
 
 // const storeReducer = createStore(Reducers);
 const storeReducer = configureStore({
   reducer: Reducers,
+  // middleware: applyMiddleware(ReduxThunk),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(ReduxThunk),
 });
 
 ReactDOM.render(

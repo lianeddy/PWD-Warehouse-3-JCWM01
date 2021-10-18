@@ -5,15 +5,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Login from "./jsx/pages/login";
 import Landing from "./jsx/pages/landing";
+import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAlamatUserView";
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
-// import AddProfileImages from "./jsx/example/AddProfileImages";
-// import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
-// import { Typeahead } from "react-bootstrap-typeahead";
-// // import Profile from "./jsx/pages/profile";
+import AddProfileImages from "./jsx/example/AddProfileImages";
+import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+import UploadProductImage from "./jsx/example/UploadProductImage";
 
 function App() {
   return (
@@ -33,6 +33,19 @@ function App() {
               />
               {/* <Route component={Profile} path="/profile/:id" /> */}
 
+              <Route
+                path="/users/multi-address"
+                component={AppDataAlamatUserView}
+              />
+              <Route
+                path="/users/example-component/profile-image/add"
+                component={AddProfileImages}
+              />
+              <Route
+                path="/users/example-component/profile-image/update"
+                component={UpdateProfileImages}
+              />
+              <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>
