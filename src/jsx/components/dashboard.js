@@ -1,5 +1,6 @@
 import React from "react";
 import "./dashboard.css";
+import { Link } from "react-router-dom";
 
 class Dasboard extends React.Component {
   render() {
@@ -24,6 +25,9 @@ class Dasboard extends React.Component {
             <div className="nav-item text-nowrap">
               <a className="nav-link px-3" href="#">
                 Sign out
+              </a>
+              <a className="nav-link px-3">
+                <Link to="/change-password">Change Password </Link>
               </a>
             </div>
           </div>

@@ -15,12 +15,20 @@ module.exports = {
       console.log(results);
       if (err) res.status(500).send(err);
       if (results[0]) {
-        let { id_user, id_warehouse, username, email, password, is_valid } =
-          results[0];
+        let {
+          id_user,
+          id_warehouse,
+          id_role,
+          username,
+          email,
+          password,
+          is_valid,
+        } = results[0];
         console.log(results[0]);
         let token = createToken({
           id_user,
           id_warehouse,
+          id_role,
           username,
           email,
           password,
@@ -43,9 +51,10 @@ module.exports = {
     password = Crypto.createHmac("sha1", "hash123")
       .update(password)
       .digest("hex"); //hashing  before store in database
-    let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
-      username
-    )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null)`;
+    let insertQuery = `insert into sys_user 
+    (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at)
+    values (null, ${db.escape(username)}, ${db.escape(email)}, 
+    ${db.escape(password)}, 0, now(), now(), null)`;
     console.log(username, email, password);
     console.log(insertQuery);
     db.query(insertQuery, (err, results) => {
@@ -61,10 +70,12 @@ module.exports = {
           }
 
           //material for token
-          let { id_user, username, email, password, is_valid } = resultsGet[0];
+          let { id_user, id_role, username, email, password, is_valid } =
+            resultsGet[0];
           //create token
           let token = createToken({
             id_user,
+            id_role,
             username,
             email,
             password,
@@ -111,4 +122,95 @@ module.exports = {
       res.status(200).send({ message: "Acoount Verified", success: true });
     });
   },
+  changePassword: (req, res) => {
+    let { currentPassword, confirmPassword, id_user } = req.body;
+
+    currentPassword = Crypto.createHmac("sha1", "hash123")
+      .update(currentPassword)
+      .digest("hex");
+
+    let selectQuery = `SELECT password FROM sys_user WHERE id_user = ${db.escape(
+      id_user
+    )}`;
+    console.log(selectQuery);
+
+    confirmPassword = Crypto.createHmac("sha1", "hash123")
+      .update(confirmPassword)
+      .digest("hex");
+
+    let updateQuery = `UPDATE sys_user SET password = ${db.escape(
+      confirmPassword
+    )} WHERE id_user = ${db.escape(id_user)}`;
+    console.log(updateQuery);
+
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      if (results[0].password == currentPassword) {
+        db.query(updateQuery, (err2, results2) => {
+          if (err2) return res.status(500).send(err2);
+          return res.status(200).send(results2);
+        });
+      } else {
+        return res.status(500).json({ message: "Current Password is Wrong" });
+      }
+    });
+  },
+
+  // forgotPassword: (req, res) => {
+  //   let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(
+  //     req.body.email
+  //   )}`;
+  //   console.log(selectQuery);
+
+  //   db.query(selectQuery, (err, results) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     }
+
+  //     if (results[0]) {
+  //       return res
+  //         .status(200)
+  //         .send({ userData: results[0], message: "Email exists" });
+  //     } else {
+  //       return res
+  //         .status(200)
+  //         .send({ userData: null, message: "Email doesn't exist" });
+  //     }
+  //   });
+  // },
+
+  // fPassword: (req, res) => {
+  //   let selectQuery = `SELECT * FROM user WHERE id_user = ${db.escape(
+  //     req.params.id
+  //   )}`;
+  //   console.log(selectQuery);
+
+  //   req.body.newPassword = Crypto.createHmac("sha1", "hash123")
+  //     .update(req.body.newPassword)
+  //     .digest("hex");
+
+  //   let updateQuery = `UPDATE user SET password = ${db.escape(
+  //     req.body.newPassword
+  //   )} WHERE id_user = ${db.escape(req.params.id)}`;
+  //   console.log(updateQuery);
+
+  //   db.query(selectQuery, (err, results) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     }
+
+  //     if (results[0]) {
+  //       db.query(updateQuery, (err2, results2) => {
+  //         if (err2) return res.status(500).send(err2);
+  //         return res.status(200).send(results2);
+  //       });
+  //     }
+  //   });
+  // },
 };

@@ -1,7 +1,7 @@
 const INIT_STATE = {
   // id: 2,
   // password: "",
-  id: 3,
+  id_user: 3,
   username: "",
   email: "",
   id_role: 2,
@@ -12,6 +12,7 @@ const INIT_STATE = {
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
+  console.log(action.payload);
   switch (action.type) {
     case "LOGIN_SUCCESS":
       return { ...state, ...action.payload };

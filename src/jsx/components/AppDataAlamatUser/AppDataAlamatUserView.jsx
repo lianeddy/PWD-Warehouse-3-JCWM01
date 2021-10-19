@@ -50,7 +50,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
   }
 
@@ -252,7 +252,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
     this.setState({
       ...this.state,
@@ -266,7 +266,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
   };
 
@@ -276,7 +276,7 @@ class AppDataAlamatUserView extends React.Component {
       null,
       null,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
     this.setState({
       ...this.state,

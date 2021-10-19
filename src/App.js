@@ -10,6 +10,11 @@ import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import DasboardExample from "./jsx/example/DashboardExample";
 import { connect } from "react-redux";
+import AddProfileImages from "./jsx/example/AddProfileImages";
+import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+import ChangePassword from "./jsx/pages/change.password";
+import ForgotPassword from "./jsx/pages/forgot.password";
+import UploadProductImage from "./jsx/example/UploadProductImage";
 
 function App() {
   useEffect(() => {
@@ -35,6 +40,9 @@ function App() {
               <Route path="/register" component={register} />
               <Route path="/verification/:token" component={verification} />
               <Route path="/login" component={Login} />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={DasboardExample} />
               {/* <Route path="/" component={Landing} /> */}
             </Switch>

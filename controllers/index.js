@@ -8,6 +8,8 @@ const AppWarehouseController = require("./AppWarehouseController");
 const AppMasterProdukController = require("./AppMasterProdukController");
 const AppPermintaanProdukController = require("./AppPermintaanProdukController");
 const AppHistoryPersediaanProdukController = require("./AppHistoryPersediaanProdukController");
+const productControllers = require("./productControllers");
+const productImageController = require("./productImageController");
 
 module.exports = {
   userControllers,
@@ -20,4 +22,6 @@ module.exports = {
   AppPermintaanProdukController,
   AppMasterProdukController,
   AppHistoryPersediaanProdukController,
+  productControllers,
+  productImageController,
 };
