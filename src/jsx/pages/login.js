@@ -75,6 +75,9 @@ class Login extends React.Component {
               placeholder="Enter password"
               ref={(e) => (this.inputPassword = e)}
             />
+            <p>
+              <a href="/forgot-password">Forget Password?</a>
+            </p>
           </div>
 
           <button

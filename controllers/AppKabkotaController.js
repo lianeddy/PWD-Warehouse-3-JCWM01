@@ -22,7 +22,7 @@ module.exports = {
 
     // Filter Name Propinsi
     if (req.query.hasOwnProperty("nm_kabkota")) {
-      qryString += `nm_kabkota LIKE '%${req.query.nm_kabkota}%'`;
+      qryString += ` nm_kabkota LIKE '%${req.query.nm_kabkota}%'`;
     } else qryString = qryString.slice(0, -3);
 
     let output = await AppKabkota.query()

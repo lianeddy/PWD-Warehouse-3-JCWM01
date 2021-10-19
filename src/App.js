@@ -10,8 +10,11 @@ import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
+import ChangePassword from "./jsx/pages/change.password";
+import ForgotPassword from "./jsx/pages/forgot.password";
 import UploadProductImage from "./jsx/example/UploadProductImage";
-import ProductDetail from "./jsx/pages/ProductDetail";
+import { Typeahead } from "react-bootstrap-typeahead";
+import DasboardExample from "./jsx/example/DashboardExample";
 
 function App() {
   return (
@@ -23,7 +26,7 @@ function App() {
               <Route path="/register" component={register} />
               <Route path="/verification/:token" component={verification} />
               <Route path="/login" component={Login} />
-              <Route
+              {/* <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
               />
@@ -35,12 +38,16 @@ function App() {
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
               />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route
-                path="/product-detail/:id_master_produk"
-                component={ProductDetail}
-              />
               <Route path="/" component={Landing} />
+              <Route
+                path="/users/example-component/typehead"
+                component={Typeahead}
+              /> */}
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>

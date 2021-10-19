@@ -1,15 +1,15 @@
 const INIT_STATE = {
-  provinsiList: [],
+  kabkotaList: [],
   optionsFilter: [],
   isLoading: false,
   selected: null,
 };
 
-export const filterProvinsiReducer = (state = INIT_STATE, action) => {
+export const filterKabkotaReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
-    case "GET_FILTER_PROVINSI":
+    case "GET_FILTER_KABKOTA":
       return { ...state, ...action.payload };
-    case "SET_FILTER_PROVINSI_LOADING":
+    case "SET_LOADING_FILTER_KABKOTA":
       return { ...state, ...action.payload };
     default:
       return state;
