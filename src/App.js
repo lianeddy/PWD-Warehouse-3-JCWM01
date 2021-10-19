@@ -13,6 +13,8 @@ import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import UploadProductImage from "./jsx/example/UploadProductImage";
+import { Typeahead } from "react-bootstrap-typeahead";
+import DasboardExample from "./jsx/example/DashboardExample";
 
 function App() {
   return (
@@ -24,7 +26,7 @@ function App() {
               <Route path="/register" component={register} />
               <Route path="/verification/:token" component={verification} />
               <Route path="/login" component={Login} />
-              <Route
+              {/* <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
               />
@@ -40,6 +42,12 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={Landing} />
+              <Route
+                path="/users/example-component/typehead"
+                component={Typeahead}
+              /> */}
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>

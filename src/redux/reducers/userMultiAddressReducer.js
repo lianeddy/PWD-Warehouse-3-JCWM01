@@ -5,6 +5,7 @@ const INIT_STATE = {
   datakabkota: [],
   pagesNow: 0,
   maxPerPage: 10,
+  total: 0,
 };
 
 export const userMultiAddressReducer = (state = INIT_STATE, action) => {
@@ -18,6 +19,8 @@ export const userMultiAddressReducer = (state = INIT_STATE, action) => {
     case "DELETE_MULTI_ADDRESS":
       return { ...state, ...action.payload };
     case "MODAL_IS_OPEN":
+      return { ...state, ...action.payload };
+    case "SET_TOTAL_PAGE":
       return { ...state, ...action.payload };
     default:
       return state;

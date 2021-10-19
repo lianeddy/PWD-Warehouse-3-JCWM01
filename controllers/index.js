@@ -5,6 +5,8 @@ const AppDataAlamatUserController = require("./AppDataAlamatUserController");
 const UserImageController = require("./UserImageController");
 const productControllers = require("./productControllers");
 const productImageController = require("./productImageController");
+const SysUserController = require("./SysUserController");
+const AppWarehouseController = require("./AppWarehouseController");
 
 module.exports = {
   userControllers,
@@ -14,4 +16,6 @@ module.exports = {
   UserImageController,
   productControllers,
   productImageController,
+  SysUserController,
+  AppWarehouseController,
 };
