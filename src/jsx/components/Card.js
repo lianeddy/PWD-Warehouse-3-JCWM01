@@ -3,8 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import "./Card.css";
 
 const Card = (props) => {
-  const viewDetailHandler = () => {};
-
   return (
     <div class="col">
       <div class="card shadow-sm">
