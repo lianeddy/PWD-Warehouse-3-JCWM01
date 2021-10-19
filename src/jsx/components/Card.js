@@ -27,13 +27,6 @@ const Card = (props) => {
 
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <button
-                onClick={viewDetailHandler}
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-              >
-                View Details
-              </button>
               <button type="button" class="btn btn-sm btn-outline-secondary">
                 Add to Cart
               </button>
