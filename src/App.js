@@ -15,6 +15,8 @@ import Profile from "./jsx/pages/profile";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
+import { Typeahead } from "react-bootstrap-typeahead";
+import DasboardExample from "./jsx/example/DashboardExample";
 
 function App() {
   return (
@@ -34,7 +36,8 @@ function App() {
               />
               <Route component={Profile} path="/profile/:id" />
 
-              <Route
+              {/* <Route */}
+              {/* <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
               />
@@ -46,8 +49,16 @@ function App() {
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
               />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={Landing} />
+              <Route
+                path="/users/example-component/typehead"
+                component={Typeahead}
+              /> */}
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>

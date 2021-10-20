@@ -1,4 +1,4 @@
-const { AppDataAlamatUser } = require("../database/table");
+const { AppWarehouse } = require("../database/table");
 
 const ID = "id_data_alamat_user";
 
@@ -23,7 +23,7 @@ module.exports = {
       qryString = qryString.slice(0, -3);
     }
 
-    let output = await AppDataAlamatUser.query()
+    let output = await AppWarehouse.query()
       .whereNotDeleted()
       .whereRaw(qryString)
       .withGraphFetched("datapropinsi")
@@ -36,14 +36,14 @@ module.exports = {
     });
   },
   detailData: async (req, res, next) => {
-    let output = await AppDataAlamatUser.query()
+    let output = await AppWarehouse.query()
       .whereNotDeleted()
       .where(ID, req.params.id);
     if (output.length > 0) res.status(200).send(output);
     else next();
   },
   addData: async (req, res, next) => {
-    let output = await AppDataAlamatUser.query().insert(req.body);
+    let output = await AppWarehouse.query().insert(req.body);
     if (output)
       res.status(201).send({
         message: "success",
@@ -52,7 +52,7 @@ module.exports = {
     else next();
   },
   updateData: async (req, res, next) => {
-    let output = await AppDataAlamatUser.query()
+    let output = await AppWarehouse.query()
       .update(req.body)
       .where(ID, req.params.id);
     if (output)
@@ -64,7 +64,7 @@ module.exports = {
   },
   updateManyDataByIdUser: async (req, res, next) => {
     // res.status(200).send(req.body);
-    let output = await AppDataAlamatUser.query()
+    let output = await AppWarehouse.query()
       .update(req.body)
       .where("id_user", req.params.id);
     if (output)
@@ -75,9 +75,7 @@ module.exports = {
     else next();
   },
   deleteData: async (req, res, next) => {
-    let output = await AppDataAlamatUser.query()
-      .where(ID, req.params.id)
-      .delete();
+    let output = await AppWarehouse.query().where(ID, req.params.id).delete();
     if (output)
       res.status(200).send({
         message: "success",

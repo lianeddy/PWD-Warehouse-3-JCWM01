@@ -19,10 +19,13 @@ const {
   userRouters,
   productRouters,
   uploadProductRouter,
+  UtilityRouters,
 } = require("./routers");
 
 app.use("/users", userRouters);
 app.use("/products", productRouters);
 app.use("/upload", uploadProductRouter);
+app.use("/users", userRouters);
+app.use("/utility", UtilityRouters);
 
 app.listen(port, () => console.log(`API Running: ${port}`));
