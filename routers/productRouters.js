@@ -4,6 +4,7 @@ const { productControllers } = require("../controllers");
 const routers = express.Router();
 
 // endpoint product
+routers.get("/product-admin", productControllers.getDataAdmin);
 routers.get("/", productControllers.getData);
 routers.get("/:id_master_produk", productControllers.getDataById);
 

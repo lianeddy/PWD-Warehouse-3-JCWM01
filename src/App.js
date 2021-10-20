@@ -15,6 +15,7 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
+import ProductAdmin from "./jsx/pages/ProductsAdmin";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
                 component={Typeahead}
               /> */}
               {/* <Route path="/" component={DasboardExample} /> */}
+              <Route path="/admin-product" component={ProductAdmin} />
               <Route path="/" component={Landing} />
             </Switch>
           </div>
