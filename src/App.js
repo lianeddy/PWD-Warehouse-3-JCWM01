@@ -46,8 +46,8 @@ function App() {
                 path="/users/example-component/typehead"
                 component={Typeahead}
               /> */}
-              <Route path="/" component={DasboardExample} />
-              {/* <Route path="/" component={Landing} /> */}
+              {/* <Route path="/" component={DasboardExample} /> */}
+              <Route path="/" component={Landing} />
             </Switch>
           </div>
         </div>
