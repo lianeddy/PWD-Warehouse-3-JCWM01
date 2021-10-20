@@ -1,4 +1,5 @@
 const { AppHistoryPersediaanProduk } = require("../database/table");
+const { raw, ref } = require("objection");
 
 const ID = "id_history_persediaan_produk";
 
@@ -11,6 +12,16 @@ module.exports = {
     if (req.query.hasOwnProperty("maxpage")) maxPerPage = req.query.maxpage;
 
     let qryString = ``;
+    // Filter ID Warehouse
+    if (req.query.hasOwnProperty("id_warehouse")) {
+      qryString += ` id_warehouse = '${req.query.id_warehouse}' AND`;
+    }
+    // Filter Tipe Transaksi
+    if (req.query.hasOwnProperty("tipe_transaksi")) {
+      if (req.query.tipe_transaksi == 0)
+        qryString += ` id_transaksi = '${req.query.tipe_transaksi}' AND`;
+      else qryString += ` id_transaksi >= '${req.query.tipe_transaksi}' AND`;
+    }
     // Filter Tgl Mulai
     if (req.query.hasOwnProperty("tgl_mulai")) {
       qryString += ` created_at>='${req.query.tgl_mulai}' AND`;
@@ -23,8 +34,16 @@ module.exports = {
     }
 
     let output = await AppHistoryPersediaanProduk.query()
+      .select(
+        "*",
+        raw('DATE_FORMAT(created_at, "%d %M %Y") as tgl_dibuat'),
+        raw('DATE_FORMAT(created_at, "%T") as waktu_dibuat')
+      )
       .whereNotDeleted()
       .whereRaw(qryString)
+      .withGraphFetched("data_warehouse")
+      .withGraphFetched("data_master_produk")
+      .withGraphFetched("data_user")
       .page(pages, maxPerPage);
     res.status(200).send({
       ...output,
