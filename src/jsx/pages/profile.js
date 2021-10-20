@@ -7,28 +7,25 @@ import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirect: false,
-      alertShow: "none",
-      disableBtn: false,
-    };
-  }
+  state = {
+    address: "",
+    phone_number: 0,
+    full_name: "",
+    gender: "",
+    age: 0,
+    role: "",
+    status: "",
+    profile_picture: "",
+
+    purwadhika_project_akhir: [],
+    selectedID: null,
+  };
 
   render() {
     return (
       <div className="intro">
         <div className="form-inner">
-          <div
-            className="alert alert-danger"
-            style={{ display: this.state.alertShow }}
-            role="alert"
-          >
-            Profil Saved
-          </div>
-
-          <h3>Input Personal Data</h3>
+          <h3>Your Profile</h3>
 
           <div className="form-group">
             <input
@@ -62,5 +59,11 @@ class Profile extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    id_user: state.authReducer.id_user,
+  };
+};
 
 export default connect(mapStateToProps, null)(Profile);

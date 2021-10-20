@@ -11,6 +11,7 @@ import verification from "./jsx/pages/verification";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
+import Profile from "./jsx/pages/profile";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
@@ -31,7 +32,7 @@ function App() {
                 path="/forgot-password-update/:token"
                 component={ForgotPasswordUpdate}
               />
-              {/* <Route component={Profile} path="/profile/:id" /> */}
+              <Route component={Profile} path="/profile/:id" />
 
               <Route
                 path="/users/multi-address"

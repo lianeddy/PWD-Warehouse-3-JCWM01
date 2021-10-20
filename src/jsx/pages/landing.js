@@ -125,6 +125,12 @@ const Landing = () => {
             <a className="nav-link px-3" href="#">
               Sign out
             </a>
+            <a className="nav-link px-3" href="/change-password">
+              chaange pass
+            </a>
+            <a className="nav-link px-3" href="/profile">
+              profile
+            </a>
           </div>
         </div>
       </div>

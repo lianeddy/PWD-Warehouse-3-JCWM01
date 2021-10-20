@@ -20,11 +20,11 @@ const db = mysql.createConnection({
   // port: 3306,
   // multipleStatements: true,
   // host: "localhost",
-  // user: "root",
-  // password: "Kusuma112*",
-  // database: "purwadhika_project_akhir",
-  // port: 3306,
-  // multipleStatements: true,
+  user: "root",
+  password: "Kusuma112*",
+  database: "purwadhika_project_akhir",
+  port: 3306,
+  multipleStatements: true,
 });
 
 db.connect((err) => {
