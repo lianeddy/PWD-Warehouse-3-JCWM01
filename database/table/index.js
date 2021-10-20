@@ -1,4 +1,5 @@
 const AppHistoryPersediaanProduk = require("./AppHistoryPersediaanProduk");
+const AppPersediaanProduk = require("./AppPersediaanProduk");
 const AppPermintaanProduk = require("./AppPermintaanProduk");
 const AppTransaksiMasterProduk = require("./AppTransaksiMasterProduk");
 const AppMasterProduk = require("./AppMasterProduk");
@@ -22,4 +23,5 @@ module.exports = {
   AppTransaksiMasterProduk,
   AppMasterProduk,
   AppHistoryPersediaanProduk,
+  AppPersediaanProduk,
 };

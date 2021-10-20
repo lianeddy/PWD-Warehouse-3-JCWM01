@@ -130,7 +130,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
 
   addBtnHandler = () => {
     let data = {
-      id_user: this.props.userGlobal.id,
+      id_user: this.props.userGlobal.id_user,
       address_data_alamat_user: this.state.address_data_alamat_user,
       contact_data_alamat_user: this.state.contact_data_alamat_user,
       nm_data_alamat_user: this.state.nm_data_alamat_user,
@@ -144,7 +144,7 @@ class AppDataAlamatUserCreateUpdate extends React.Component {
 
   updateBtnHandler = () => {
     let data = {
-      id_user: this.props.userGlobal.id,
+      id_user: this.props.userGlobal.id_user,
       address_data_alamat_user: this.state.address_data_alamat_user,
       contact_data_alamat_user: this.state.contact_data_alamat_user,
       nm_data_alamat_user: this.state.nm_data_alamat_user,

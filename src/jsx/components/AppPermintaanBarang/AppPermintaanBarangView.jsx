@@ -111,9 +111,10 @@ class AppPermintaanBarangView extends React.Component {
     }).then((result) => {
       if (result.isConfirmed) {
         // Mengirim data update
-        const { id_data_alamat_user, id_user } = data;
-        let dataUpdate = { is_default: 1, id_user };
-        this.props.deleteDataMultiAddress(id_data_alamat_user, dataUpdate);
+        const { id_permintaan_produk } = data;
+        this.props.deleteDataPermintaanProduk(id_permintaan_produk, {
+          id_warehouse: this.props.userGlobal.id_warehouse,
+        });
       }
     });
   };
@@ -130,9 +131,20 @@ class AppPermintaanBarangView extends React.Component {
     }).then((result) => {
       if (result.isConfirmed) {
         // Mengirim data update
-        const { id_data_alamat_user, id_user } = data;
-        let dataUpdate = { is_default: 1, id_user };
-        this.props.deleteDataMultiAddress(id_data_alamat_user, dataUpdate);
+        const { id_permintaan_produk } = data;
+        const dataUpdate = {
+          from_warehouse: data.from_warehouse,
+          to_warehouse: data.to_warehouse,
+          jumlah: data.jumlah,
+          id_master_produk: data.id_master_produk,
+          id_user: this.props.userGlobal.id_user,
+          id_warehouse: this.props.userGlobal.id_warehouse,
+        };
+        this.props.isTerimaPermintaanBarang(
+          id_permintaan_produk,
+          dataUpdate,
+          false
+        );
       }
     });
   };
@@ -149,9 +161,20 @@ class AppPermintaanBarangView extends React.Component {
     }).then((result) => {
       if (result.isConfirmed) {
         // Mengirim data update
-        const { id_data_alamat_user, id_user } = data;
-        let dataUpdate = { is_default: 1, id_user };
-        this.props.setDefaultMultiAddress(id_data_alamat_user, dataUpdate);
+        const { id_permintaan_produk } = data;
+        const dataUpdate = {
+          from_warehouse: data.from_warehouse,
+          to_warehouse: data.to_warehouse,
+          jumlah: data.jumlah,
+          id_master_produk: data.id_master_produk,
+          id_user: this.props.userGlobal.id_user,
+          id_warehouse: this.props.userGlobal.id_warehouse,
+        };
+        this.props.isTerimaPermintaanBarang(
+          id_permintaan_produk,
+          dataUpdate,
+          true
+        );
       }
     });
   };
@@ -178,6 +201,7 @@ class AppPermintaanBarangView extends React.Component {
           data_user,
           data_to_warehouse,
           to_warehouse,
+          id_status,
         } = el;
         no += 1;
         return (
@@ -186,7 +210,11 @@ class AppPermintaanBarangView extends React.Component {
               {NumberPagination(no, this.state.pagesNow, this.state.maxPerPage)}
             </td>
             <td>
-              <Badge bg={is_accept ? "success" : "warning"}>
+              <Badge
+                bg={
+                  is_accept ? "success" : id_status == 1 ? "danger" : "warning"
+                }
+              >
                 {/* {is_accept ? "Diterima" : "Tidak"} */}
                 {data_status.nm_status}
               </Badge>
@@ -211,7 +239,7 @@ class AppPermintaanBarangView extends React.Component {
               {data_user !== null ? data_user.username : "Data tidak ditemukan"}
             </td>
             <td>
-              {is_accept ? (
+              {is_accept || id_status == 1 ? (
                 <Badge bg="info">Selesai</Badge>
               ) : (
                 <>

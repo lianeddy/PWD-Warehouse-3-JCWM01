@@ -4,6 +4,7 @@ const AppPermintaanProdukRouter = require("./AppPermintaanProdukRouter");
 const AppHistoryPersediaanProdukRouter = require("./AppHistoryPersediaanProdukRouter");
 const productRouters = require("./productRouters");
 const uploadProductRouter = require("./uploadProductRouter");
+const AppPersediaanProdukRouter = require("./AppPersediaanProdukRouter");
 
 module.exports = {
   userRouters,
@@ -12,4 +13,5 @@ module.exports = {
   AppHistoryPersediaanProdukRouter,
   productRouters,
   uploadProductRouter,
+  AppPersediaanProdukRouter,
 };

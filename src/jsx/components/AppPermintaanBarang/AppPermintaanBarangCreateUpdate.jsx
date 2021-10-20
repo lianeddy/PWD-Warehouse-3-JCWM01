@@ -73,7 +73,7 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
 
   addBtnHandler = () => {
     let data = {
-      id_user: this.props.userGlobal.id,
+      id_user: this.props.userGlobal.id_user,
       id_master_produk: this.state.id_master_produk,
       to_warehouse: this.state.to_warehouse,
       from_warehouse: this.props.userGlobal.id_warehouse,

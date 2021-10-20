@@ -126,16 +126,18 @@ const updateDataPermintaanProduk = (id, data) => {
 
 const deleteDataPermintaanProduk = (id, data) => {
   return (dispatch) => {
+    const { id_warehouse, from_warehouse, to_warehouse } = data;
+    delete data.id_warehouse;
     const output = Axios.delete(`${URL_API}/permintaan-produk/${id}`)
       .then((result) => {
         if (result.data.code) {
           SwalFire.fire("Deleted!", result.data.message, "success");
           getDataPermintaanProdukHandler(
             0,
-            null,
-            null,
+            from_warehouse,
+            to_warehouse,
             10,
-            data.id_warehouse,
+            id_warehouse,
             dispatch,
             null,
             null,
@@ -164,29 +166,27 @@ const modalIsOpen = (status) => {
 
 const isTerimaPermintaanBarang = (id, data, status) => {
   console.table(data);
+  const { id_warehouse, from_warehouse, to_warehouse } = data;
+  delete data.id_warehouse;
   return (dispatch) => {
-    Axios.patch(`${URL_API}/permintaan-produk/many-data/${data.id_warehouse}`, {
-      is_default: 0,
+    Axios.patch(`${URL_API}/permintaan-produk/${id}`, {
+      ...data,
+      is_accept: status,
+      id_status: status ? 2 : 1,
     })
       .then((result) => {
-        Axios.patch(`${URL_API}/permintaan-produk/${id}`, data)
-          .then((result) => {
-            SwalFire.fire("Updated!", result.data.message, "success");
-            getDataPermintaanProdukHandler(
-              0,
-              null,
-              null,
-              10,
-              data.id_warehouse,
-              dispatch,
-              null,
-              null,
-              null
-            );
-          })
-          .catch((err) => {
-            SwalFire.fire("Gagal Updated!", "Server Error", "danger");
-          });
+        SwalFire.fire("Updated!", result.data.message, "success");
+        getDataPermintaanProdukHandler(
+          0,
+          from_warehouse,
+          to_warehouse,
+          10,
+          id_warehouse,
+          dispatch,
+          null,
+          null,
+          null
+        );
       })
       .catch((err) => {
         SwalFire.fire("Gagal Updated!", "Server Error", "danger");

@@ -32,11 +32,24 @@ module.exports = {
       pagesNow: pages,
     });
   },
-  detailData: async (req, res, next) => {
+  listData: async (req, res, next) => {
+    let qryString = ``;
+
+    // Filter Warehuse
+    if (req.query.hasOwnProperty("id_warehouse")) {
+      qryString += `id_warehouse = ${req.query.id_warehouse} AND`;
+    }
+    // Filter Master Produk
+    if (req.query.hasOwnProperty("id_master_produk")) {
+      qryString += ` id_master_produk = '${req.query.id_master_produk}'`;
+    } else {
+      qryString = qryString.slice(0, -3);
+    }
+
     let output = await AppHistoryPersediaanProduk.query()
       .whereNotDeleted()
-      .orderBy("desc")
-      .where("id_warehouse", req.params.id_warehouse);
+      .orderBy("id_history_persediaan_produk", "desc")
+      .whereRaw(qryString);
     if (output.length > 0) res.status(200).send(output);
     else next();
   },

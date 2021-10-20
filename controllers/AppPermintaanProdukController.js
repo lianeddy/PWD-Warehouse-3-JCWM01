@@ -1,7 +1,8 @@
-const { Axios } = require("axios");
+const Axios = require("axios");
 const { AppPermintaanProduk } = require("../database/table");
 
 const ID = "id_permintaan_produk";
+const URL_API = "http://localhost:3300";
 
 module.exports = {
   getData: async (req, res, next) => {
@@ -86,15 +87,114 @@ module.exports = {
     } else next();
   },
   updateData: async (req, res, next) => {
+    // Get data
+    if (req.body.length == 0) next();
+    const {
+      from_warehouse,
+      to_warehouse,
+      id_master_produk,
+      jumlah,
+      id_user,
+      is_accept,
+    } = req.body;
+    delete req.body.id_user;
+
+    console.table(req.body);
+
     let output = await AppPermintaanProduk.query()
       .update(req.body)
       .where(ID, req.params.id);
-    if (output)
-      res.status(200).send({
+    if (output) {
+      if (is_accept) {
+        // Get History Persediaan Produk From Warehouse
+        const paramsFromWarehouse = {
+          id_warehouse: from_warehouse,
+          id_master_produk: id_master_produk,
+        };
+        let tmpPersediaanProdukFromWarehouse = await Axios.get(
+          `${URL_API}/persediaan-produk`,
+          { params: paramsFromWarehouse }
+        ).then((response) => {
+          // console.table(response.data.results);
+          return response.data.results;
+        });
+
+        // Get History Persediaan Produk To Warehouse
+        const paramsToWarehouse = {
+          id_warehouse: to_warehouse,
+          id_master_produk: id_master_produk,
+        };
+        let tmpPersediaanProdukToWarehouse = await Axios.get(
+          `${URL_API}/persediaan-produk`,
+          { params: paramsToWarehouse }
+        ).then((response) => response.data.results);
+
+        // Tambah persediaan produk From Warehouse
+        let dataSendFromWarehouse = {
+          id_master_produk,
+          id_warehouse: from_warehouse,
+          id_user,
+          masuk: jumlah,
+          keluar: 0,
+          stok:
+            parseInt(tmpPersediaanProdukFromWarehouse[0].stok) +
+            parseInt(jumlah),
+        };
+        let outputFromWarehouse = null;
+        // apakah data persedian produk sudah ada ?
+        if (tmpPersediaanProdukToWarehouse.length == 0) {
+          outputFromWarehouse = await Axios.post(
+            `${URL_API}/persediaan-produk`,
+            dataSendFromWarehouse
+          ).then((res) => res.data);
+        } else {
+          outputFromWarehouse = await Axios.patch(
+            `${URL_API}/persediaan-produk/${tmpPersediaanProdukFromWarehouse[0].id_persediaan_produk}`,
+            dataSendFromWarehouse
+          ).then((res) => res.data);
+        }
+
+        // Tambah persediaan produk To Warehouse
+        let dataSendToWarehouse = {
+          id_master_produk,
+          id_warehouse: to_warehouse,
+          id_user,
+          masuk: 0,
+          keluar: jumlah,
+          stok:
+            parseInt(tmpPersediaanProdukToWarehouse[0].stok) - parseInt(jumlah),
+        };
+        let outputToWarehouse = null;
+        // apakah data persedian produk sudah ada ?
+        if (tmpPersediaanProdukToWarehouse.length == 0) {
+          outputToWarehouse = await Axios.post(
+            `${URL_API}/persediaan-produk/${tmpPersediaanProdukToWarehouse[0].id_persediaan_produk}`,
+            dataSendToWarehouse
+          ).then((res) => res.data);
+        } else {
+          outputToWarehouse = await Axios.patch(
+            `${URL_API}/persediaan-produk/${tmpPersediaanProdukToWarehouse[0].id_persediaan_produk}`,
+            dataSendToWarehouse
+          ).then((res) => res.data);
+        }
+
+        // Check apakah semua update historypersediaanproduk berhasil ?
+        if (outputFromWarehouse.code == 1 && outputToWarehouse.code == 1) {
+          return res.status(200).send({
+            message: "success",
+            code: 1,
+          });
+        } else {
+          next();
+        }
+      }
+
+      // jika pilih tolak
+      return res.status(200).send({
         message: "success",
         code: 1,
       });
-    else next();
+    } else next();
   },
   updateManyDataByIdUser: async (req, res, next) => {
     // res.status(200).send(req.body);
