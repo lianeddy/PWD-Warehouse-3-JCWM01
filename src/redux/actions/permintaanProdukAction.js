@@ -81,7 +81,7 @@ const addDataPermintaanProduk = (data) => {
           getDataPermintaanProdukHandler(
             0,
             data.from_warehouse,
-            data.from_warehouse,
+            data.to_warehouse,
             10,
             data.id_warehouse,
             dispatch,

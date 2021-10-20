@@ -7,6 +7,7 @@ import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
 import ProfileExample from "../../example/ProfileExample";
 import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
 import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
+import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 
 const NavbarView = () => {
   const [page, setPage] = useState([
@@ -22,18 +23,10 @@ const NavbarView = () => {
       path: "/permintaan-barang",
       component: AppPermintaanBarangView,
     },
-    // {
-    //   path: "/profile/multi-address",
-    //   component: AppDataAlamatUserView,
-    // },
-    // {
-    //   path: "/profile/image/add",
-    //   component: AddProfileImages,
-    // },
-    // {
-    //   path: "/profile/image/update",
-    //   component: UpdateProfileImages,
-    // },
+    {
+      path: "/history-barang",
+      component: AppHistoryProdukView,
+    },
   ]);
 
   const renderItem = () => {
