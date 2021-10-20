@@ -60,13 +60,14 @@ module.exports = {
 
     // tambah history persediaan produk
     if (req.body.hasOwnProperty("id_user")) {
-      const { id_warehouse, id_master_produk, jumlah } = req.body;
+      const { id_warehouse, id_master_produk, stok } = req.body;
       let dataSend = {
         id_master_produk,
         id_warehouse,
-        sisa: jumlah,
+        sisa: stok,
         id_user: req.body.id_user,
       };
+      delete req.body.id_user;
 
       // apakah produk masuk ?
       if (req.body.hasOwnProperty("masuk")) {
@@ -74,6 +75,7 @@ module.exports = {
           ...dataSend,
           masuk: req.body.masuk,
         };
+        delete req.body.masuk;
       }
       // apakah produk keluar ?
       if (req.body.hasOwnProperty("keluar")) {
@@ -81,7 +83,11 @@ module.exports = {
           ...dataSend,
           keluar: req.body.keluar,
         };
+        delete req.body.keluar;
       }
+      console.log("Persediaan Produl");
+      console.table(req.body);
+
       // Tambah history persediaan produk
       let outputFromWarehouse = await Axios.post(
         `${URL_API}/history-persediaan-produk`,
