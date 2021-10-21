@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { SwalFire } from "../../../utility/SwalFire";
 
 const UploadProductComponent = ({
-  title = "Input Profile Images",
+  title = "Input Product Images",
   isAdd = false,
   isUpdate = false,
   userGlobal,
