@@ -186,7 +186,7 @@ module.exports = {
       if (results.length === 0) {
         return res
           .status(200)
-          .send({ data: results[0], message: "Email not " });
+          .send({ data: results[0], message: "Email not registered" });
       } else {
         let { id_user, username, email, password, is_valid } = results[0];
         let token = createToken({
