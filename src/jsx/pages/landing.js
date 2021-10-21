@@ -3,6 +3,8 @@ import Axios from "axios";
 import Card from "../components/Card";
 import "./landing.css";
 import { URL_API } from "../../helper";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
@@ -125,12 +127,8 @@ const Landing = () => {
             <a className="nav-link px-3" href="#">
               Sign out
             </a>
-            <a className="nav-link px-3" href="/change-password">
-              chaange pass
-            </a>
-            <a className="nav-link px-3" href="/profile">
-              profile
-            </a>
+            <Link to={`/change-password`}>change pass</Link>
+            <Link to={`/profile/`}>My profile</Link>
           </div>
         </div>
       </div>
@@ -250,4 +248,10 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.authReducer,
+  };
+};
+
+export default connect(mapStateToProps, null)(Landing);

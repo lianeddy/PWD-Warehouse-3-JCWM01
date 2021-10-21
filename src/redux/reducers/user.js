@@ -4,8 +4,12 @@ const INIT_STATE = {
   email: "",
   id_role: 0,
   id_warehouse: null,
-  birth_data: "",
+  birth_date: "",
   gender: "",
+  password: "",
+  full_name: "",
+  phone: 0,
+  address: "",
 };
 
 export const authReducer = (state = INIT_STATE, action) => {

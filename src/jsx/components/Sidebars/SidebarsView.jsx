@@ -61,6 +61,9 @@ const SidebarsView = () => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
+            <a href="/change-password">
+              <Dropdown.Item>Change Password</Dropdown.Item>
+            </a>
             <Link to="/profile/multi-address">
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>

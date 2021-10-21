@@ -1,7 +1,6 @@
 const Crypto = require("crypto");
 const { db, createToken } = require("../helpers/index");
 const transporter = require("../helpers/nodemailer");
-const { auth } = require("../helpers/authToken");
 
 module.exports = {
   getData: (req, res) => {
@@ -23,6 +22,11 @@ module.exports = {
           username,
           email,
           password,
+          full_name,
+          gender,
+          birth_date,
+          phone,
+          address,
           is_valid,
         } = results[0];
         console.log(results[0]);
@@ -33,6 +37,11 @@ module.exports = {
           username,
           email,
           password,
+          full_name,
+          gender,
+          birth_date,
+          phone,
+          address,
           is_valid,
         });
         if (is_valid === 0) {
@@ -236,5 +245,54 @@ module.exports = {
         .status(200)
         .send({ message: "update password success ✔", success: true });
     });
+  },
+
+  getProfile: (req, res) => {
+    let scriptQuery = "Select * from sys_user;";
+    if (req.query.id_user) {
+      scriptQuery = `Select * from sys_user where id_user = ${db.escape(
+        req.query.id_user
+      )};`;
+    }
+    db.query(scriptQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
+
+  editProfile: (req, res) => {
+    let dataUpdate = [];
+    for (let prop in req.body) {
+      dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
+    }
+    let updateQuery = `UPDATE sys_user set ${dataUpdate} where id_user = ${req.params.id};`;
+    console.log(updateQuery);
+    db.query(updateQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+
+    // let {
+    //   edit_full_name,
+    //   edit_email,
+    //   edit_gender,
+    //   edit_birth_date,
+    //   edit_address,
+    // } = req.body;
+
+    // let updateQuery = `UPDATE sys_user set
+    // full_name = ${db.escape(edit_full_name)}
+    // email = ${db.escape(edit_email)}
+    // gender = ${db.escape(edit_gender)}
+    // birth_date = ${db.escape(edit_birth_date)}
+    // address= ${db.escape(edit_address)} WHERE id_user = ${
+    //   db.req.query.id_user
+    // }`;
+    // console.log(updateQuery);
+
+    // db.query(updateQuery, (err, results) => {
+    //   if (err) res.status(500).send(err);
+    //   res.status(200).send(results);
+    // });
   },
 };
