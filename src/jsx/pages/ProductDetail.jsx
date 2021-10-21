@@ -27,7 +27,17 @@ const ProductDetail = (props) => {
   };
 
   const fetchProducts = () => {
-    Axios.get(`${URL_API}/products/${props.match.params.id_master_produk}`)
+    const token = localStorage.getItem("dataToken");
+    console.log(token);
+    Axios.get(
+      `${URL_API}/products/${props.match.params.id_master_produk}`
+      // {},
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
+    )
       .then((res) => {
         if (res.data.length) {
           setProductDetail(res.data[0]);

@@ -2,6 +2,7 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Login from "./jsx/pages/login";
 import Landing from "./jsx/pages/landing";
@@ -16,8 +17,11 @@ import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
 import ProductAdmin from "./jsx/pages/ProductsAdmin";
+import ProductDetail from "./jsx/pages/ProductDetail";
 
 function App() {
+  const dispatch = useDispatch();
+
   return (
     <Router>
       <div className="App">
@@ -49,6 +53,10 @@ function App() {
               /> */}
               {/* <Route path="/" component={DasboardExample} /> */}
               <Route path="/admin-product" component={ProductAdmin} />
+              <Route
+                path="/product-detail/:id_master_produk"
+                component={ProductDetail}
+              />
               <Route path="/" component={Landing} />
             </Switch>
           </div>

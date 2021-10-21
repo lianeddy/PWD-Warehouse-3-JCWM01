@@ -159,6 +159,17 @@ module.exports = {
       }
     });
   },
+  keepLogin: (req, res) => {
+    let sql = `Select id_user, id_warehouse, id_role, username, email, is_valid from sys_user where id_user= ${db.escape(
+      req.id_user
+    )}`;
+    db.query(sql, (err, data) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      return res.status(200).send(data[0]);
+    });
+  },
 
   // forgotPassword: (req, res) => {
   //   let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(
