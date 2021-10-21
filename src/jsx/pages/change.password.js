@@ -112,15 +112,9 @@ class ChangePassword extends React.Component {
             Save
           </button>
 
-          <button
-            type="submit"
-            className="btn btn-danger btn-block btn-auth"
-            onClick={this.saveBtn}
-            // onClick={() => this.saveBtn(this.state)}
-            // disabled={this.state.disableBtn}
-          >
+          <a href="/" className="btn btn-secondary btn-auth">
             Cancel
-          </button>
+          </a>
         </div>
       </div>
     );

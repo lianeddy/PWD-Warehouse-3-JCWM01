@@ -13,11 +13,12 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
+import AdminProducts from "./jsx/pages/admin.products";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
-// import DasboardExample from "./jsx/example/DashboardExample";
+import DasboardExample from "./jsx/example/DashboardExample";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               />
               <Route component={Profile} path="/profile/" />
               <Route component={ProfileEdit} path="/profile-edit/:id" />
+              <Route component={AdminProducts} path="/admin-products/" />
 
               {/* <Route */}
               {/* <Route
@@ -59,8 +61,8 @@ function App() {
                 path="/users/example-component/typehead"
                 component={Typeahead}
               /> */}
-              {/* <Route path="/" component={DasboardExample} /> */}
-              <Route path="/" component={Landing} />
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>

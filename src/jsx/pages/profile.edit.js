@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { URL_API } from "../../helper";
 import Axios from "axios";
+import Swal from "sweetalert2";
 
 class ProfileEdit extends React.Component {
   state = {
@@ -38,20 +39,21 @@ class ProfileEdit extends React.Component {
         }
       })
       .catch(() => {
-        alert(`Kesalahan saat mengambil data user`);
+        alert(`Error get user profile`);
       });
   };
 
   btnSave = () => {
-    Axios.patch(`${URL_API}/users/edit-profile`, {
+    Axios.patch(`${URL_API}/users/edit-profile/${this.state.editUser}`, {
       full_name: this.state.edit_full_name,
       email: this.state.edit_email,
       gender: this.state.edit_gender,
       birth_date: this.state.edit_birth_date,
-      edit_address: this.state.edit_address,
+      address: this.state.edit_address,
     })
       .then(() => {
-        alert("Update Profile Success!");
+        Swal.fire({ text: "Update profile success!", icon: "success" });
+        // alert("Update Profile Success!");
         this.setState({ edit_success: true });
       })
       .catch((err) => {
@@ -81,7 +83,6 @@ class ProfileEdit extends React.Component {
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right">Edit Profil</h4>
               </div>
-
               <div className="form-group row">
                 <label
                   for="staticEmail"
