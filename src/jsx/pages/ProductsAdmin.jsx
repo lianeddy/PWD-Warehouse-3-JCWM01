@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import Card from "../components/Card";
-import NavbarView from "../components/Navbar/NavbarView";
+import CardAdmin from "../components/CardAdmin";
 import "./landing.css";
 import { URL_API } from "../../helper";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
+
+  const userGlobal = useSelector((state) => state.authReducer);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -19,20 +20,13 @@ const Landing = () => {
   });
 
   const [filtering, setFiltering] = useState({
-    byName: "",
-    byCategory: "",
     sort: "",
   });
 
-  const [inputProduct, setInputProduct] = useState({
-    inputByName: "",
-    inputByCategory: "",
-  });
-
   const fetchProducts = () => {
-    console.log(filtering.byCategory);
+    console.log(userGlobal.id_role);
     Axios.get(
-      `${URL_API}/products?page=${pagination.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
+      `${URL_API}/products/product-admin?page=${pagination.currentPage}&sortBy=${filtering.sort}`
     )
       .then((res) => {
         setProducts(res.data.dataProduct);
@@ -53,23 +47,26 @@ const Landing = () => {
   };
 
   const renderProducts = () => {
-    console.log(filtering.sort);
+    console.log(products);
 
     return products.map((product) => {
       return (
-        <Card
+        <CardAdmin
           id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
           image={URL_API + product.URL}
+          total_stok={product.total_stok + " item tersedia"}
         />
       );
     });
   };
 
   useEffect(() => {
-    fetchProducts();
-    renderProducts();
+    {
+      userGlobal.id_role == 3 ? alert("your page not found") : fetchProducts();
+      renderProducts();
+    }
   }, [pagination.currentPage, filtering]);
 
   const nextPageHandler = () => {
@@ -93,17 +90,8 @@ const Landing = () => {
     const value = event.target.value;
     const name = event.target.name;
 
-    setInputProduct({ ...inputProduct, [name]: value });
+    //   setInputProduct({ ...inputProduct, [name]: value });
     setFiltering({ ...filtering, [name]: value });
-  };
-
-  const searchBtnHandler = () => {
-    setPagination({ ...pagination, currentPage: 1 });
-    setFiltering({
-      ...filtering,
-      byName: inputProduct.inputByName,
-      byCategory: inputProduct.inputByCategory,
-    });
   };
 
   return (
@@ -129,13 +117,9 @@ const Landing = () => {
             <a className="nav-link px-3" href="#">
               Sign out
             </a>
-            <Link to={`/change-password`}>change pass</Link>
-            <Link to={`/profile/`}>My profile</Link>
           </div>
         </div>
       </div>
-
-      {/* <NavbarView /> */}
 
       {/* Side Bar */}
       <div className="container-fluid">
@@ -145,7 +129,7 @@ const Landing = () => {
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
             <div className="position-sticky pt-3">
-              {/* <ul className="nav flex-column">
+              <ul className="nav flex-column">
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     <span data-feather="file"></span>
@@ -158,40 +142,12 @@ const Landing = () => {
                     MyCart
                   </a>
                 </li>
-              </ul> */}
+              </ul>
 
               {/* Sort and filter products */}
               <div className="card">
                 <div className="card-header">
                   <strong>Find your product</strong>
-                </div>
-                <div className="card-body">
-                  <label htmlFor="inputByName">Product Name</label>
-                  {/* filter by name */}
-                  <input
-                    onChange={inputHandler}
-                    name="inputByName"
-                    type="text"
-                    className="form-control mb-3"
-                  />
-                  {/* Filter by categories */}
-                  <label htmlFor="inputByCategory">Product Category</label>
-                  <select
-                    name="inputByCategory"
-                    onChange={inputHandler}
-                    className="form-control"
-                  >
-                    <option value="">All Items</option>
-                    <option value="Sport Performance">Sport Performance</option>
-                    <option value="Core / Neo">Core / Neo</option>
-                    <option value="Originals">Originals</option>
-                  </select>
-                  <button
-                    onClick={searchBtnHandler}
-                    className="btn btn-primary mt-3"
-                  >
-                    Search
-                  </button>
                 </div>
 
                 {/* dropdown Sort Products */}
@@ -237,7 +193,6 @@ const Landing = () => {
           </nav>
 
           {/* Render content */}
-          {/* <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
           <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="album py-5 bg-light">
               <div class="container">
@@ -247,17 +202,10 @@ const Landing = () => {
               </div>
             </div>
           </div>
-          {/* </main> */}
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userGlobal: state.authReducer,
-  };
-};
-
-export default connect(mapStateToProps, null)(Landing);
+export default Landing;

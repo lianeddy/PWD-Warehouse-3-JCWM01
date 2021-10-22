@@ -44,12 +44,12 @@ const UploadProductComponent = ({
     if (isAdd) {
       let dataSend = {
         id_user: idUser,
-        nm_file: "product-images",
+        nm_file: "payment-image",
         create_user: idUser,
       };
       formData.append("data", JSON.stringify(dataSend));
       formData.append("file", data.addFile);
-      Axios.post(`${URL_API}/upload/uploadProduct`, formData)
+      Axios.post(`${URL_API}/transactions/paymentProof`, formData)
         .then((result) => {
           const { code, message } = result.data;
           if (code == 1) {

@@ -4,7 +4,7 @@ import UploadProductComponent from "../components/UploadProfileUser/UploadProduc
 const UploadProductImage = () => {
   return (
     <UploadProductComponent
-      title="Input Profile Images"
+      title="Input Product Images"
       isAdd={true}
     ></UploadProductComponent>
   );

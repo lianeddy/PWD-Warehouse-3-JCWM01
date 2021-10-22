@@ -4,8 +4,7 @@ import Card from "../components/Card";
 import NavbarView from "../components/Navbar/NavbarView";
 import "./landing.css";
 import { URL_API } from "../../helper";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
@@ -108,59 +107,12 @@ const Landing = () => {
 
   return (
     <div>
-      {/* Navbar */}
-      <div className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
-          Company name
-        </a>
-        <button
-          className="navbar-toggler position-absolute d-md-none collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#sidebarMenu"
-          aria-controls="sidebarMenu"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-nav">
-          <div className="nav-item text-nowrap">
-            <a className="nav-link px-3" href="#">
-              Sign out
-            </a>
-            <Link to={`/change-password`}>change pass</Link>
-            <Link to={`/profile/`}>My profile</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* <NavbarView /> */}
-
-      {/* Side Bar */}
+      <NavbarView />
       <div className="container-fluid">
-        <div className="row">
-          <nav
-            id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-          >
-            <div className="position-sticky pt-3">
-              {/* <ul className="nav flex-column">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    History Orders
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    MyCart
-                  </a>
-                </li>
-              </ul> */}
-
-              {/* Sort and filter products */}
+        <div className="row"></div>
+        <Container>
+          <Row>
+            <Col>
               <div className="card">
                 <div className="card-header">
                   <strong>Find your product</strong>
@@ -233,31 +185,31 @@ const Landing = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </nav>
-
-          {/* Render content */}
-          {/* <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
-          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="album py-5 bg-light">
+            </Col>
+            <Col>
+              {/* <div class="album py-5 bg-light"> */}
               <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                   {renderProducts()}
                 </div>
               </div>
-            </div>
-          </div>
-          {/* </main> */}
+              {/* </div> */}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
+      {/* Side Bar */}
+      <div className="container-fluid">
+        <div className="row">
+          {/* Render content */}
+          {/* <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
+
+          {/* </div> */}
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userGlobal: state.authReducer,
-  };
-};
-
-export default connect(mapStateToProps, null)(Landing);
+export default Landing;
