@@ -19,15 +19,15 @@ const SidebarsView = () => {
     {
       link: "/permintaan-barang",
       icon: "#request-produk",
-      name: "Permintaan Barang",
+      name: "Request Products",
     },
-    { link: "/history-barang", icon: "#calendar3", name: "History Barang" },
+    { link: "/history-barang", icon: "#calendar3", name: "History Products" },
     { link: "/list-admins", icon: "#person-circle", name: "Admins" },
     { link: "/notif", icon: "#notif", name: "Notifications" },
     {
       link: "/history-transaksi",
       icon: "#archieve",
-      name: "History Transaksi",
+      name: "History Transactions",
     },
   ]);
 

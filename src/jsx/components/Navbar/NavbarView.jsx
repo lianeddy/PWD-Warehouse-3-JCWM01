@@ -8,6 +8,7 @@ import ProfileExample from "../../example/ProfileExample";
 import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
 import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
 import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
+import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
 
 const NavbarView = () => {
   const [page, setPage] = useState([
@@ -26,6 +27,10 @@ const NavbarView = () => {
     {
       path: "/history-barang",
       component: AppHistoryProdukView,
+    },
+    {
+      path: "/history-transaksi",
+      component: AppHistoryTransaksiAdminView,
     },
   ]);
 
