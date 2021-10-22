@@ -18,6 +18,8 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
 import ProductAdmin from "./jsx/pages/ProductsAdmin";
 import ProductDetail from "./jsx/pages/ProductDetail";
+import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
+import ProductLists from "./jsx/pages/ProductLists";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +59,12 @@ function App() {
                 path="/product-detail/:id_master_produk"
                 component={ProductDetail}
               />
+              <Route
+                path="/upload-bukti-bayar"
+                component={UploadPaymentImages}
+              />
+              <Route path="/product-list" component={ProductLists} />
+
               <Route path="/" component={Landing} />
             </Switch>
           </div>

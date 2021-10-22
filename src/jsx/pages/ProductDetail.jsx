@@ -31,7 +31,6 @@ const ProductDetail = (props) => {
     console.log(token);
     Axios.get(
       `${URL_API}/products/${props.match.params.id_master_produk}`
-      // {},
       // {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
@@ -54,7 +53,7 @@ const ProductDetail = (props) => {
 
   useEffect(() => {
     fetchProducts();
-  });
+  }, []);
 
   const addToCartHandler = () => {};
 

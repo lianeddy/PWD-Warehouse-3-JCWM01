@@ -7,6 +7,7 @@ const productControllers = require("./productControllers");
 const productImageController = require("./productImageController");
 const SysUserController = require("./SysUserController");
 const AppWarehouseController = require("./AppWarehouseController");
+const TransactionsController = require("./TransactionsController");
 
 module.exports = {
   userControllers,
@@ -18,4 +19,5 @@ module.exports = {
   productImageController,
   SysUserController,
   AppWarehouseController,
+  TransactionsController,
 };

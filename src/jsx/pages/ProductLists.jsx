@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import CardAdmin from "../components/CardAdmin";
+import Card from "../components/Card";
+import NavbarView from "../components/Navbar/NavbarView";
 import "./landing.css";
 import { URL_API } from "../../helper";
-import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
-
-  const userGlobal = useSelector((state) => state.authReducer);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -20,13 +18,20 @@ const Landing = () => {
   });
 
   const [filtering, setFiltering] = useState({
+    byName: "",
+    byCategory: "",
     sort: "",
   });
 
+  const [inputProduct, setInputProduct] = useState({
+    inputByName: "",
+    inputByCategory: "",
+  });
+
   const fetchProducts = () => {
-    console.log(userGlobal.id_role);
+    console.log(filtering.byCategory);
     Axios.get(
-      `${URL_API}/products/product-admin?page=${pagination.currentPage}&sortBy=${filtering.sort}`
+      `${URL_API}/products?page=${pagination.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
     )
       .then((res) => {
         setProducts(res.data.dataProduct);
@@ -47,26 +52,23 @@ const Landing = () => {
   };
 
   const renderProducts = () => {
-    console.log(products);
+    console.log(filtering.sort);
 
     return products.map((product) => {
       return (
-        <CardAdmin
+        <Card
           id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
           image={URL_API + product.URL}
-          total_stok={product.total_stok + " item tersedia"}
         />
       );
     });
   };
 
   useEffect(() => {
-    {
-      userGlobal.id_role == 3 ? alert("your page not found") : fetchProducts();
-      renderProducts();
-    }
+    fetchProducts();
+    renderProducts();
   }, [pagination.currentPage, filtering]);
 
   const nextPageHandler = () => {
@@ -90,64 +92,58 @@ const Landing = () => {
     const value = event.target.value;
     const name = event.target.name;
 
-    //   setInputProduct({ ...inputProduct, [name]: value });
+    setInputProduct({ ...inputProduct, [name]: value });
     setFiltering({ ...filtering, [name]: value });
+  };
+
+  const searchBtnHandler = () => {
+    setPagination({ ...pagination, currentPage: 1 });
+    setFiltering({
+      ...filtering,
+      byName: inputProduct.inputByName,
+      byCategory: inputProduct.inputByCategory,
+    });
   };
 
   return (
     <div>
-      {/* Navbar */}
-      <div className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
-          Company name
-        </a>
-        <button
-          className="navbar-toggler position-absolute d-md-none collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#sidebarMenu"
-          aria-controls="sidebarMenu"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-nav">
-          <div className="nav-item text-nowrap">
-            <a className="nav-link px-3" href="#">
-              Sign out
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Side Bar */}
+      <NavbarView />
       <div className="container-fluid">
-        <div className="row">
-          <nav
-            id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-          >
-            <div className="position-sticky pt-3">
-              <ul className="nav flex-column">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    History Orders
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    MyCart
-                  </a>
-                </li>
-              </ul>
-
-              {/* Sort and filter products */}
+        <div className="row"></div>
+        <Container>
+          <Row>
+            <Col>
               <div className="card">
                 <div className="card-header">
                   <strong>Find your product</strong>
+                </div>
+                <div className="card-body">
+                  <label htmlFor="inputByName">Product Name</label>
+                  {/* filter by name */}
+                  <input
+                    onChange={inputHandler}
+                    name="inputByName"
+                    type="text"
+                    className="form-control mb-3"
+                  />
+                  {/* Filter by categories */}
+                  <label htmlFor="inputByCategory">Product Category</label>
+                  <select
+                    name="inputByCategory"
+                    onChange={inputHandler}
+                    className="form-control"
+                  >
+                    <option value="">All Items</option>
+                    <option value="Sport Performance">Sport Performance</option>
+                    <option value="Core / Neo">Core / Neo</option>
+                    <option value="Originals">Originals</option>
+                  </select>
+                  <button
+                    onClick={searchBtnHandler}
+                    className="btn btn-primary mt-3"
+                  >
+                    Search
+                  </button>
                 </div>
 
                 {/* dropdown Sort Products */}
@@ -189,19 +185,27 @@ const Landing = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </nav>
-
-          {/* Render content */}
-          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="album py-5 bg-light">
+            </Col>
+            <Col>
+              {/* <div class="album py-5 bg-light"> */}
               <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                   {renderProducts()}
                 </div>
               </div>
-            </div>
-          </div>
+              {/* </div> */}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
+      {/* Side Bar */}
+      <div className="container-fluid">
+        <div className="row">
+          {/* Render content */}
+          {/* <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
+
+          {/* </div> */}
         </div>
       </div>
     </div>

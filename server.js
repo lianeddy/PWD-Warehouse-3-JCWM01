@@ -20,6 +20,7 @@ const {
   productRouters,
   uploadProductRouter,
   UtilityRouters,
+  TransactionsRouters,
 } = require("./routers");
 
 app.use("/users", userRouters);
@@ -27,5 +28,6 @@ app.use("/products", productRouters);
 app.use("/upload", uploadProductRouter);
 app.use("/users", userRouters);
 app.use("/utility", UtilityRouters);
+app.use("/transactions", TransactionsRouters);
 
 app.listen(port, () => console.log(`API Running: ${port}`));
