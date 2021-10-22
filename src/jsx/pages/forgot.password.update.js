@@ -43,7 +43,11 @@ class ForgotPasswordUpdate extends React.Component {
 
         .then((res) => {
           console.log(res.data.message);
-          Swal.fire({ icon: "success", title: "Password change success" });
+          Swal.fire({
+            icon: "success",
+            title: "Password change success!",
+            text: "you can now use your new password to login to your account!",
+          });
           this.setState({
             alertShow: "block",
             redirect: true,
@@ -66,6 +70,7 @@ class ForgotPasswordUpdate extends React.Component {
           <h3>Input New Password</h3>
 
           <div className="form-group">
+            <label className="mt-3 my-1">New Password</label>
             <input
               type="password"
               className="form-control"
@@ -75,6 +80,7 @@ class ForgotPasswordUpdate extends React.Component {
           </div>
 
           <div className="form-group">
+            <label className="mt-3 my-1">Confirm Password</label>
             <input
               type="password"
               className="form-control"
@@ -85,7 +91,7 @@ class ForgotPasswordUpdate extends React.Component {
 
           <button
             type="submit"
-            className="btn btn-primary btn-block btn-auth"
+            className="btn btn-primary btn-block btn-save"
             onClick={this.submitPassword}
             // disabled={this.state.disableBtn}
           >

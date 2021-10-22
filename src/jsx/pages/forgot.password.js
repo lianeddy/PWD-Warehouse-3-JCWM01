@@ -57,18 +57,20 @@ class ForgotPassword extends React.Component {
           <h3>Reset Password</h3>
 
           <div className="form-group">
-            <label>Type your email</label>
+            <label className="mt-3 my-1">
+              <h6>Enter your email</h6>
+            </label>
             <input
               type="email"
               className="form-control"
-              placeholder="Email"
+              placeholder="Your Email"
               ref={(e) => (this.email = e)}
             />
           </div>
 
           <button
             type="submit"
-            className="btn btn-primary btn-block btn-auth"
+            className="btn btn-primary btn-block btn-save"
             onClick={this.submitEmail}
           >
             Submit
