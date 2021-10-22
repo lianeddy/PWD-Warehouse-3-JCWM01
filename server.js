@@ -23,6 +23,7 @@ const {
   productRouters,
   uploadProductRouter,
   AppPersediaanProdukRouter,
+  AppTransaksiProdukRouter,
 } = require("./routers");
 
 app.use("/users", userRouters);
@@ -32,5 +33,6 @@ app.use("/history-persediaan-produk", AppHistoryPersediaanProdukRouter);
 app.use("/products", productRouters);
 app.use("/upload", uploadProductRouter);
 app.use("/persediaan-produk", AppPersediaanProdukRouter);
+app.use("/history-transaksi-produk", AppTransaksiProdukRouter);
 
 app.listen(port, () => console.log(`API Running: ${port}`));
