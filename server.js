@@ -22,14 +22,12 @@ const {
   AppHistoryPersediaanProdukRouter,
   productRouters,
   uploadProductRouter,
-  UtilityRouters,
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
 } = require("./routers");
 
 app.use("/users", userRouters);
-app.use("/utility", UtilityRouters);
 app.use("/permintaan-produk", AppPermintaanProdukRouter);
 app.use("/history-persediaan-produk", AppHistoryPersediaanProdukRouter);
 app.use("/products", productRouters);
