@@ -17,7 +17,6 @@ import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
-import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
@@ -25,9 +24,6 @@ import ProductAdmin from "./jsx/pages/ProductsAdmin";
 import ProductDetail from "./jsx/pages/ProductDetail";
 import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
 import ProductLists from "./jsx/pages/ProductLists";
-
-function App() {
-  const dispatch = useDispatch();
 
 function App() {
   useEffect(() => {
@@ -63,28 +59,6 @@ function App() {
               <Route component={ProfileEdit} path="/profile-edit/:id" />
               <Route component={AdminProducts} path="/admin-products/" />
 
-              {/* <Route */}
-              {/* <Route
-                path="/users/multi-address"
-                component={AppDataAlamatUserView}
-              />
-              <Route
-                path="/users/example-component/profile-image/add"
-                component={AddProfileImages}
-              />
-              <Route
-                path="/users/example-component/profile-image/update"
-                component={UpdateProfileImages}
-              />
-              <Route path="/change-password" component={ChangePassword} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route path="/" component={Landing} />
-              <Route
-                path="/users/example-component/typehead"
-                component={Typeahead}
-              /> */}
-              {/* <Route path="/" component={DasboardExample} /> */}
               <Route path="/admin-product" component={ProductAdmin} />
               <Route
                 path="/product-detail/:id_master_produk"
@@ -96,7 +70,6 @@ function App() {
               />
               <Route path="/product-list" component={ProductLists} />
 
-              <Route path="/" component={Landing} />
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/uploadProduct" component={UploadProductImage} />
