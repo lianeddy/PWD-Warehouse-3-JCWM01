@@ -23,7 +23,12 @@ module.exports = {
         qryString += `(from_warehouse=${req.query.from_warehouse} OR to_warehouse=${req.query.to_warehouse}) AND`;
       }
     } else {
-      qryString += `(from_warehouse=${req.query.from_warehouse} OR to_warehouse=${req.query.to_warehouse}) AND`;
+      if (
+        req.query.hasOwnProperty("from_warehouse") &&
+        req.query.hasOwnProperty("to_warehouse")
+      ) {
+        qryString += `(from_warehouse=${req.query.from_warehouse} OR to_warehouse=${req.query.to_warehouse}) AND`;
+      }
     }
 
     // Filter Tgl Mulai
