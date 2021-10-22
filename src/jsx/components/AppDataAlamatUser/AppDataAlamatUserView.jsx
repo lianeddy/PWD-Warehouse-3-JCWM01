@@ -9,8 +9,6 @@ import {
 import { Modal, Button, Table, Card, Col, Badge } from "react-bootstrap";
 import AppDataAlamatUserCreateUpdate from "./AppDataAlamatUserCreateUpdate";
 import { SwalFire } from "../../../utility/SwalFire";
-import { BoostrapPaginator } from "../../../utility/BootstraPaginator";
-// import SelectCategory from "../SelectCategory";
 import {
   NumberPagination,
   QueryParams,
@@ -52,7 +50,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
   }
 
@@ -254,7 +252,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
     this.setState({
       ...this.state,
@@ -268,7 +266,7 @@ class AppDataAlamatUserView extends React.Component {
       this.state.id_propinsi_filter,
       this.state.id_kabkota_filter,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
   };
 
@@ -278,7 +276,7 @@ class AppDataAlamatUserView extends React.Component {
       null,
       null,
       this.state.maxPerPage,
-      this.props.userGlobal.id
+      this.props.userGlobal.id_user
     );
     this.setState({
       ...this.state,

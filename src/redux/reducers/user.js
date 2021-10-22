@@ -1,5 +1,7 @@
 const INIT_STATE = {
-  id_user: null,
+  // id: 2,
+  // password: "",
+  id_user: 3,
   username: "",
   email: "",
   id_role: 0,
@@ -12,6 +14,7 @@ const INIT_STATE = {
   address: "",
   loading: false,
   error: "",
+  isLogin: false,
 };
 
 export const authReducer = (state = INIT_STATE, action) => {

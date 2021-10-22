@@ -37,20 +37,27 @@ const ProfileExample = ({ pathBase = "/profile" }) => {
       textTitle: `Profile Image`,
       indexSelector: 1,
     },
+    {
+      eventKey: `link-riwayattransaksi`,
+      textTitle: `Riwayat Transaksi`,
+      indexSelector: 1,
+    },
   ]);
 
   const renderNavItem = () => {
     let output = navItem.map((el, index) => {
       const { eventKey, textTitle, indexSelector } = el;
       return (
-        <Nav.Item>
-          <Nav.Link
-            eventKey={eventKey}
-            onClick={() => navHandler(indexSelector)}
-          >
-            {textTitle}
-          </Nav.Link>
-        </Nav.Item>
+        <>
+          <Nav.Item>
+            <Nav.Link
+              eventKey={eventKey}
+              onClick={() => navHandler(indexSelector)}
+            >
+              {textTitle}
+            </Nav.Link>
+          </Nav.Item>
+        </>
       );
     });
     return output;
