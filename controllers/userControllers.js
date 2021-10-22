@@ -271,28 +271,5 @@ module.exports = {
       if (err) res.status(500).send(err);
       res.status(200).send(results);
     });
-
-    // let {
-    //   edit_full_name,
-    //   edit_email,
-    //   edit_gender,
-    //   edit_birth_date,
-    //   edit_address,
-    // } = req.body;
-
-    // let updateQuery = `UPDATE sys_user set
-    // full_name = ${db.escape(edit_full_name)}
-    // email = ${db.escape(edit_email)}
-    // gender = ${db.escape(edit_gender)}
-    // birth_date = ${db.escape(edit_birth_date)}
-    // address= ${db.escape(edit_address)} WHERE id_user = ${
-    //   db.req.query.id_user
-    // }`;
-    // console.log(updateQuery);
-
-    // db.query(updateQuery, (err, results) => {
-    //   if (err) res.status(500).send(err);
-    //   res.status(200).send(results);
-    // });
   },
 };

@@ -12,8 +12,25 @@ class ChangePassword extends React.Component {
     this.state = {
       redirect: false,
       alertShow: "none",
+      // disableBtn: false,
+      // currentPassword: "",
+      // newPassword: "",
+      // confirmPassword: "",
     };
   }
+
+  // state = {
+  //   currentPassword: "",
+  //   newPassword: "",
+  //   confirmPassword: "",
+  // };
+
+  // inputHandler = (event) => {
+  //   const value = event.target.value;
+  //   const name = event.target.name;
+
+  //   this.setState({ [name]: value });
+  // };
 
   saveBtn = () => {
     let currentPassword = this.currentPassword.value;
