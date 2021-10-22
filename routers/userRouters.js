@@ -12,8 +12,16 @@ const routers = express.Router();
 routers.post("/login", userControllers.getData);
 routers.post("/register", userControllers.addData);
 routers.patch("/verified", auth, userControllers.verification);
+
 routers.patch("/change-password", userControllers.changePassword);
-// routers.patch("/forgot-password", userControllers.forgotPassword);
+routers.post("/forgot-password", userControllers.forgotPassword);
+routers.patch(
+  "/forgot-password-update",
+  auth,
+  userControllers.forgotPasswordUpdate
+);
+routers.get("/get-profile", userControllers.getProfile);
+routers.patch("/edit-profile/:id", userControllers.editProfile);
 
 // Endpoint CRUD multi-address user
 routers.get("/multi-address", AppDataAlamatUserController.getData);

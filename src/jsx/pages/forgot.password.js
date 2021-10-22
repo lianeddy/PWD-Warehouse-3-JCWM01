@@ -1,22 +1,20 @@
 import React from "react";
 import Axios from "axios";
 import { URL_API } from "../../helper";
-import { connect } from "react-redux";
 import "./auth.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
-class ResetPassword extends React.Component {
+class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
-      alertShow: "none",
       disableBtn: false,
     };
   }
 
-  submitBtn = () => {
+  submitEmail = () => {
     let email = this.email.value;
     this.setState({ disableBtn: true });
 
@@ -27,54 +25,55 @@ class ResetPassword extends React.Component {
         email,
       })
         .then((res) => {
-          console.log(res.data.message);
-          Swal.fire("Reset Password success, please check your email");
+          if (res.data.message) {
+            Swal.fire(res.data.message);
+          } else {
+            Swal.fire({
+              title: "Reset Password Request success!",
+              text: "check your email to continue",
+              icon: "success",
+            });
+          }
+
           this.setState({
-            alertShow: "block",
             redirect: true,
           });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          Swal.fire({ text: "Email not registered", icon: "error" });
+          console.log("Email not registered");
         });
     }
   };
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/" />;
     }
 
     return (
       <div className="intro">
         <div className="form-inner">
-          <div
-            className="alert alert-danger"
-            style={{ display: this.state.alertShow }}
-            role="alert"
-          >
-            Change Password success
-          </div>
-
           <h3>Reset Password</h3>
 
           <div className="form-group">
-            <label>Your Email</label>
+            <label className="mt-3 my-1">
+              <h6>Enter your email</h6>
+            </label>
             <input
               type="email"
               className="form-control"
-              placeholder="Email"
+              placeholder="Your Email"
               ref={(e) => (this.email = e)}
             />
           </div>
 
           <button
             type="submit"
-            className="btn btn-primary btn-block btn-auth"
-            onClick={this.submitBtn}
-            disabled={this.state.disableBtn}
+            className="btn btn-primary btn-block btn-save"
+            onClick={this.submitEmail}
           >
-            Save
+            Submit
           </button>
         </div>
       </div>
@@ -82,4 +81,4 @@ class ResetPassword extends React.Component {
   }
 }
 
-export default connect(null, null)(ResetPassword);
+export default ForgotPassword;

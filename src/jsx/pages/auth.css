@@ -84,3 +84,13 @@ span {
 .btn-auth {
   margin-top: 13px;
 }
+
+.btn-save {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-cancel {
+  margin-top: 5px;
+  width: 100%;
+}

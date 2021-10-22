@@ -3,7 +3,7 @@ import Axios from "axios";
 import { URL_API } from "../../helper";
 import { connect } from "react-redux";
 import "./auth.css";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
 class ChangePassword extends React.Component {
@@ -87,47 +87,51 @@ class ChangePassword extends React.Component {
           <h3>Change Password</h3>
 
           <div className="form-group">
+            <label className="mt-3 my-1">Current Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control "
               placeholder="Current Password"
-              // onChange={this.inputHandler}
-              // name="currentPassword"
               ref={(e) => (this.currentPassword = e)}
             />
           </div>
 
           <div className="form-group">
+            <label className="mt-3 my-1">New Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control 3"
               placeholder="New Password"
-              // onChange={this.inputHandler}
-              // name="newPassword"
               ref={(e) => (this.newPassword = e)}
             />
           </div>
 
           <div className="form-group">
+            <label className="mt-3">Confirm Password</label>
             <input
               type="password"
               className="form-control"
-              placeholder="Confirm Password"
-              // onChange={this.inputHandler}
-              // name="confirmPassword"
+              placeholder="Confirm Password "
               ref={(e) => (this.confirmPassword = e)}
             />
           </div>
+          <div>
+            <button
+              type="submit"
+              className="btn btn-primary btn-block btn-save"
+              onClick={this.saveBtn}
+            >
+              Save
+            </button>
+          </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary btn-block btn-auth"
-            onClick={this.saveBtn}
-            // onClick={() => this.saveBtn(this.state)}
-            // disabled={this.state.disableBtn}
-          >
-            Save
-          </button>
+          <div>
+            <button type="submit" className="btn btn-secondary btn-cancel ">
+              <Link className="text-light text-decoration-none" to="/">
+                Cancel
+              </Link>
+            </button>
+          </div>
         </div>
       </div>
     );
