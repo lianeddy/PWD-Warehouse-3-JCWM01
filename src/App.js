@@ -18,14 +18,13 @@ import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
 import UploadProductImage from "./jsx/example/UploadProductImage";
-import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
 import ProductAdmin from "./jsx/pages/ProductsAdmin";
 import ProductDetail from "./jsx/pages/ProductDetail";
 import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
 import ProductLists from "./jsx/pages/ProductLists";
 
-function App() {
+function App(props) {
   useEffect(() => {
     //
     const userLocalStorage = localStorage.getItem("dataToken");
@@ -45,37 +44,40 @@ function App() {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <BrowserRouter>
-            <Switch>
-              <Route path="/register" component={register} />
-              <Route path="/verification/:token" component={verification} />
-              <Route path="/login" component={Login} />
-              <Route path="/change-password" component={ChangePassword} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route
-                path="/forgot-password-update/:token"
-                component={ForgotPasswordUpdate}
-              />
-              <Route component={Profile} path="/profile/" />
-              <Route component={ProfileEdit} path="/profile-edit/:id" />
-              <Route component={AdminProducts} path="/admin-products/" />
+            {props.userGlobal.isLogin ? (
+              <DasboardExample />
+            ) : (
+              <Switch>
+                <Route path="/register" component={register} />
+                <Route path="/verification/:token" component={verification} />
+                <Route path="/login" component={Login} />
+                <Route path="/change-password" component={ChangePassword} />
+                <Route path="/forgot-password" component={ForgotPassword} />
+                <Route
+                  path="/forgot-password-update/:token"
+                  component={ForgotPasswordUpdate}
+                />
+                {/* Move Ke NavbarView Routenya */}
+                {/* <Route component={Profile} path="/profile/" />
+                <Route component={ProfileEdit} path="/profile-edit/:id" />
+                <Route component={AdminProducts} path="/admin-products/" />
 
-              <Route path="/admin-product" component={ProductAdmin} />
-              <Route
-                path="/product-detail/:id_master_produk"
-                component={ProductDetail}
-              />
-              <Route
-                path="/upload-bukti-bayar"
-                component={UploadPaymentImages}
-              />
-              <Route path="/product-list" component={ProductLists} />
+                <Route path="/admin-product" component={ProductAdmin} />
+                <Route
+                  path="/product-detail/:id_master_produk"
+                  component={ProductDetail}
+                />
+                <Route
+                  path="/upload-bukti-bayar"
+                  component={UploadPaymentImages}
+                />
+                <Route path="/product-list" component={ProductLists} />
+                <Route path="/uploadProduct" component={UploadProductImage} /> */}
 
-              <Route path="/change-password" component={ChangePassword} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route path="/" component={DasboardExample} />
-              {/* <Route path="/" component={Landing} /> */}
-            </Switch>
+                <Route path="/change-password" component={ChangePassword} />
+                <Route path="/forgot-password" component={ForgotPassword} />
+              </Switch>
+            )}
           </BrowserRouter>
         </div>
       </div>

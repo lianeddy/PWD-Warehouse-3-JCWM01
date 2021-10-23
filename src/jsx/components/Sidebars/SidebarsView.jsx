@@ -3,14 +3,15 @@ import { Link, NavLink } from "react-router-dom";
 import "./sidebars.css";
 import { Dropdown } from "react-bootstrap";
 import SVG from "./SVG";
+import { connect } from "react-redux";
 
-const SidebarsView = () => {
+const SidebarsView = (props) => {
   const [activeNavLink, setActiveNavLink] = useState({
     home: "active",
     orders: "",
     name: "Home",
   });
-  const [sidebarItem, setSidebarItem] = useState([
+  const [sidebarItemAdmin, setsidebarItemAdmin] = useState([
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/orders", icon: "#table", name: "Orders" },
@@ -31,8 +32,13 @@ const SidebarsView = () => {
     },
   ]);
 
-  const renderMenu = () => {
-    let output = sidebarItem.map((el, index) => {
+  const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
+    { link: "/products", icon: "#grid", name: "Products" },
+    { link: "/orders", icon: "#table", name: "Orders" },
+  ]);
+
+  const renderMenuAdmin = () => {
+    let output = sidebarItemAdmin.map((el, index) => {
       const { link, icon, name } = el;
       return (
         <li className="nav-item" key={index}>
@@ -47,6 +53,24 @@ const SidebarsView = () => {
     });
     return output;
   };
+
+  const renderMenuCustomer = () => {
+    let output = sidebarItemCustomer.map((el, index) => {
+      const { link, icon, name } = el;
+      return (
+        <li className="nav-item" key={index}>
+          <NavLink to={link} className={`nav-link link-dark`}>
+            <svg className="bi me-2" width="16" height="16">
+              <use xlinkHref={icon} />
+            </svg>
+            {name}
+          </NavLink>
+        </li>
+      );
+    });
+    return output;
+  };
+
   return (
     <>
       <SVG />
@@ -55,7 +79,11 @@ const SidebarsView = () => {
         className="d-flex flex-column flex-shrink-0 p-3 bg-light"
         style={{ width: "16.66666667%", minHeight: "100vh", position: "fixed" }}
       >
-        <ul className="nav nav-pills flex-column mb-auto">{renderMenu()}</ul>
+        <ul className="nav nav-pills flex-column mb-auto">
+          {props.userGlobal.id_role < 3
+            ? renderMenuAdmin()
+            : renderMenuCustomer()}
+        </ul>
         <hr />
         <Dropdown>
           <Dropdown.Toggle
@@ -90,5 +118,12 @@ const SidebarsView = () => {
     </>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.authReducer,
+  };
+};
 
-export default SidebarsView;
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarsView);
