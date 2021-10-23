@@ -28,7 +28,6 @@ function App(props) {
   useEffect(() => {
     //
     const userLocalStorage = localStorage.getItem("dataToken");
-
     if (userLocalStorage) {
       const userData = JSON.parse(userLocalStorage);
       // this.props.userKeepLogin(userData);

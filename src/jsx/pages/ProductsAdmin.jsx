@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import CardAdmin from "../components/CardAdmin";
 import "./landing.css";
-import { URL_API } from "../../helper";
+import { URL_API, URL_WEB } from "../../helper";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -64,7 +64,9 @@ const Landing = () => {
 
   useEffect(() => {
     {
-      userGlobal.id_role == 3 ? alert("your page not found") : fetchProducts();
+      userGlobal.id_role === 3
+        ? window.location.assign(`${URL_WEB}/product-list`)
+        : fetchProducts();
       renderProducts();
     }
   }, [pagination.currentPage, filtering]);

@@ -15,7 +15,7 @@ const SidebarsView = (props) => {
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/orders", icon: "#table", name: "Orders" },
-    { link: "/products", icon: "#grid", name: "Products" },
+    { link: "/product-list", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
       link: "/permintaan-barang",

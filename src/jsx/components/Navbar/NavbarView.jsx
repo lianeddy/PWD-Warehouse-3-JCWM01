@@ -14,9 +14,10 @@ import Profile from "../../pages/profile";
 import ProfileEdit from "../../pages/profile.edit";
 import AdminProducts from "../../pages/admin.products";
 import UploadPaymentImages from "../../example/UploadPaymentImages";
-import ProductLists from "../../pages/ProductLists";
 import UploadProductImage from "../../example/UploadProductImage";
 import ProductAdmin from "../../pages/ProductsAdmin";
+import ProductList from "../../pages/ProductLists";
+import productDetail from "../../pages/ProductDetail";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -58,7 +59,7 @@ const NavbarView = (props) => {
     },
     {
       path: "/product-list/",
-      component: ProductLists,
+      component: ProductList,
     },
     {
       path: "/uploadProduct/",
@@ -84,8 +85,12 @@ const NavbarView = (props) => {
       component: UploadPaymentImages,
     },
     {
-      path: "/product-list/",
-      component: ProductLists,
+      path: "/product-list",
+      component: ProductList,
+    },
+    {
+      path: "/product-detail/:id_master_produk",
+      component: productDetail,
     },
   ]);
 
