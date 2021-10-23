@@ -17,7 +17,6 @@ import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
-import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
@@ -25,9 +24,6 @@ import ProductAdmin from "./jsx/pages/ProductsAdmin";
 import ProductDetail from "./jsx/pages/ProductDetail";
 import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
 import ProductLists from "./jsx/pages/ProductLists";
-
-function App() {
-  const dispatch = useDispatch();
 
 function App() {
   useEffect(() => {
