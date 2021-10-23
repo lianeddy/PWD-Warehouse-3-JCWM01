@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import AddProfileImages from "../../example/AddProfileImages";
 import UpdateProfileImages from "../../example/UpdateProfileImages";
 import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
 import ProfileExample from "../../example/ProfileExample";
-// import CreateWarehouseComponent from "../AppWarehoAppHistoryProdukViewuse/CreateWarehouseComponent";
-// import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
-// import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
-// import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
-import ProductList from "../../pages/ProductLists";
+import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
+import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
+import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
+import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
 
 const NavbarView = () => {
   const [page, setPage] = useState([
@@ -18,25 +17,21 @@ const NavbarView = () => {
       component: ProfileExample,
     },
     {
-      path: "/product-list",
-      component: ProductList,
+      path: "/warehouse",
+      component: CreateWarehouseComponent,
     },
-    // {
-    //   path: "/warehouse",
-    //   component: CreateWarehouseComponent,
-    // },
-    // {
-    //   path: "/profile/multi-address",
-    //   component: AppDataAlamatUserView,
-    // },
-    // {
-    //   path: "/profile/image/add",
-    //   component: AddProfileImages,
-    // },
-    // {
-    //   path: "/profile/image/update",
-    //   component: UpdateProfileImages,
-    // },
+    {
+      path: "/permintaan-barang",
+      component: AppPermintaanBarangView,
+    },
+    {
+      path: "/history-barang",
+      component: AppHistoryProdukView,
+    },
+    {
+      path: "/history-transaksi",
+      component: AppHistoryTransaksiAdminView,
+    },
   ]);
 
   const renderItem = () => {
@@ -51,7 +46,7 @@ const NavbarView = () => {
     <>
       <Navbar bg="dark" expand="lg" variant="dark">
         <Container fluid>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="#home">Judul Brand</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"
@@ -75,9 +70,7 @@ const NavbarView = () => {
         </Container>
       </Navbar>
       <div className="p-2">
-        <BrowserRouter>
-          <Switch>{renderItem()}</Switch>
-        </BrowserRouter>
+        <Switch>{renderItem()}</Switch>
       </div>
     </>
   );

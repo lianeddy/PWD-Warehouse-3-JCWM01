@@ -22,6 +22,11 @@ module.exports = {
           username,
           email,
           password,
+          full_name,
+          gender,
+          birth_date,
+          phone,
+          address,
           is_valid,
         } = results[0];
         console.log(results[0]);
@@ -32,6 +37,11 @@ module.exports = {
           username,
           email,
           password,
+          full_name,
+          gender,
+          birth_date,
+          phone,
+          address,
           is_valid,
         });
         if (is_valid === 0) {
@@ -171,57 +181,106 @@ module.exports = {
     });
   },
 
-  // forgotPassword: (req, res) => {
-  //   let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(
-  //     req.body.email
-  //   )}`;
-  //   console.log(selectQuery);
+  forgotPassword: (req, res) => {
+    let { email } = req.body;
+    let selectQuery = `SELECT * FROM sys_user WHERE email = ${db.escape(
+      email
+    )}`;
+    console.log(selectQuery);
 
-  //   db.query(selectQuery, (err, results) => {
-  //     if (err) {
-  //       console.log(err);
-  //       return res.status(500).send(err);
-  //     }
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
 
-  //     if (results[0]) {
-  //       return res
-  //         .status(200)
-  //         .send({ userData: results[0], message: "Email exists" });
-  //     } else {
-  //       return res
-  //         .status(200)
-  //         .send({ userData: null, message: "Email doesn't exist" });
-  //     }
-  //   });
-  // },
+      if (results.length === 0) {
+        return res
+          .status(200)
+          .send({ data: results[0], message: "Email not registered" });
+      } else {
+        let { id_user, username, email, password, is_valid } = results[0];
+        let token = createToken({
+          id_user,
+          username,
+          email,
+          password,
+          is_valid,
+        });
 
-  // fPassword: (req, res) => {
-  //   let selectQuery = `SELECT * FROM user WHERE id_user = ${db.escape(
-  //     req.params.id
-  //   )}`;
-  //   console.log(selectQuery);
+        let mail = {
+          from: `Admin <4dminPWDHshop@gmail.com>`,
+          to: `${email}`,
+          subject: `Reset Password`,
+          html: `<p>Hai ${username}, you have been requested to reset your password, click link below to continue</p>
+          <p><a href='http://localhost:3000/forgot-password-update/${token}'>Click here to reset password</a></p>
+          <p>If it's not you, ignore this email</p>
+          <p>Thanks!</p>`,
+        };
+        transporter.sendMail(mail, (errMail, restMail) => {
+          if (errMail) {
+            console.log(errMail);
+            res
+              .status(500)
+              .send({ message: "req forgot password failed", success: false });
+          }
+          res.status(200).send({
+            message: "Check your email to continue",
+            success: true,
+          });
+        });
+      }
+    });
+  },
 
-  //   req.body.newPassword = Crypto.createHmac("sha1", "hash123")
-  //     .update(req.body.newPassword)
-  //     .digest("hex");
+  forgotPasswordUpdate: (req, res) => {
+    console.log(req.user.id_user);
+    let { newPassword } = req.body;
 
-  //   let updateQuery = `UPDATE user SET password = ${db.escape(
-  //     req.body.newPassword
-  //   )} WHERE id_user = ${db.escape(req.params.id)}`;
-  //   console.log(updateQuery);
+    newPassword = Crypto.createHmac("sha1", "hash123")
+      .update(newPassword)
+      .digest("hex");
 
-  //   db.query(selectQuery, (err, results) => {
-  //     if (err) {
-  //       console.log(err);
-  //       return res.status(500).send(err);
-  //     }
+    let updateQuery = `UPDATE sys_user SET password = ${db.escape(
+      newPassword
+    )} WHERE id_user = ${db.escape(req.user.id_user)}`;
+    console.log(updateQuery);
+    db.query(updateQuery, (err) => {
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: "update password failed", success: false });
+      }
+      res
+        .status(200)
+        .send({ message: "update password success ✔", success: true });
+    });
+  },
 
-  //     if (results[0]) {
-  //       db.query(updateQuery, (err2, results2) => {
-  //         if (err2) return res.status(500).send(err2);
-  //         return res.status(200).send(results2);
-  //       });
-  //     }
-  //   });
-  // },
+  getProfile: (req, res) => {
+    let scriptQuery = "Select * from sys_user;";
+    if (req.query.id_user) {
+      scriptQuery = `Select * from sys_user where id_user = ${db.escape(
+        req.query.id_user
+      )};`;
+    }
+    db.query(scriptQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
+
+  editProfile: (req, res) => {
+    let dataUpdate = [];
+    for (let prop in req.body) {
+      dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
+    }
+    let updateQuery = `UPDATE sys_user set ${dataUpdate} where id_user = ${req.params.id};`;
+    console.log(updateQuery);
+    db.query(updateQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
 };

@@ -16,6 +16,19 @@ const SidebarsView = () => {
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/product-list", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
+    {
+      link: "/permintaan-barang",
+      icon: "#request-produk",
+      name: "Request Products",
+    },
+    { link: "/history-barang", icon: "#calendar3", name: "History Products" },
+    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
+    { link: "/notif", icon: "#notif", name: "Notifications" },
+    {
+      link: "/history-transaksi",
+      icon: "#archieve",
+      name: "History Transactions",
+    },
   ]);
 
   const renderMenu = () => {
@@ -61,9 +74,13 @@ const SidebarsView = () => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Link to="/profile/multi-address">
-              <Dropdown.Item>Profile</Dropdown.Item>
-            </Link>
+            <Dropdown.Item>
+              <Link to={`/change-password`}>change pass</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to={`/profile/`}>My profile</Link>
+            </Dropdown.Item>
+
             <Link>
               <Dropdown.Item>Log Out</Dropdown.Item>
             </Link>

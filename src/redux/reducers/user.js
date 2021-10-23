@@ -1,26 +1,31 @@
 const INIT_STATE = {
-  id_user: null,
+  // id: 2,
+  // password: "",
+  id_user: 3,
   username: "",
   email: "",
   id_role: 0,
   id_warehouse: null,
-  birth_data: "",
+  birth_date: "",
   gender: "",
-  isLogin: false,
+  password: "",
+  full_name: "",
+  phone: 0,
+  address: "",
+  loading: false,
   error: "",
+  isLogin: false,
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
   console.log(action.payload);
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { ...state, ...action.payload, isLogin: true };
+      return { ...state, ...action.payload };
     case "API_USER_START":
-      return { ...state, ...action.payload, isLogin: true };
+      return { ...state, loading: true };
     case "API_USER_FAILED":
-      return { ...state, error: action.payload, isLogin: false };
-    case "USER_LOGOUT":
-      return { ...INIT_STATE, isLogin: false };
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }

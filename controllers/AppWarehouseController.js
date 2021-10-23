@@ -1,6 +1,6 @@
 const { AppWarehouse } = require("../database/table");
 
-const ID = "id_data_alamat_user";
+const ID = "id_warehouse";
 
 module.exports = {
   getData: async (req, res, next) => {
@@ -10,24 +10,28 @@ module.exports = {
     if (req.query.hasOwnProperty("pages")) pages = req.query.pages;
     if (req.query.hasOwnProperty("maxpage")) maxPerPage = req.query.maxpage;
 
-    let qryString = `id_user=${req.query.id_user} AND`;
-    // Filter Propinsi
-    if (req.query.hasOwnProperty("id_propinsi")) {
-      qryString += ` id_propinsi='${req.query.id_propinsi}' AND`;
-    }
-    // Filter Kabupaten Kota
-    console.log(req.query.id_kabkota);
-    if (req.query.hasOwnProperty("id_kabkota")) {
-      qryString += ` id_kabkota='${req.query.id_kabkota}'`;
-    } else {
-      qryString = qryString.slice(0, -3);
+    let qryString = ``;
+    // // Filter Propinsi
+    // if (req.query.hasOwnProperty("id_propinsi")) {
+    //   qryString += ` id_propinsi='${req.query.id_propinsi}' AND`;
+    // }
+    // // Filter Kabupaten Kota
+    // console.log(req.query.id_kabkota);
+    // if (req.query.hasOwnProperty("id_kabkota")) {
+    //   qryString += ` id_kabkota='${req.query.id_kabkota}'`;
+    // } else {
+    //   qryString = qryString.slice(0, -3);
+    // }
+
+    // Filter Name Master Produk
+    if (req.query.hasOwnProperty("nm_warehouse")) {
+      qryString += ` nm_warehouse LIKE '%${req.query.nm_warehouse}%' 
+      OR kode_warehouse LIKE '%${req.query.nm_warehouse}%'`;
     }
 
     let output = await AppWarehouse.query()
       .whereNotDeleted()
       .whereRaw(qryString)
-      .withGraphFetched("datapropinsi")
-      .withGraphFetched("datakabkota")
       .page(pages, maxPerPage);
     res.status(200).send({
       ...output,
