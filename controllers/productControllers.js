@@ -11,7 +11,7 @@ module.exports = {
     const filterProductByCategory = req.query.category;
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 12;
+    const limit = parseInt(req.query.limit) || 6;
     const startIdx = (page - 1) * limit;
     const endIdx = page * limit;
     // declare button pagination

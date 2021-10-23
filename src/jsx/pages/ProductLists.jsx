@@ -107,7 +107,7 @@ const Landing = () => {
 
   return (
     <div>
-      <NavbarView />
+      {/* <NavbarView /> */}
       <div className="container-fluid">
         <div className="row"></div>
         <Container>

@@ -10,7 +10,6 @@ import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAla
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
-import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import UploadProductImage from "./jsx/example/UploadProductImage";
@@ -23,6 +22,19 @@ import ProductLists from "./jsx/pages/ProductLists";
 
 function App() {
   const dispatch = useDispatch();
+  // useEffect(() => {
+  //   //
+  //   const userLocalStorage = localStorage.getItem("dataToken");
+
+  //   if (userLocalStorage) {
+  //     const userData = JSON.parse(userLocalStorage);
+  //     // this.props.userKeepLogin(userData);
+  //     // this.props.getCartData(userData.id);
+  //   } else {
+  //     // this.props.checkStorage();
+  //     console.log("Data localStorage tidak ada");
+  //   }
+  // }, []);
 
   return (
     <Router>
@@ -63,9 +75,15 @@ function App() {
                 path="/upload-bukti-bayar"
                 component={UploadPaymentImages}
               />
-              <Route path="/product-list" component={ProductLists} />
+              {/* <Route path="/product-list" component={ProductLists} /> */}
 
               <Route path="/" component={Landing} />
+              {/* <Route path="/" component={Landing} /> */}
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/uploadProduct" component={UploadProductImage} />
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </div>
         </div>

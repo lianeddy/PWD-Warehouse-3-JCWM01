@@ -6,12 +6,20 @@ import UpdateProfileImages from "../../example/UpdateProfileImages";
 import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
 import ProfileExample from "../../example/ProfileExample";
 import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
+import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
+import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
+import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
+import ProductList from "../../pages/ProductLists";
 
 const NavbarView = () => {
   const [page, setPage] = useState([
     {
       path: "/profile",
       component: ProfileExample,
+    },
+    {
+      path: "/product-list",
+      component: ProductList,
     },
     {
       path: "/warehouse",
