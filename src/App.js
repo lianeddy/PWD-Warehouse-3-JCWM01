@@ -21,7 +21,7 @@ import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
 import ProductLists from "./jsx/pages/ProductLists";
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // useEffect(() => {
   //   //
   //   const userLocalStorage = localStorage.getItem("dataToken");
@@ -77,7 +77,7 @@ function App() {
               />
               {/* <Route path="/product-list" component={ProductLists} /> */}
 
-              <Route path="/" component={Landing} />
+              {/* <Route path="/" component={Landing} /> */}
               {/* <Route path="/" component={Landing} /> */}
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />

@@ -5,10 +5,10 @@ import AddProfileImages from "../../example/AddProfileImages";
 import UpdateProfileImages from "../../example/UpdateProfileImages";
 import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
 import ProfileExample from "../../example/ProfileExample";
-import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
-import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
-import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
-import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
+// import CreateWarehouseComponent from "../AppWarehoAppHistoryProdukViewuse/CreateWarehouseComponent";
+// import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
+// import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
+// import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
 import ProductList from "../../pages/ProductLists";
 
 const NavbarView = () => {
@@ -21,10 +21,10 @@ const NavbarView = () => {
       path: "/product-list",
       component: ProductList,
     },
-    {
-      path: "/warehouse",
-      component: CreateWarehouseComponent,
-    },
+    // {
+    //   path: "/warehouse",
+    //   component: CreateWarehouseComponent,
+    // },
     // {
     //   path: "/profile/multi-address",
     //   component: AppDataAlamatUserView,
