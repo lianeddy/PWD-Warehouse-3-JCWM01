@@ -16,6 +16,19 @@ const SidebarsView = () => {
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/products", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
+    {
+      link: "/permintaan-barang",
+      icon: "#request-produk",
+      name: "Request Products",
+    },
+    { link: "/history-barang", icon: "#calendar3", name: "History Products" },
+    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
+    { link: "/notif", icon: "#notif", name: "Notifications" },
+    {
+      link: "/history-transaksi",
+      icon: "#archieve",
+      name: "History Transactions",
+    },
   ]);
 
   const renderMenu = () => {

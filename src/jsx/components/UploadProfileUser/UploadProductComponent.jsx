@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { SwalFire } from "../../../utility/SwalFire";
 
 const UploadProductComponent = ({
-  title = "Input Profile Images",
+  title = "Input Product Images",
   isAdd = false,
   isUpdate = false,
   userGlobal,
@@ -44,7 +44,7 @@ const UploadProductComponent = ({
     if (isAdd) {
       let dataSend = {
         id_user: idUser,
-        nm_file: "profile-images",
+        nm_file: "product-images",
         create_user: idUser,
       };
       formData.append("data", JSON.stringify(dataSend));

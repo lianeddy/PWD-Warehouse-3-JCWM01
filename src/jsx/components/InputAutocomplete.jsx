@@ -19,6 +19,7 @@ const InputAutocomplete = ({
   mdAsync = "6",
   lgAsync = "6",
   selected = null,
+  disabled = false,
 }) => {
   // const handleChange = (selectedOptions) => {
   //   console.log("handleChange");
@@ -52,6 +53,7 @@ const InputAutocomplete = ({
             placeholder={placeholder}
             renderMenuItemChildren={renderMenuItemChildren}
             selected={selected}
+            disabled={disabled}
             // style={{ paddingLeft: "1%" }}
           />
         </Col>

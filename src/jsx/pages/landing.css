@@ -1,6 +1,16 @@
 body {
   font-size: 0.875rem;
+  /* position: relative;
+  overflow-y: auto; */
 }
+
+/* html {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow-y: auto;
+  overflow: scroll;
+} */
 
 .feather {
   width: 16px;

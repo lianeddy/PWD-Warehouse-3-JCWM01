@@ -22,6 +22,8 @@ routers.patch(
 );
 routers.get("/get-profile", userControllers.getProfile);
 routers.patch("/edit-profile/:id", userControllers.editProfile);
+routers.post("/keep-login", auth, userControllers.keepLogin);
+// routers.patch("/forgot-password", userControllers.forgotPassword);
 
 // Endpoint CRUD multi-address user
 routers.get("/multi-address", AppDataAlamatUserController.getData);

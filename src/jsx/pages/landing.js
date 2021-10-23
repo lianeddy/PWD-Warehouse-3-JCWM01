@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Card from "../components/Card";
+import NavbarView from "../components/Navbar/NavbarView";
 import "./landing.css";
 import { URL_API } from "../../helper";
 import { Link } from "react-router-dom";
@@ -57,6 +58,7 @@ const Landing = () => {
     return products.map((product) => {
       return (
         <Card
+          id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
           image={URL_API + product.URL}
@@ -133,6 +135,8 @@ const Landing = () => {
         </div>
       </div>
 
+      {/* <NavbarView /> */}
+
       {/* Side Bar */}
       <div className="container-fluid">
         <div className="row">
@@ -141,7 +145,7 @@ const Landing = () => {
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
             <div className="position-sticky pt-3">
-              <ul className="nav flex-column">
+              {/* <ul className="nav flex-column">
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     <span data-feather="file"></span>
@@ -154,7 +158,7 @@ const Landing = () => {
                     MyCart
                   </a>
                 </li>
-              </ul>
+              </ul> */}
 
               {/* Sort and filter products */}
               <div className="card">
@@ -233,7 +237,8 @@ const Landing = () => {
           </nav>
 
           {/* Render content */}
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          {/* <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
+          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="album py-5 bg-light">
               <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -241,7 +246,8 @@ const Landing = () => {
                 </div>
               </div>
             </div>
-          </main>
+          </div>
+          {/* </main> */}
         </div>
       </div>
     </div>
