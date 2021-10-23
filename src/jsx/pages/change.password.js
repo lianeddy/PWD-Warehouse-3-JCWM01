@@ -43,7 +43,7 @@ class ChangePassword extends React.Component {
     } else if (newPassword !== confirmPassword) {
       Swal.fire({
         icon: "error",
-        text: "New password did not match!",
+        title: "New password did not match!",
       });
     } else {
       Axios.patch(`${URL_API}/users/change-password/`, {
@@ -53,14 +53,18 @@ class ChangePassword extends React.Component {
       })
         .then((res) => {
           console.log(res.data.message);
-          Swal.fire({ text: "Password change success!", icon: "success" });
+          Swal.fire({
+            title: "Password change success!",
+            icon: "success",
+            text: "you can now use your new password to login to your account!",
+          });
           this.setState({
             alertShow: "block",
             redirect: true,
           });
         })
         .catch((err) => {
-          Swal.fire({ text: "Current Password wrong", icon: "error" });
+          Swal.fire({ title: "Current Password wrong", icon: "error" });
           console.log("Current Password Wrong");
         });
     }

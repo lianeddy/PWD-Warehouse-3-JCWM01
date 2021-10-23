@@ -15,7 +15,6 @@ module.exports = {
   AppHistoryPersediaanProdukRouter,
   productRouters,
   uploadProductRouter,
-  UtilityRouters,
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
