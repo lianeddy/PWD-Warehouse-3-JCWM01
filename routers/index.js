@@ -4,7 +4,6 @@ const AppPermintaanProdukRouter = require("./AppPermintaanProdukRouter");
 const AppHistoryPersediaanProdukRouter = require("./AppHistoryPersediaanProdukRouter");
 const productRouters = require("./productRouters");
 const uploadProductRouter = require("./uploadProductRouter");
-const UtilityRouters = require("./UtilityRouters");
 const TransactionsRouters = require("./TransactionsRouters");
 const AppPersediaanProdukRouter = require("./AppPersediaanProdukRouter");
 const AppTransaksiProdukRouter = require("./AppTransaksiProdukRouter");

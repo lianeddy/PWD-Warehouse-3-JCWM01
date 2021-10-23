@@ -17,7 +17,6 @@ import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
-import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import UploadProductImage from "./jsx/example/UploadProductImage";
 import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
@@ -26,23 +25,23 @@ import ProductDetail from "./jsx/pages/ProductDetail";
 import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
 import ProductLists from "./jsx/pages/ProductLists";
 
-function App() {
-  const dispatch = useDispatch();
+// function App() {
+//   const dispatch = useDispatch();
 
 function App() {
-  useEffect(() => {
-    //
-    const userLocalStorage = localStorage.getItem("dataToken");
+  // useEffect(() => {
+  //   //
+  //   const userLocalStorage = localStorage.getItem("dataToken");
 
-    if (userLocalStorage) {
-      const userData = JSON.parse(userLocalStorage);
-      // this.props.userKeepLogin(userData);
-      // this.props.getCartData(userData.id);
-    } else {
-      // this.props.checkStorage();
-      console.log("Data localStorage tidak ada");
-    }
-  }, []);
+  //   if (userLocalStorage) {
+  //     const userData = JSON.parse(userLocalStorage);
+  //     // this.props.userKeepLogin(userData);
+  //     // this.props.getCartData(userData.id);
+  //   } else {
+  //     // this.props.checkStorage();
+  //     console.log("Data localStorage tidak ada");
+  //   }
+  // }, []);
 
   return (
     <div className="App">
@@ -86,17 +85,17 @@ function App() {
               /> */}
               {/* <Route path="/" component={DasboardExample} /> */}
               <Route path="/admin-product" component={ProductAdmin} />
-              <Route
+              {/* <Route
                 path="/product-detail/:id_master_produk"
                 component={ProductDetail}
-              />
+              /> */}
               <Route
                 path="/upload-bukti-bayar"
                 component={UploadPaymentImages}
               />
-              <Route path="/product-list" component={ProductLists} />
+              {/* <Route path="/product-list" component={ProductLists} /> */}
 
-              <Route path="/" component={Landing} />
+              {/* <Route path="/" component={Landing} /> */}
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/uploadProduct" component={UploadProductImage} />

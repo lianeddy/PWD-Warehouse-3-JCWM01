@@ -4,7 +4,7 @@ const INIT_STATE = {
   id_user: 3,
   username: "",
   email: "",
-  id_role: 0,
+  id_role: 2,
   id_warehouse: null,
   birth_date: "",
   gender: "",

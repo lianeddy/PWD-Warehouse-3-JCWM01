@@ -9,6 +9,8 @@ import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
 import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
 import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
+import ProductList from "../../pages/ProductLists";
+import productDetail from "../../pages/ProductDetail";
 
 const NavbarView = () => {
   const [page, setPage] = useState([
@@ -31,6 +33,14 @@ const NavbarView = () => {
     {
       path: "/history-transaksi",
       component: AppHistoryTransaksiAdminView,
+    },
+    {
+      path: "/product-list",
+      component: ProductList,
+    },
+    {
+      path: "/product-detail/:id_master_produk",
+      component: productDetail,
     },
   ]);
 

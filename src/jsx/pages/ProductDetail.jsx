@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Axios from "axios";
 import { URL_API } from "../../helper";
 import "./productDetail.css";
+import { Col, Container, Row, Card } from "react-bootstrap";
 
 const ProductDetail = (props) => {
   //global state
@@ -58,55 +59,72 @@ const ProductDetail = (props) => {
   const addToCartHandler = () => {};
 
   return (
-    <div className="card-body">
-      <div className="container">
-        <div className="row mt-3">
-          <div className="col-6">
-            <img
-              style={{ width: "100%" }}
-              src={URL_API + productDetail.URL}
-              alt=""
-            />
+    <div className="col-md-12 col-lg-12 px-md-4">
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 className="h2">{productDetail.nm_master_produk}</h1>
+        <div className="btn-toolbar mb-2 mb-md-0">
+          <div className="btn-group me-2">
+            {/* <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.tambahModalHandler}
+                >
+                  &#10147; Kirim Permintaan
+                </button> */}
           </div>
-          <div className="col-6 d-flex flex-column justify-content-center">
-            <h4>{productDetail.nm_master_produk}</h4>
-            <h5>${productDetail.harga}</h5>
-            <p>{productDetail.description}</p>
-            <div className="d-flex flex-row align-items-center ">
-              <button
-                onClick={() => setCountAddToCart(countAddToCart - 1)}
-                className="btn btn-outline-success me-4"
-                style={{ marginRight: "20px" }}
-                disabled={countAddToCart === 1}
-              >
-                -
-              </button>
-              <input
-                style={{
-                  textAlign: "center",
-                  border: "none",
-                  width: "50px",
-                  height: "35px",
-                }}
-                className="input__qty"
-                value={countAddToCart}
-                type="number"
-                min="1"
-                onChange={handleInput}
-              />
-              <button
-                onClick={() => setCountAddToCart(countAddToCart + 1)}
-                className="btn btn-outline-success me-4"
-                style={{ marginLeft: "20px" }}
-              >
-                +
-              </button>
-            </div>
-          </div>
-
-          <button className="btn btn-success mt-3">Add to cart</button>
         </div>
       </div>
+      <Card body className="mb-3">
+        <div className="card-body">
+          <div className="container">
+            <div className="row mt-3">
+              <div className="col-6">
+                <img
+                  style={{ width: "100%" }}
+                  src={URL_API + productDetail.URL}
+                  alt=""
+                />
+              </div>
+              <div className="col-6 d-flex flex-column justify-content-center">
+                {/* <h4>{productDetail.nm_master_produk}</h4> */}
+                <h5>${productDetail.harga}</h5>
+                <p>{productDetail.description}</p>
+                <div className="d-flex flex-row align-items-center ">
+                  <button
+                    onClick={() => setCountAddToCart(countAddToCart - 1)}
+                    className="btn btn-outline-success me-4"
+                    style={{ marginRight: "20px" }}
+                    disabled={countAddToCart === 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    style={{
+                      textAlign: "center",
+                      border: "none",
+                      width: "35px",
+                      height: "20px",
+                    }}
+                    className="input__qty"
+                    value={countAddToCart}
+                    type="number"
+                    min="1"
+                    onChange={handleInput}
+                  />
+                  <button
+                    onClick={() => setCountAddToCart(countAddToCart + 1)}
+                    className="btn btn-outline-success me-4"
+                    style={{ marginLeft: "20px" }}
+                  >
+                    +
+                  </button>
+                  <button className="btn btn-success me-4">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 };
