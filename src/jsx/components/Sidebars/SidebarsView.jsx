@@ -4,6 +4,7 @@ import "./sidebars.css";
 import { Dropdown } from "react-bootstrap";
 import SVG from "./SVG";
 import { connect } from "react-redux";
+import { logoutUser } from "../../../redux/actions/user";
 
 const SidebarsView = (props) => {
   const [activeNavLink, setActiveNavLink] = useState({
@@ -15,7 +16,6 @@ const SidebarsView = (props) => {
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/orders", icon: "#table", name: "Orders" },
-    { link: "/admin-product", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
       link: "/permintaan-barang",
@@ -30,12 +30,13 @@ const SidebarsView = (props) => {
       icon: "#archieve",
       name: "History Transactions",
     },
+    { link: "/", icon: "#grid", name: "Products" },
   ]);
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
-    { link: "/product-list", icon: "#grid", name: "Products" },
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/upload-bukti-bayar", icon: "#notif", name: "Order Confirmation" },
+    { link: "/", icon: "#grid", name: "Products" },
   ]);
 
   const renderMenuAdmin = () => {
@@ -111,7 +112,7 @@ const SidebarsView = (props) => {
             </Dropdown.Item>
 
             <Link>
-              <Dropdown.Item>Log Out</Dropdown.Item>
+              <Dropdown.Item onClick={props.logoutUser}>Log Out</Dropdown.Item>
             </Link>
           </Dropdown.Menu>
         </Dropdown>
@@ -125,6 +126,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  logoutUser,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarsView);

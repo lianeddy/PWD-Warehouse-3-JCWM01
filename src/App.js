@@ -20,23 +20,23 @@ import DasboardExample from "./jsx/example/DashboardExample";
 import { keepLoginAction } from "./redux/actions/user";
 
 function App(props) {
-  // useEffect(() => {
-  //   //
-  //   const userLocalStorage = localStorage.getItem("dataToken");
-  //   const userData = JSON.parse(userLocalStorage);
-  //   console.log(userLocalStorage);
+  useEffect(() => {
+    //
+    const userLocalStorage = localStorage.getItem("dataToken");
+    // const userData = JSON.parse(userLocalStorage);
+    console.log(userLocalStorage);
 
-  //   // console.log(userData);
-  //   if (userLocalStorage) {
-  //     console.log("HERE");
-  //     // const userData = JSON.parse(userLocalStorage);
-  //     // this.props.keepLoginAction(userData);
-  //     // this.props.getCartData(userData.id);
-  //   } else {
-  //     // this.props.checkStorage();
-  //     console.log("Data localStorage tidak ada");
-  //   }
-  // }, []);
+    // console.log(userData);
+    if (userLocalStorage) {
+      console.log("HERE");
+      // const userData = JSON.parse(userLocalStorage);
+      props.keepLoginAction();
+      // this.props.getCartData(userData.id);
+    } else {
+      // this.props.checkStorage();
+      console.log("Data localStorage tidak ada");
+    }
+  }, []);
 
   return (
     <div className="App">

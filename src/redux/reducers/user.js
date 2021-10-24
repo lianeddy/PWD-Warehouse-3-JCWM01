@@ -23,9 +23,13 @@ export const authReducer = (state = INIT_STATE, action) => {
     case "LOGIN_SUCCESS":
       return { ...state, ...action.payload, isLogin: true };
     case "API_USER_START":
-      return { ...state };
+      return { ...state, loading: true, isLogin: true };
     case "API_USER_FAILED":
       return { ...state, error: action.payload, loading: false };
+    case "API_USER_SUCCESS":
+      return { ...state, loading: false };
+    case "LOGOUT_SUCCESS":
+      return { ...INIT_STATE };
     default:
       return state;
   }
