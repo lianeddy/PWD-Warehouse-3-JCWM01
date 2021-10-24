@@ -1,7 +1,7 @@
 const INIT_STATE = {
   // id: 2,
   // password: "",
-  id_user: 3,
+  id_user: 2,
   username: "",
   email: "",
   id_role: 2,
@@ -21,9 +21,9 @@ export const authReducer = (state = INIT_STATE, action) => {
   console.log(action.payload);
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, isLogin: true };
     case "API_USER_START":
-      return { ...state, loading: true };
+      return { ...state };
     case "API_USER_FAILED":
       return { ...state, error: action.payload, loading: false };
     default:

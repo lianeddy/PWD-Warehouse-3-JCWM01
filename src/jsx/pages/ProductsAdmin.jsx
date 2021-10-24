@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import CardAdmin from "../components/CardAdmin";
-import "./landing.css";
+import "./Products.css";
 import { URL_API, URL_WEB } from "../../helper";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Col, Container, Row, Card } from "react-bootstrap";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
@@ -98,113 +99,88 @@ const Landing = () => {
 
   return (
     <div>
-      {/* Navbar */}
-      <div className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
-          Company name
-        </a>
-        <button
-          className="navbar-toggler position-absolute d-md-none collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#sidebarMenu"
-          aria-controls="sidebarMenu"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="navbar-nav">
-          <div className="nav-item text-nowrap">
-            <a className="nav-link px-3" href="#">
-              Sign out
-            </a>
+      {/* <NavbarView /> */}
+      <div className="col-md-12 col-lg-12 px-md-4">
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 className="h2">Manage Product</h1>
+          <div className="btn-toolbar mb-2 mb-md-0">
+            <div className="btn-group me-2">
+              {/* <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.tambahModalHandler}
+                >
+                  &#10147; Kirim Permintaan
+                </button> */}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Side Bar */}
-      <div className="container-fluid">
-        <div className="row">
-          <nav
-            id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-          >
-            <div className="position-sticky pt-3">
-              <ul className="nav flex-column">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    History Orders
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    MyCart
-                  </a>
-                </li>
-              </ul>
-
-              {/* Sort and filter products */}
-              <div className="card">
-                <div className="card-header">
+        <Card body className="mb-3">
+          <div className="container-fluid">
+            <div className="row"></div>
+            <Container>
+              <Row>
+                <Col>
+                  <div className="card">
+                    {/* <div className="card-header">
                   <strong>Find your product</strong>
-                </div>
+                </div> */}
 
-                {/* dropdown Sort Products */}
-                <div className="card-body">
-                  <label htmlFor="sort">Sort by</label>
-                  <select
-                    onChange={inputHandler}
-                    name="sort"
-                    className="form-control"
-                  >
-                    <option value="">Default</option>
-                    <option value="lowPrice">Lowest Price</option>
-                    <option value="highPrice">Highest Price</option>
-                    <option value="az">A-Z</option>
-                    <option value="za">Z-A</option>
-                  </select>
-                </div>
-
-                {/* Pagination */}
-                <div className="mt-3">
-                  <div className="d-flex flex-row justify-content-between align-items-center">
-                    <button
-                      disabled={pagination.currentPage === 1}
-                      onClick={prevPageHandler}
-                      className="btn btn-dark"
-                    >
-                      {"<"}
-                    </button>
-                    <div>
-                      Page {pagination.currentPage} of {pagination.maxPage}
+                    {/* dropdown Sort Products */}
+                    <div className="card-body">
+                      <label htmlFor="sort">Sort by</label>
+                      <select
+                        onChange={inputHandler}
+                        name="sort"
+                        className="form-control"
+                      >
+                        <option value="">Default</option>
+                        <option value="lowPrice">Lowest Price</option>
+                        <option value="highPrice">Highest Price</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                      </select>
                     </div>
-                    <button
-                      disabled={pagination.currentPage === pagination.maxPage}
-                      onClick={nextPageHandler}
-                      className="btn btn-dark"
-                    >
-                      {">"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
 
-          {/* Render content */}
-          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="album py-5 bg-light">
-              <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                  {renderProducts()}
-                </div>
-              </div>
-            </div>
+                    {/* Pagination */}
+                    <div className="mt-3">
+                      <div className="d-flex flex-row justify-content-between align-items-center">
+                        <button
+                          disabled={pagination.currentPage === 1}
+                          onClick={prevPageHandler}
+                          className="btn btn-dark"
+                        >
+                          {"<"}
+                        </button>
+                        <div>
+                          Page {pagination.currentPage} of {pagination.maxPage}
+                        </div>
+                        <button
+                          disabled={
+                            pagination.currentPage === pagination.maxPage
+                          }
+                          onClick={nextPageHandler}
+                          className="btn btn-dark"
+                        >
+                          {">"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={12} md={9}>
+                  {/* <div class="album py-5 bg-light"> */}
+                  <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                      {renderProducts()}
+                    </div>
+                  </div>
+                  {/* </div> */}
+                </Col>
+              </Row>
+            </Container>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

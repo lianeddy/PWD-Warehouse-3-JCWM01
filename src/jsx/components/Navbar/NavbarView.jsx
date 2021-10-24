@@ -58,14 +58,6 @@ const NavbarView = (props) => {
       component: ProductAdmin,
     },
     {
-      path: "/product-list/",
-      component: ProductList,
-    },
-    {
-      path: "/product-detail/:id_master_produk",
-      component: productDetail,
-    },
-    {
       path: "/uploadProduct/",
       component: UploadProductImage,
     },
