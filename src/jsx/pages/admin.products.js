@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Card from "../components/Card";
-import "./landing.css";
+import "./Products.css";
 import { URL_API } from "../../helper";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";

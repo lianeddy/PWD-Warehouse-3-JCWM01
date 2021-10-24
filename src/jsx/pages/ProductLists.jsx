@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import CardProduct from "../components/Card";
 import NavbarView from "../components/Navbar/NavbarView";
-import "./landing.css";
+import "./Products.css";
 import { URL_API } from "../../helper";
 import { Col, Container, Row, Card } from "react-bootstrap";
 
@@ -112,15 +112,7 @@ const Landing = () => {
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 className="h2">Find Your Product</h1>
           <div className="btn-toolbar mb-2 mb-md-0">
-            <div className="btn-group me-2">
-              {/* <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.tambahModalHandler}
-                >
-                  &#10147; Kirim Permintaan
-                </button> */}
-            </div>
+            <div className="btn-group me-2"></div>
           </div>
         </div>
         <Card body className="mb-3">
@@ -130,9 +122,6 @@ const Landing = () => {
               <Row>
                 <Col>
                   <div className="card">
-                    {/* <div className="card-header">
-                  <strong>Find your product</strong>
-                </div> */}
                     <div className="card-body">
                       <label htmlFor="inputByName">Product Name</label>
                       {/* filter by name */}
@@ -207,28 +196,16 @@ const Landing = () => {
                   </div>
                 </Col>
                 <Col xs={12} md={9}>
-                  {/* <div class="album py-5 bg-light"> */}
                   <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                       {renderProducts()}
                     </div>
                   </div>
-                  {/* </div> */}
                 </Col>
               </Row>
             </Container>
           </div>
         </Card>
-      </div>
-
-      {/* Side Bar */}
-      <div className="container-fluid">
-        <div className="row">
-          {/* Render content */}
-          {/* <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
-
-          {/* </div> */}
-        </div>
       </div>
     </div>
   );

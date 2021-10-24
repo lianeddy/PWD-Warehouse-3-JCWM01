@@ -9,17 +9,23 @@ export const authLogin = (data) => {
   };
 };
 
-export const keepLoginAction = () => {
+export const keepLoginAction = (userData) => {
+  console.log("Here");
   return async (dispatch) => {
     dispatch("API_USER_START");
     try {
-      const token = localStorage.getItem("dataToken");
+      // const userLocalStorage = localStorage.getItem("dataToken");
+      // const token = JSON.parse(userLocalStorage);
       const headers = {
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${userData}`,
         },
       };
-      const response = await Axios.post(`${URL_API}/keep-login`, {}, headers);
+      const response = await Axios.post(
+        `${URL_API}/users/keep-login`,
+        {},
+        headers
+      );
       const { id_user, id_warehouse, id_role, username, email, is_valid } =
         response.data;
       dispatch({
