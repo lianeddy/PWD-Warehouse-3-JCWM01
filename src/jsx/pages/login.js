@@ -34,7 +34,7 @@ class Login extends React.Component {
         console.log("Login Success");
         this.inputUsername.value = "";
         this.inputPassword.value = "";
-        window.location.assign("/Products");
+        // window.location.assign("/Products");
       })
       .catch((err) => {
         // event.preventDefault();

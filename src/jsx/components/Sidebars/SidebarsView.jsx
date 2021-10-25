@@ -17,7 +17,7 @@ const SidebarsView = (props) => {
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
-    { link: "/product-list", icon: "#grid", name: "Products" },
+    { link: "/products", icon: "#grid", name: "Products" },
     // { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
       link: "/permintaan-barang",
@@ -42,7 +42,11 @@ const SidebarsView = (props) => {
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
     { link: "/products", icon: "#grid", name: "Products" },
-    { link: "/transactions", icon: "#credit-card", name: "Transactions" },
+    {
+      link: "/upload-bukti-bayar",
+      icon: "#credit-card",
+      name: "Order Confirmation",
+    },
   ]);
 
   const renderMenuAdmin = () => {

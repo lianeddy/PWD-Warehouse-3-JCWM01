@@ -4,7 +4,7 @@ const INIT_STATE = {
   id_user: null,
   username: "",
   email: "",
-  id_role: 0,
+  id_role: 3,
   id_warehouse: 0,
   birth_date: "",
   gender: "",
@@ -14,7 +14,7 @@ const INIT_STATE = {
   address: "",
   loading: false,
   error: "",
-  isLogin: true,
+  isLogin: false,
   url_profile: "",
 };
 
