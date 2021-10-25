@@ -70,6 +70,8 @@ const NavbarView = (props) => {
     {
       path: "/products",
       component: ProductAdmin,
+    },
+    {
       path: "/transactions/detail/:id_transaksi_master_produk",
       component: AppTransaksiAdminDetail,
     },
