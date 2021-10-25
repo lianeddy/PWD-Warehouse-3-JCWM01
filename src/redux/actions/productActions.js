@@ -33,23 +33,22 @@ export const fetchProductsAction = () => {
       });
     }
 
-    //Promise
-    // Axios.get(url)
-    //   .then((res) => {
-    //     dispatch({
-    //       type: API_PRODUCT_FILL,
-    //       payload: res.data,
-    //     });
-    //     dispatch({
-    //       type: API_PRODUCT_SUCCESS,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     dispatch({
-    //       type: API_PRODUCT_FAILED,
-    //       payload: err.message,
-    //     });
-    //   });
+    Axios.get(url)
+      .then((res) => {
+        dispatch({
+          type: API_PRODUCT_FILL,
+          payload: res.data,
+        });
+        dispatch({
+          type: API_PRODUCT_SUCCESS,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: API_PRODUCT_FAILED,
+          payload: err.message,
+        });
+      });
   };
 };
 
