@@ -161,35 +161,38 @@ const modalIsOpen = (status) => {
   };
 };
 
-// const isTerimaPermintaanBarang = (id, data, status) => {
-//   console.table(data);
-//   const { id_warehouse, id_metode_pembayaran, to_warehouse } = data;
-//   delete data.id_warehouse;
-//   return (dispatch) => {
-//     Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, {
-//       ...data,
-//       is_accept: status,
-//       id_status: status ? 2 : 1,
-//     })
-//       .then((result) => {
-//         SwalFire.fire("Updated!", result.data.message, "success");
-//         getDataTransaksiProdukHandler(
-//           0,
-//           id_metode_pembayaran,
-//           to_warehouse,
-//           10,
-//           id_warehouse,
-//           dispatch,
-//           null,
-//           null,
-//           null
-//         );
-//       })
-//       .catch((err) => {
-//         SwalFire.fire("Gagal Updated!", "Server Error", "danger");
-//       });
-//   };
-// };
+const isTerimaPesanan = (id, propsHistory) => {
+  return (dispatch) => {
+    Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, {
+      is_tolak: 1,
+      is_verify: 1,
+    })
+      .then((result) => {
+        SwalFire.fire("Pesanan Diterima!", result.data.message, "success");
+        propsHistory.goBack();
+      })
+      .catch((err) => {
+        console.log(err);
+        SwalFire.fire("Gagal Updated!", "Server Error", "error");
+      });
+  };
+};
+
+const isTolakPesanan = (id, propsHistory) => {
+  return (dispatch) => {
+    Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, {
+      is_tolak: 2,
+      is_verify: 2,
+    })
+      .then((result) => {
+        SwalFire.fire("Pesanan Diterima!", result.data.message, "success");
+        propsHistory.goBack();
+      })
+      .catch((err) => {
+        SwalFire.fire("Gagal Updated!", "Server Error", "error");
+      });
+  };
+};
 
 export {
   getDataTransaksiProduk,
@@ -197,5 +200,6 @@ export {
   // updateDataTransaksiProduk,
   // deleteDataTransaksiProduk,
   modalIsOpen,
-  // isTerimaPermintaanBarang,
+  isTerimaPesanan,
+  isTolakPesanan,
 };

@@ -4,6 +4,7 @@ const INIT_STATE = {
   pagesNow: 0,
   maxPerPage: 10,
   total: 0,
+  jml_selisih: 0,
 };
 
 export const permintaanProdukReducer = (state = INIT_STATE, action) => {

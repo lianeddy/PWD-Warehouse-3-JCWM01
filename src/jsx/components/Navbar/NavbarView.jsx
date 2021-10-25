@@ -18,6 +18,8 @@ import UploadProductImage from "../../example/UploadProductImage";
 import ProductAdmin from "../../pages/ProductsAdmin";
 import ProductList from "../../pages/ProductLists";
 import productDetail from "../../pages/ProductDetail";
+import AppTransaksiAdminView from "../AppTransaksiAdmin/AppTransaksiAdminView";
+import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetail";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -58,16 +60,24 @@ const NavbarView = (props) => {
       component: ProductAdmin,
     },
     {
-      path: "/product-list/",
-      component: ProductList,
-    },
-    {
       path: "/product-detail/:id_master_produk",
       component: productDetail,
     },
     {
+      path: "/product-list/",
+      component: ProductList,
+    },
+    {
       path: "/uploadProduct/",
       component: UploadProductImage,
+    },
+    {
+      path: "/transactions/detail/:id_transaksi_master_produk",
+      component: AppTransaksiAdminDetail,
+    },
+    {
+      path: "/transactions/",
+      component: AppTransaksiAdminView,
     },
   ]);
 
@@ -89,12 +99,16 @@ const NavbarView = (props) => {
       component: UploadPaymentImages,
     },
     {
+      path: "/product-detail/:id_master_produk",
+      component: productDetail,
+    },
+    {
       path: "/product-list",
       component: ProductList,
     },
     {
-      path: "/product-detail/:id_master_produk",
-      component: productDetail,
+      path: "/transactions/",
+      component: UploadProductImage,
     },
   ]);
 

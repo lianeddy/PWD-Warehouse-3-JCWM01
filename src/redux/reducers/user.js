@@ -5,7 +5,7 @@ const INIT_STATE = {
   username: "",
   email: "",
   id_role: 2,
-  id_warehouse: null,
+  id_warehouse: 1,
   birth_date: "",
   gender: "",
   password: "",
@@ -14,7 +14,8 @@ const INIT_STATE = {
   address: "",
   loading: false,
   error: "",
-  isLogin: false,
+  isLogin: true,
+  url_profile: "",
 };
 
 export const authReducer = (state = INIT_STATE, action) => {

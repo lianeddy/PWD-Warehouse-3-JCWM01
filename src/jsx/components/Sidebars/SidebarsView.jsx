@@ -14,7 +14,6 @@ const SidebarsView = (props) => {
   const [sidebarItemAdmin, setsidebarItemAdmin] = useState([
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
-    { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/product-list", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
@@ -23,18 +22,19 @@ const SidebarsView = (props) => {
       name: "Request Products",
     },
     { link: "/history-barang", icon: "#calendar3", name: "History Products" },
-    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
     { link: "/notif", icon: "#notif", name: "Notifications" },
+    { link: "/transactions", icon: "#credit-card", name: "Transactions" },
     {
       link: "/history-transaksi",
       icon: "#archieve",
       name: "History Transactions",
     },
+    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
   ]);
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
     { link: "/products", icon: "#grid", name: "Products" },
-    { link: "/orders", icon: "#table", name: "Orders" },
+    { link: "/transactions", icon: "#credit-card", name: "Transactions" },
   ]);
 
   const renderMenuAdmin = () => {

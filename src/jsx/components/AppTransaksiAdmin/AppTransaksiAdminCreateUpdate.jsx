@@ -27,7 +27,7 @@ import {
   getDataFilterMasterProduk,
 } from "../../../redux/actions/filterMasterProdukAction";
 
-class AppPermintaanBarangCreateUpdate extends React.Component {
+class AppTransaksiAdminCreateUpdate extends React.Component {
   state = {
     show: false,
     jumlah: 1,
@@ -74,10 +74,10 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
   addBtnHandler = () => {
     let data = {
       id_user: this.props.userGlobal.id_user,
-      id_master_produk: this.props.modalData.id_master_barang,
+      id_master_produk: this.state.id_master_produk,
       to_warehouse: this.state.to_warehouse,
       from_warehouse: this.props.userGlobal.id_warehouse,
-      jumlah: this.props.modalData.jumlah_selisih,
+      jumlah: this.state.jumlah,
       id_status: 3,
       deskripsi: this.state.deskripsi,
     };
@@ -98,47 +98,44 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
 
   handleSearchFilterWarehouse = (query) => {
     this.props.setLoadingFilterWarehouse(true);
-    this.props.getDataFilterWarehouse({
-      nm_warehouse: query,
-      id_master_produk: this.props.modalData.id_master_barang,
-      jumlah_produk: this.props.modalData.jumlah_selisih,
-      id_warehouse_user: this.props.userGlobal.id_warehouse,
+    this.props.getDataFilterWarehouse({ nm_warehouse: query });
+  };
+
+  renderFilterWarehouse = (option, props) => (
+    <>
+      <span>{option.nm_warehouse}</span>
+    </>
+  );
+
+  // Master Produk
+  handleChangeFilterMasterProduk = (el) => {
+    console.log("handleChange");
+    console.log(el);
+    this.props.setSelectedMasterProduk(null);
+    this.setState({
+      ...this.state,
+      id_master_produk: el.length !== 0 ? el[0].id_master_produk : null,
+      jumlahMax: el[0].jml_produk,
+      jumlah: el[0].jml_produk,
+    });
+    this.props.setLoadingFilterMasterProduk(false);
+  };
+
+  handleSearchFilterMasterProduk = (query) => {
+    this.props.setLoadingFilterMasterProduk(true);
+    this.props.getDataFilterMasterProduk({
+      nm_master_produk: query,
+      id_warehouse: this.state.to_warehouse,
     });
   };
 
-  renderFilterWarehouse = (option, props) => {
-    return <span>{option.nm_warehouse}</span>;
-  };
-
-  // Master Produk
-  // handleChangeFilterMasterProduk = (el) => {
-  //   console.log("handleChange");
-  //   console.log(el);
-  //   this.props.setSelectedMasterProduk(null);
-  //   this.setState({
-  //     ...this.state,
-  //     id_master_produk: el.length !== 0 ? el[0].id_master_produk : null,
-  //     jumlahMax: el[0].jml_produk,
-  //     jumlah: el[0].jml_produk,
-  //   });
-  //   this.props.setLoadingFilterMasterProduk(false);
-  // };
-
-  // handleSearchFilterMasterProduk = (query) => {
-  //   this.props.setLoadingFilterMasterProduk(true);
-  //   this.props.getDataFilterMasterProduk({
-  //     nm_master_produk: query,
-  //     id_warehouse: this.state.to_warehouse,
-  //   });
-  // };
-
-  // renderFilterMasterProduk = (option, props) => (
-  //   <>
-  //     <span>
-  //       {option.nm_master_produk} - {option.jml_produk}
-  //     </span>
-  //   </>
-  // );
+  renderFilterMasterProduk = (option, props) => (
+    <>
+      <span>
+        {option.nm_master_produk} - {option.jml_produk}
+      </span>
+    </>
+  );
 
   render() {
     return (
@@ -174,9 +171,8 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
                 mdAsync="7"
                 lgAsync="7"
                 selected={this.props.filterWarehouseGlobal.selected}
-                emptyLabel="Permintaan produk tidak mencukupi untuk semua warehouse"
               />
-              {/* <InputAutocomplete
+              <InputAutocomplete
                 label="Nama Produk"
                 onChange={(e) => this.handleChangeFilterMasterProduk(e)}
                 optionsProps={this.props.filterMasterProdukGlobal.optionsFilter}
@@ -197,24 +193,7 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
                 lgAsync="7"
                 selected={this.props.filterMasterProdukGlobal.selected}
                 disabled={this.state.to_warehouse == null ? true : false}
-              /> */}
-              <Form.Group as={Row} className="mb-3" controlId="nm_produk">
-                <Form.Label column sm="3" className="text-end">
-                  Nama Produk
-                </Form.Label>
-                <Col sm="7">
-                  <Form.Control
-                    type="text"
-                    value={
-                      this.props.modalData.data_master_produk.nm_master_produk
-                    }
-                    onChange={this.onInputchangeHandler}
-                    max={this.state.jumlahMax}
-                    min={this.state.jumlahMin}
-                    disabled="true"
-                  />
-                </Col>
-              </Form.Group>
+              />
               <Form.Group as={Row} className="mb-3" controlId="jumlah">
                 <Form.Label column sm="3" className="text-end">
                   Jumlah produk yang diminta
@@ -223,11 +202,10 @@ class AppPermintaanBarangCreateUpdate extends React.Component {
                   <Form.Control
                     type="number"
                     placeholder="Jumlah produk"
-                    value={this.props.modalData.jumlah_selisih}
+                    value={this.state.jumlah}
                     onChange={this.onInputchangeHandler}
                     max={this.state.jumlahMax}
                     min={this.state.jumlahMin}
-                    disabled="true"
                   />
                 </Col>
               </Form.Group>
@@ -285,4 +263,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppPermintaanBarangCreateUpdate);
+)(AppTransaksiAdminCreateUpdate);

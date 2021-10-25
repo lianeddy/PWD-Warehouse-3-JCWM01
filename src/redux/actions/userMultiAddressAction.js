@@ -135,11 +135,11 @@ const setDefaultMultiAddress = (id, data) => {
             );
           })
           .catch((err) => {
-            SwalFire.fire("Gagal Updated!", "Server Error", "danger");
+            SwalFire.fire("Gagal Updated!", "Server Error", "error");
           });
       })
       .catch((err) => {
-        SwalFire.fire("Gagal Updated!", "Server Error", "danger");
+        SwalFire.fire("Gagal Updated!", "Server Error", "error");
       });
   };
 };
