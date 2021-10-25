@@ -59,7 +59,7 @@ const NavbarView = (props) => {
       component: UploadProductImage,
     },
     {
-      path: "/",
+      path: "/Products",
       component: ProductAdmin,
     },
   ]);
@@ -86,7 +86,7 @@ const NavbarView = (props) => {
       component: productDetail,
     },
     {
-      path: "/",
+      path: "/Products",
       component: ProductList,
     },
   ]);

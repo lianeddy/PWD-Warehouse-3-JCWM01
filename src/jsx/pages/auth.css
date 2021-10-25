@@ -82,7 +82,11 @@ span {
 }
 
 .btn-auth {
-  margin-top: 13px;
+  margin-top: 1px;
+}
+
+.btn-register {
+  margin-top: 18px;
 }
 
 .btn-save {

@@ -30,13 +30,13 @@ const SidebarsView = (props) => {
       icon: "#archieve",
       name: "History Transactions",
     },
-    { link: "/", icon: "#grid", name: "Products" },
+    { link: "/Products", icon: "#grid", name: "Products" },
   ]);
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/upload-bukti-bayar", icon: "#notif", name: "Order Confirmation" },
-    { link: "/", icon: "#grid", name: "Products" },
+    { link: "/Products", icon: "#grid", name: "Products" },
   ]);
 
   const renderMenuAdmin = () => {
