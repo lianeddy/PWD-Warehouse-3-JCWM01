@@ -86,7 +86,7 @@ const NavbarView = (props) => {
       component: productDetail,
     },
     {
-      path: "/Products",
+      path: "/",
       component: ProductList,
     },
   ]);
