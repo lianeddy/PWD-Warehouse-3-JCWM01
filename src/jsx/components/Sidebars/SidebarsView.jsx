@@ -15,7 +15,7 @@ const SidebarsView = (props) => {
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/product-list", icon: "#grid", name: "Products" },
-    { link: "/warehouse", icon: "#home", name: "Warehouse" },
+    // { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
       link: "/permintaan-barang",
       icon: "#request-produk",
@@ -32,6 +32,11 @@ const SidebarsView = (props) => {
     { link: "/list-admins", icon: "#person-circle", name: "Admins" },
   ]);
 
+  const [sidebarItemSuperAdmin, setsidebarItemSuperAdmin] = useState([
+    // { link: "/home", icon: "#home", name: "Home" },
+    { link: "/warehouse", icon: "#home", name: "Warehouse" },
+  ]);
+
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
     { link: "/products", icon: "#grid", name: "Products" },
     { link: "/transactions", icon: "#credit-card", name: "Transactions" },
@@ -39,6 +44,23 @@ const SidebarsView = (props) => {
 
   const renderMenuAdmin = () => {
     let output = sidebarItemAdmin.map((el, index) => {
+      const { link, icon, name } = el;
+      return (
+        <li className="nav-item" key={index}>
+          <NavLink to={link} className={`nav-link link-dark`}>
+            <svg className="bi me-2" width="16" height="16">
+              <use xlinkHref={icon} />
+            </svg>
+            {name}
+          </NavLink>
+        </li>
+      );
+    });
+    return output;
+  };
+
+  const renderMenuSuperAdmin = () => {
+    let output = sidebarItemSuperAdmin.map((el, index) => {
       const { link, icon, name } = el;
       return (
         <li className="nav-item" key={index}>
@@ -83,6 +105,7 @@ const SidebarsView = (props) => {
           {props.userGlobal.id_role < 3
             ? renderMenuAdmin()
             : renderMenuCustomer()}
+          {props.userGlobal.id_role == 1 ? renderMenuSuperAdmin() : ""}
         </ul>
         <hr />
         <Dropdown>
