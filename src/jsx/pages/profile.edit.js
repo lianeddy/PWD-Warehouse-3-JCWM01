@@ -240,15 +240,13 @@ class ProfileEdit extends React.Component {
                 <div class="row gutters">
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right">
-                      <button>
-                        <Link
-                          to={`/profile/${this.props.userGlobal.id_user}`}
-                          style={{ textDecoration: "none" }}
-                          className="btn btn-secondary text-white"
-                        >
-                          Cancel
-                        </Link>
-                      </button>
+                      <Link
+                        to={`/profile/${this.props.userGlobal.id_user}`}
+                        style={{ textDecoration: "none" }}
+                        className="btn btn-secondary text-white"
+                      >
+                        Cancel
+                      </Link>
 
                       <button
                         onClick={this.btnSave}

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Router, Switch, Route } from "react-router-dom";
 import { URL_API } from "../../helper";
 import Axios from "axios";
 import "./profile.css";
@@ -196,28 +196,24 @@ class Profile extends React.Component {
                     </div>
                     <div className="row gutters mt-3 ">
                       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div className="text-right justify-content-end">
-                          <button type="button" id="submit" name="submit">
-                            <Link
-                              to={`/profile-edit/${this.state.userData.id_user}`}
-                              style={{ textDecoration: "none" }}
-                              className="btn btn-primary btn-block "
-                            >
-                              Edit Profil
-                            </Link>
-                          </button>
-                          <button type="button" id="submit" name="submit">
-                            <Link
-                              to={`/change-password`}
-                              change
-                              pass
-                              style={{ textDecoration: "none" }}
-                              className="btn btn-secondary btn-block "
-                            >
-                              {" "}
-                              Change Password
-                            </Link>
-                          </button>
+                        <div className="text-right ">
+                          <Link
+                            to={`/profile-edit/${this.state.userData.id_user}`}
+                            style={{ textDecoration: "none" }}
+                            className="btn btn-primary btn-block "
+                          >
+                            Edit Profil
+                          </Link>
+
+                          <Link
+                            to={`/change-password`}
+                            change
+                            pass
+                            style={{ textDecoration: "none" }}
+                            className="btn btn-secondary btn-block "
+                          >
+                            Change Password
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -226,119 +222,6 @@ class Profile extends React.Component {
               </div>
             </div>
           </div>
-          // <div className="row">
-          //   <div className="col-md-6 border-right">
-          //     <div className="p-3 py-5">
-          //       <div className="d-flex justify-content-between align-items-center mb-3">
-          //         <h4 className="text-right">My Profile</h4>
-          //       </div>
-
-          //       <div classNameName="form-group row">
-          //         <label
-          //           for="staticFullname"
-          //           className="col-md-3 col-form-label"
-          //         >
-          //           <h6>Full Name</h6>
-          //         </label>
-          //         <div className="col-md-5">
-          //           <input
-          //             type="text"
-          //             readonly
-          //             className="form-control-plaintext"
-          //             value={this.state.userData.full_name}
-          //           ></input>
-          //         </div>
-          //       </div>
-
-          //       <div className="form-group row">
-          //         <label for="staticEmail" className="col-md-3 col-form-label">
-          //           <h6>Email</h6>
-          //         </label>
-          //         <div className="col-md-5">
-          //           <input
-          //             type="text"
-          //             readonly
-          //             className="form-control-plaintext"
-          //             value={this.state.userData.email}
-          //           ></input>
-          //         </div>
-          //       </div>
-
-          //       <div className="form-group row">
-          //         <label for="staticGender" className="col-md-3 col-form-label">
-          //           <h6>Gender</h6>
-          //         </label>
-          //         <div className="col-md-5">
-          //           <input
-          //             type="text"
-          //             readonly
-          //             className="form-control-plaintext"
-          //             value={this.state.userData.gender}
-          //           ></input>
-          //         </div>
-          //       </div>
-
-          //       <div className="form-group row">
-          //         <label
-          //           for="staticBirthDate"
-          //           className="col-md-3 col-form-label"
-          //         >
-          //           <h6>Birth Date</h6>
-          //         </label>
-          //         <div className="col-md-5">
-          //           <input
-          //             type="text"
-          //             readonly
-          //             className="form-control-plaintext"
-          //             value={this.state.userData.birth_date}
-          //           ></input>
-          //         </div>
-          //       </div>
-
-          //       <div className="form-group row">
-          //         <label
-          //           for="staticAddress"
-          //           className="col-md-3 col-form-label"
-          //         >
-          //           <h6>Address</h6>
-          //         </label>
-          //         <div className="col-md-5">
-          //           <input
-          //             type="text"
-          //             readonly
-          //             className="form-control-plaintext"
-          //             value={this.state.userData.address}
-          //           ></input>
-          //         </div>
-          //       </div>
-
-          //       <div className="mt-4">
-          //         <button className="btn btn-secondary">
-          //           <a
-          //             href="/"
-          //             className="text-dark text-center"
-          //             style={{ textDecoration: "none" }}
-          //           >
-          //             Home
-          //           </a>
-          //         </button>
-          //       </div>
-          //     </div>
-          //   </div>
-          //   <div className="col-md-3 border-right">
-          //     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-          //       <span>
-          //         <Link
-          //           to={`/profile-edit/${this.state.userData.id_user}`}
-          //           style={{ textDecoration: "none" }}
-          //           className="text-dark text-underline-hover"
-          //         >
-          //           Edit Profil
-          //         </Link>
-          //       </span>
-          //     </div>
-          //   </div>
-          // </div>
         )}
       </div>
     );

@@ -43,30 +43,50 @@ function App(props) {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <BrowserRouter>
-            {props.userGlobal.isLogin ? (
-              <DasboardExample />
-            ) : (
-              <Switch>
-                <Route path="/register" component={register} />
-                <Route path="/verification/:token" component={verification} />
-                <Route path="/login" component={Login} />
-                <Route path="/change-password" component={ChangePassword} />
-                <Route path="/forgot-password" component={ForgotPassword} />
-                <Route
-                  path="/forgot-password-update/:token"
-                  component={ForgotPasswordUpdate}
-                />
-                {/* Move Ke NavbarView Routenya */}
-                {/* <Route component={Profile} path="/profile/" />
-                <Route component={ProfileEdit} path="/profile-edit/:id" />
-                <Route component={AdminProducts} path="/admin-products/" />
+            <Switch>
+              <Route path="/register" component={register} />
+              <Route path="/verification/:token" component={verification} />
+              <Route path="/login" component={Login} />
+              <Route path="/change-password" component={ChangePassword} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route
+                path="/forgot-password-update/:token"
+                component={ForgotPasswordUpdate}
+              />
+              <Route component={Profile} path="/profile/" />
+              <Route component={ProfileEdit} path="/profile-edit/:id" />
+              <Route component={AdminProducts} path="/admin-products/" />
+              <Route
+                path="/users/multi-address"
+                component={AppDataAlamatUserView}
+              />
+              <Route
+                path="/users/example-component/profile-image/add"
+                component={AddProfileImages}
+              />
+              <Route
+                path="/users/example-component/profile-image/update"
+                component={UpdateProfileImages}
+              />
+              {/* <Route path="/uploadProduct" component={UploadProductImage} />
+              <Route
+                path="/users/example-component/typehead"
+                component={Typeahead}
+              />
+              <Route path="/admin-product" component={ProductAdmin} />
+              <Route
+                path="/product-detail/:id_master_produk"
+                component={ProductDetail}
+              />
+              <Route
+                path="/upload-bukti-bayar"
+                component={UploadPaymentImages}
+              />
+              <Route path="/product-list" component={ProductLists} /> */}
 
-                <Route path="/admin-product" component={ProductAdmin} /> */}
-
-                <Route path="/change-password" component={ChangePassword} />
-                <Route path="/forgot-password" component={ForgotPassword} />
-              </Switch>
-            )}
+              <Route path="/" component={DasboardExample} />
+              {/* <Route path="/" component={Landing} /> */}
+            </Switch>
           </BrowserRouter>
         </div>
       </div>

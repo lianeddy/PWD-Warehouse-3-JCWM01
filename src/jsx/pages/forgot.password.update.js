@@ -9,9 +9,22 @@ class ForgotPasswordUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false,
-      // disableBtn: false,
+      newPassword: "",
+      confirmPassword: "",
     };
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.toggleShow = this.toggleShow.bind(this);
+  }
+  handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
+  }
+  toggleShow() {
+    this.setState({ hidden: !this.state.hidden });
+  }
+  componentDidMount() {
+    if (this.props.password) {
+      this.setState({ password: this.props.password });
+    }
   }
 
   submitPassword = () => {
@@ -27,6 +40,12 @@ class ForgotPasswordUpdate extends React.Component {
       Swal.fire({
         icon: "error",
         text: "New password did not match!",
+      });
+      Array.from(document.querySelectorAll("input")).forEach(
+        (input) => (input.value = "")
+      );
+      this.setState({
+        itemvalues: [{}],
       });
     } else {
       Axios.patch(
@@ -72,7 +91,7 @@ class ForgotPasswordUpdate extends React.Component {
           <div className="form-group">
             <label className="mt-3 my-1">New Password</label>
             <input
-              type="password"
+              type={this.state.hidden ? "password" : "text"}
               className="form-control"
               placeholder="New Password"
               ref={(e) => (this.newPassword = e)}
@@ -82,11 +101,19 @@ class ForgotPasswordUpdate extends React.Component {
           <div className="form-group">
             <label className="mt-3 my-1">Confirm Password</label>
             <input
-              type="password"
+              type={this.state.hidden ? "password" : "text"}
               className="form-control"
               placeholder="Confirm Password"
               ref={(e) => (this.confirmPassword = e)}
+              value={this.state.ConfirmPassword}
+              onChange={this.handlePasswordChange}
             />
+            <button
+              className="btn btn-sm btn-outline-info position-relative end-0"
+              onClick={this.toggleShow}
+            >
+              Show / Hide
+            </button>
           </div>
 
           <button
