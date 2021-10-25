@@ -53,8 +53,7 @@ function App(props) {
                 path="/forgot-password-update/:token"
                 component={ForgotPasswordUpdate}
               />
-              <Route component={Profile} path="/profile/" />
-              <Route component={ProfileEdit} path="/profile-edit/:id" />
+
               <Route component={AdminProducts} path="/admin-products/" />
               <Route
                 path="/users/multi-address"
@@ -83,6 +82,8 @@ function App(props) {
                 component={UploadPaymentImages}
               />
               <Route path="/product-list" component={ProductLists} /> */}
+              <Route component={Profile} path="/profile/" />
+              <Route component={ProfileEdit} path="/profile-edit/:id" />
 
               <Route path="/" component={DasboardExample} />
               {/* <Route path="/" component={Landing} /> */}

@@ -4,6 +4,7 @@ import { Link, Router, Switch, Route } from "react-router-dom";
 import { URL_API } from "../../helper";
 import Axios from "axios";
 import "./profile.css";
+import UploadProfileUserComponent from "../components/UploadProfileUser/UploadProfileUserComponent";
 
 class Profile extends React.Component {
   state = {
@@ -40,6 +41,10 @@ class Profile extends React.Component {
           <div className="container">
             <div className="row gutters">
               <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                {/* <UploadProfileUserComponent
+              title="Input Profile Images"
+              isAdd={true}
+            ></UploadProfileUserComponent> */}
                 <div className="card h-100">
                   <div className="card-body">
                     <div className="account-settings">
