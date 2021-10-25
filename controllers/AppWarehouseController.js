@@ -1,4 +1,5 @@
-const { AppWarehouse } = require("../database/table");
+const { AppWarehouse, SysUser } = require("../database/table");
+const Crypto = require("crypto");
 
 const ID = "id_warehouse";
 
@@ -75,13 +76,39 @@ module.exports = {
   addData: async (req, res, next) => {
     if (Object.keys(req.body).length == 0) next();
 
+    let tmpData = {
+      full_name: req.body.full_name,
+      gender: req.body.gender,
+      birth_date: req.body.birth_date,
+      password: Crypto.createHmac("sha1", "hash123")
+        .update(req.body.password)
+        .digest("hex"),
+      phone: req.body.phone,
+      email: req.body.email,
+      username: "ADMIN",
+      is_valid: 1,
+    };
+    delete req.body.full_name;
+    delete req.body.email;
+    delete req.body.gender;
+    delete req.body.birth_date;
+    delete req.body.password;
+    delete req.body.phone;
+
     let output = await AppWarehouse.query().insert(req.body);
-    if (output)
-      res.status(201).send({
-        message: "success",
-        code: 1,
-      });
-    else next();
+    if (output) {
+      tmpData = {
+        ...tmpData,
+        id_warehouse: output.id,
+      };
+      let outUser = await SysUser.query().insert(tmpData);
+      if (outUser)
+        res.status(201).send({
+          message: "success",
+          code: 1,
+        });
+      else next();
+    } else next();
   },
   updateData: async (req, res, next) => {
     let output = await AppWarehouse.query()
