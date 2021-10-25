@@ -148,7 +148,10 @@ class AppTransaksiAdminDetail extends React.Component {
   };
 
   checkRequestProducts = () => {
-    let out = this.state.dataDetail.data_permintaan_produk_single.id_status;
+    let out =
+      this.state.dataDetail.data_permintaan_produk_single != null
+        ? this.state.dataDetail.data_permintaan_produk_single.id_status
+        : null;
     if (out == 3) {
       return 0;
     }
