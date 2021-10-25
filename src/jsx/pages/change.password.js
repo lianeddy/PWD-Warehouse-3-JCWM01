@@ -13,24 +13,22 @@ class ChangePassword extends React.Component {
       redirect: false,
       alertShow: "none",
       // disableBtn: false,
-      // currentPassword: "",
-      // newPassword: "",
-      // confirmPassword: "",
+      hidden: true,
     };
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.toggleShow = this.toggleShow.bind(this);
   }
-
-  // state = {
-  //   currentPassword: "",
-  //   newPassword: "",
-  //   confirmPassword: "",
-  // };
-
-  // inputHandler = (event) => {
-  //   const value = event.target.value;
-  //   const name = event.target.name;
-
-  //   this.setState({ [name]: value });
-  // };
+  handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
+  }
+  toggleShow() {
+    this.setState({ hidden: !this.state.hidden });
+  }
+  componentDidMount() {
+    if (this.props.password) {
+      this.setState({ password: this.props.password });
+    }
+  }
 
   saveBtn = () => {
     let currentPassword = this.currentPassword.value;
@@ -43,7 +41,13 @@ class ChangePassword extends React.Component {
     } else if (newPassword !== confirmPassword) {
       Swal.fire({
         icon: "error",
-        text: "New password did not match!",
+        title: "New password did not match!",
+      });
+      Array.from(document.querySelectorAll("input")).forEach(
+        (input) => (input.value = "")
+      );
+      this.setState({
+        itemvalues: [{}],
       });
     } else {
       Axios.patch(`${URL_API}/users/change-password/`, {
@@ -53,15 +57,25 @@ class ChangePassword extends React.Component {
       })
         .then((res) => {
           console.log(res.data.message);
-          Swal.fire({ text: "Password change success!", icon: "success" });
+          Swal.fire({
+            title: "Password change success!",
+            icon: "success",
+            text: "you can now use your new password to login to your account!",
+          });
           this.setState({
             alertShow: "block",
             redirect: true,
           });
         })
         .catch((err) => {
-          Swal.fire({ text: "Current Password wrong", icon: "error" });
+          Swal.fire({ title: "Current Password wrong", icon: "error" });
           console.log("Current Password Wrong");
+          Array.from(document.querySelectorAll("input")).forEach(
+            (input) => (input.value = "")
+          );
+          this.setState({
+            itemvalues: [{}],
+          });
         });
     }
   };
@@ -97,23 +111,33 @@ class ChangePassword extends React.Component {
           </div>
 
           <div className="form-group">
-            <label className="mt-3 my-1">New Password</label>
+            <label className="mt-4 my-1">New Password</label>
             <input
-              type="password"
+              type={this.state.hidden ? "password" : "text"}
               className="form-control 3"
               placeholder="New Password"
               ref={(e) => (this.newPassword = e)}
+              value={this.state.NewPassword}
+              onChange={this.handlePasswordChange}
             />
           </div>
 
           <div className="form-group">
-            <label className="mt-3">Confirm Password</label>
+            <label className="mt-2">Confirm Password</label>
             <input
-              type="password"
+              type={this.state.hidden ? "password" : "text"}
               className="form-control"
               placeholder="Confirm Password "
               ref={(e) => (this.confirmPassword = e)}
+              value={this.state.ConfirmPassword}
+              onChange={this.handlePasswordChange}
             />
+            <button
+              className="btn btn-sm btn-outline-info position-relative end-0"
+              onClick={this.toggleShow}
+            >
+              Show / Hide
+            </button>
           </div>
           <div>
             <button

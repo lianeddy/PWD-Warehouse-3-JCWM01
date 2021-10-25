@@ -1,10 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "./Card.css";
 import { useSelector } from "react-redux";
+import { URL_API } from "../../helper";
 
 const Card = (props) => {
   const userGlobal = useSelector((state) => state.authReducer);
+
+  const [stok, setStok] = useState(0);
+
+  const checkStokProduct = () => {
+    Axios.get(
+      `${URL_API}/products/check-stok?product=${props.id_master_produk}`
+    )
+      .then((res) => {
+        setStok(res.data.dataStok);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const AddToCart = () => {
+    if (userGlobal.id_user && stok > 0) {
+      Axios.post(`${URL_API}/`, {
+        id_user: userGlobal.id_user,
+        id_master_produk: props.id_master_produk,
+        quantity: 1,
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkStokProduct();
+  }, []);
 
   return (
     <div class="col">

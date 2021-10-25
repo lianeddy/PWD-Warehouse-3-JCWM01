@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import AddProfileImages from "../../example/AddProfileImages";
 import UpdateProfileImages from "../../example/UpdateProfileImages";
 import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
@@ -9,9 +9,18 @@ import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
 import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
 import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
+import { connect } from "react-redux";
+import Profile from "../../pages/profile";
+import ProfileEdit from "../../pages/profile.edit";
+import AdminProducts from "../../pages/admin.products";
+import UploadPaymentImages from "../../example/UploadPaymentImages";
+import UploadProductImage from "../../example/UploadProductImage";
+import ProductAdmin from "../../pages/ProductsAdmin";
+import ProductList from "../../pages/ProductLists";
+import productDetail from "../../pages/ProductDetail";
 
-const NavbarView = () => {
-  const [page, setPage] = useState([
+const NavbarView = (props) => {
+  const [pageAdmin, setPageAdmin] = useState([
     {
       path: "/profile",
       component: ProfileExample,
@@ -32,10 +41,66 @@ const NavbarView = () => {
       path: "/history-transaksi",
       component: AppHistoryTransaksiAdminView,
     },
+    {
+      path: "/profileold/",
+      component: Profile,
+    },
+    {
+      path: "/profileold-edit/",
+      component: ProfileEdit,
+    },
+    {
+      path: "/admin-products/",
+      component: AdminProducts,
+    },
+
+    {
+      path: "/uploadProduct/",
+      component: UploadProductImage,
+    },
+    {
+      path: "/",
+      component: ProductAdmin,
+    },
   ]);
 
-  const renderItem = () => {
-    let output = page.map((el, index) => {
+  const [pageCustomer, setPageCustomer] = useState([
+    {
+      path: "/profile",
+      component: ProfileExample,
+    },
+    {
+      path: "/profileold/",
+      component: Profile,
+    },
+    {
+      path: "/profileold-edit/",
+      component: ProfileEdit,
+    },
+    {
+      path: "/upload-bukti-bayar/",
+      component: UploadPaymentImages,
+    },
+    {
+      path: "/product-detail/:id_master_produk",
+      component: productDetail,
+    },
+    {
+      path: "/",
+      component: ProductList,
+    },
+  ]);
+
+  const renderItemAdmin = () => {
+    let output = pageAdmin.map((el, index) => {
+      const { path, component } = el;
+      return <Route path={path} component={component} key={index} />;
+    });
+    return output;
+  };
+
+  const renderItemCustomer = () => {
+    let output = pageCustomer.map((el, index) => {
       const { path, component } = el;
       return <Route path={path} component={component} key={index} />;
     });
@@ -70,10 +135,22 @@ const NavbarView = () => {
         </Container>
       </Navbar>
       <div className="p-2">
-        <Switch>{renderItem()}</Switch>
+        <Switch>
+          {props.userGlobal.id_role < 3
+            ? renderItemAdmin()
+            : renderItemCustomer()}
+        </Switch>
       </div>
     </>
   );
 };
 
-export default NavbarView;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.authReducer,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarView);

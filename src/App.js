@@ -4,7 +4,6 @@ import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Login from "./jsx/pages/login";
-import Landing from "./jsx/pages/landing";
 import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAlamatUserView";
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
@@ -17,26 +16,21 @@ import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import Profile from "./jsx/pages/profile";
 import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
-import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
-import UploadProductImage from "./jsx/example/UploadProductImage";
-import { Typeahead } from "react-bootstrap-typeahead";
 import DasboardExample from "./jsx/example/DashboardExample";
-import ProductAdmin from "./jsx/pages/ProductsAdmin";
-import ProductDetail from "./jsx/pages/ProductDetail";
-import UploadPaymentImages from "./jsx/example/UploadPaymentImages";
-import ProductLists from "./jsx/pages/ProductLists";
+import { keepLoginAction } from "./redux/actions/user";
 
-function App() {
-  const dispatch = useDispatch();
-
-function App() {
+function App(props) {
   useEffect(() => {
     //
     const userLocalStorage = localStorage.getItem("dataToken");
+    // const userData = JSON.parse(userLocalStorage);
+    console.log(userLocalStorage);
 
+    // console.log(userData);
     if (userLocalStorage) {
-      const userData = JSON.parse(userLocalStorage);
-      // this.props.userKeepLogin(userData);
+      console.log("HERE");
+      // const userData = JSON.parse(userLocalStorage);
+      props.keepLoginAction();
       // this.props.getCartData(userData.id);
     } else {
       // this.props.checkStorage();
@@ -59,12 +53,9 @@ function App() {
                 path="/forgot-password-update/:token"
                 component={ForgotPasswordUpdate}
               />
-              <Route component={Profile} path="/profile/" />
-              <Route component={ProfileEdit} path="/profile-edit/:id" />
-              <Route component={AdminProducts} path="/admin-products/" />
 
-              {/* <Route */}
-              {/* <Route
+              <Route component={AdminProducts} path="/admin-products/" />
+              <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
               />
@@ -76,15 +67,11 @@ function App() {
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
               />
-              <Route path="/change-password" component={ChangePassword} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route path="/" component={Landing} />
+              {/* <Route path="/uploadProduct" component={UploadProductImage} />
               <Route
                 path="/users/example-component/typehead"
                 component={Typeahead}
-              /> */}
-              {/* <Route path="/" component={DasboardExample} /> */}
+              />
               <Route path="/admin-product" component={ProductAdmin} />
               <Route
                 path="/product-detail/:id_master_produk"
@@ -94,12 +81,10 @@ function App() {
                 path="/upload-bukti-bayar"
                 component={UploadPaymentImages}
               />
-              <Route path="/product-list" component={ProductLists} />
+              <Route path="/product-list" component={ProductLists} /> */}
+              <Route component={Profile} path="/profile/" />
+              <Route component={ProfileEdit} path="/profile-edit/:id" />
 
-              <Route path="/" component={Landing} />
-              <Route path="/change-password" component={ChangePassword} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/uploadProduct" component={UploadProductImage} />
               <Route path="/" component={DasboardExample} />
               {/* <Route path="/" component={Landing} /> */}
             </Switch>
@@ -116,6 +101,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  keepLoginAction,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

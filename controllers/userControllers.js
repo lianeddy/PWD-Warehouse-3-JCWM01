@@ -170,6 +170,7 @@ module.exports = {
     });
   },
   keepLogin: (req, res) => {
+    console.log("HERE");
     let sql = `Select id_user, id_warehouse, id_role, username, email, is_valid from sys_user where id_user= ${db.escape(
       req.id_user
     )}`;

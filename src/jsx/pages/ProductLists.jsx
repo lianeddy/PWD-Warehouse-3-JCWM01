@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import Card from "../components/Card";
+import CardProduct from "../components/Card";
 import NavbarView from "../components/Navbar/NavbarView";
-import "./landing.css";
+import "./Products.css";
 import { URL_API } from "../../helper";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Card } from "react-bootstrap";
 
 const Landing = () => {
   const [products, setProducts] = useState([]);
@@ -56,7 +56,7 @@ const Landing = () => {
 
     return products.map((product) => {
       return (
-        <Card
+        <CardProduct
           id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
@@ -107,106 +107,105 @@ const Landing = () => {
 
   return (
     <div>
-      <NavbarView />
-      <div className="container-fluid">
-        <div className="row"></div>
-        <Container>
-          <Row>
-            <Col>
-              <div className="card">
-                <div className="card-header">
-                  <strong>Find your product</strong>
-                </div>
-                <div className="card-body">
-                  <label htmlFor="inputByName">Product Name</label>
-                  {/* filter by name */}
-                  <input
-                    onChange={inputHandler}
-                    name="inputByName"
-                    type="text"
-                    className="form-control mb-3"
-                  />
-                  {/* Filter by categories */}
-                  <label htmlFor="inputByCategory">Product Category</label>
-                  <select
-                    name="inputByCategory"
-                    onChange={inputHandler}
-                    className="form-control"
-                  >
-                    <option value="">All Items</option>
-                    <option value="Sport Performance">Sport Performance</option>
-                    <option value="Core / Neo">Core / Neo</option>
-                    <option value="Originals">Originals</option>
-                  </select>
-                  <button
-                    onClick={searchBtnHandler}
-                    className="btn btn-primary mt-3"
-                  >
-                    Search
-                  </button>
-                </div>
-
-                {/* dropdown Sort Products */}
-                <div className="card-body">
-                  <label htmlFor="sort">Sort by</label>
-                  <select
-                    onChange={inputHandler}
-                    name="sort"
-                    className="form-control"
-                  >
-                    <option value="">Default</option>
-                    <option value="lowPrice">Lowest Price</option>
-                    <option value="highPrice">Highest Price</option>
-                    <option value="az">A-Z</option>
-                    <option value="za">Z-A</option>
-                  </select>
-                </div>
-
-                {/* Pagination */}
-                <div className="mt-3">
-                  <div className="d-flex flex-row justify-content-between align-items-center">
-                    <button
-                      disabled={pagination.currentPage === 1}
-                      onClick={prevPageHandler}
-                      className="btn btn-dark"
-                    >
-                      {"<"}
-                    </button>
-                    <div>
-                      Page {pagination.currentPage} of {pagination.maxPage}
-                    </div>
-                    <button
-                      disabled={pagination.currentPage === pagination.maxPage}
-                      onClick={nextPageHandler}
-                      className="btn btn-dark"
-                    >
-                      {">"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col>
-              {/* <div class="album py-5 bg-light"> */}
-              <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                  {renderProducts()}
-                </div>
-              </div>
-              {/* </div> */}
-            </Col>
-          </Row>
-        </Container>
-      </div>
-
-      {/* Side Bar */}
-      <div className="container-fluid">
-        <div className="row">
-          {/* Render content */}
-          {/* <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
-
-          {/* </div> */}
+      {/* <NavbarView /> */}
+      <div className="col-md-12 col-lg-12 px-md-4">
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 className="h2">Find Your Product</h1>
+          <div className="btn-toolbar mb-2 mb-md-0">
+            <div className="btn-group me-2"></div>
+          </div>
         </div>
+        <Card body className="mb-3">
+          <div className="container-fluid">
+            <div className="row"></div>
+            <Container>
+              <Row>
+                <Col>
+                  <div className="card">
+                    <div className="card-body">
+                      <label htmlFor="inputByName">Product Name</label>
+                      {/* filter by name */}
+                      <input
+                        onChange={inputHandler}
+                        name="inputByName"
+                        type="text"
+                        className="form-control mb-3"
+                      />
+                      {/* Filter by categories */}
+                      <label htmlFor="inputByCategory">Product Category</label>
+                      <select
+                        name="inputByCategory"
+                        onChange={inputHandler}
+                        className="form-control"
+                      >
+                        <option value="">All Items</option>
+                        <option value="Sport Performance">
+                          Sport Performance
+                        </option>
+                        <option value="Core / Neo">Core / Neo</option>
+                        <option value="Originals">Originals</option>
+                      </select>
+                      <button
+                        onClick={searchBtnHandler}
+                        className="btn btn-primary mt-3"
+                      >
+                        Search
+                      </button>
+                    </div>
+
+                    {/* dropdown Sort Products */}
+                    <div className="card-body">
+                      <label htmlFor="sort">Sort by</label>
+                      <select
+                        onChange={inputHandler}
+                        name="sort"
+                        className="form-control"
+                      >
+                        <option value="">Default</option>
+                        <option value="lowPrice">Lowest Price</option>
+                        <option value="highPrice">Highest Price</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                      </select>
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="mt-3">
+                      <div className="d-flex flex-row justify-content-between align-items-center">
+                        <button
+                          disabled={pagination.currentPage === 1}
+                          onClick={prevPageHandler}
+                          className="btn btn-dark"
+                        >
+                          {"<"}
+                        </button>
+                        <div>
+                          Page {pagination.currentPage} of {pagination.maxPage}
+                        </div>
+                        <button
+                          disabled={
+                            pagination.currentPage === pagination.maxPage
+                          }
+                          onClick={nextPageHandler}
+                          className="btn btn-dark"
+                        >
+                          {">"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={12} md={9}>
+                  <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                      {renderProducts()}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        </Card>
       </div>
     </div>
   );
