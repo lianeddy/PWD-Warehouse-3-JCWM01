@@ -12,13 +12,13 @@ export const authLogin = (data) => {
 export const keepLoginAction = (userData) => {
   console.log("Here");
   return async (dispatch) => {
-    dispatch("API_USER_START");
+    dispatch({ type: "API_USER_START" });
     try {
-      // const userLocalStorage = localStorage.getItem("dataToken");
+      const token = localStorage.getItem("dataToken");
       // const token = JSON.parse(userLocalStorage);
       const headers = {
         headers: {
-          authorization: `Bearer ${userData}`,
+          authorization: `Bearer ${token}`,
         },
       };
       const response = await Axios.post(
@@ -33,7 +33,7 @@ export const keepLoginAction = (userData) => {
         payload: { id_user, id_warehouse, id_role, username, email, is_valid },
       });
       dispatch({
-        type: "API_USER_START",
+        type: "API_USER_SUCCESS",
       });
     } catch (err) {
       dispatch({
@@ -41,5 +41,12 @@ export const keepLoginAction = (userData) => {
         payload: err.message,
       });
     }
+  };
+};
+
+export const logoutUser = () => {
+  localStorage.removeItem("dataToken");
+  return {
+    type: "LOGOUT_SUCCESS",
   };
 };
