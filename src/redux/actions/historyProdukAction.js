@@ -187,7 +187,7 @@ const modalIsOpen = (status) => {
 //         );
 //       })
 //       .catch((err) => {
-//         SwalFire.fire("Gagal Updated!", "Server Error", "danger");
+//         SwalFire.fire("Gagal Updated!", "Server Error", "error");
 //       });
 //   };
 // };

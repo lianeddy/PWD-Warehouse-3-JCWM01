@@ -20,6 +20,7 @@ const InputAutocomplete = ({
   lgAsync = "6",
   selected = null,
   disabled = false,
+  emptyLabel = "No matches found.",
 }) => {
   // const handleChange = (selectedOptions) => {
   //   console.log("handleChange");
@@ -54,6 +55,7 @@ const InputAutocomplete = ({
             renderMenuItemChildren={renderMenuItemChildren}
             selected={selected}
             disabled={disabled}
+            emptyLabel={emptyLabel}
             // style={{ paddingLeft: "1%" }}
           />
         </Col>

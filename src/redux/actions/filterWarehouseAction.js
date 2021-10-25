@@ -14,7 +14,7 @@ export const getDataFilterWarehouse = (data, type) => {
         dispatch({
           type: "GET_FILTER_WAREHOUSE",
           payload: {
-            isLoading: false,
+            isLoadingPenerima: false,
             optionsFilterPenerima: options,
           },
         });
@@ -22,7 +22,7 @@ export const getDataFilterWarehouse = (data, type) => {
         dispatch({
           type: "GET_FILTER_WAREHOUSE",
           payload: {
-            isLoading: false,
+            isLoadingPengirim: false,
             optionsFilterPengirim: options,
           },
         });
@@ -30,7 +30,8 @@ export const getDataFilterWarehouse = (data, type) => {
         dispatch({
           type: "GET_FILTER_WAREHOUSE",
           payload: {
-            isLoading: false,
+            isLoadingPengirim: false,
+            isLoadingPenerima: false,
             optionsFilterPenerima: options,
             optionsFilterPengirim: options,
           },

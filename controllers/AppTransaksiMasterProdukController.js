@@ -32,6 +32,14 @@ module.exports = {
     if (req.query.hasOwnProperty("is_verify")) {
       qryString += ` is_verify = '${req.query.is_verify}' AND`;
     }
+    // Filter Warehouse
+    if (req.query.hasOwnProperty("id_warehouse")) {
+      qryString += ` id_warehouse = '${req.query.id_warehouse}' AND`;
+    }
+    // Filter ID Transaksi Master Produk
+    if (req.query.hasOwnProperty("id_transaksi_master_produk")) {
+      qryString += ` id_transaksi_master_produk = '${req.query.id_transaksi_master_produk}' AND`;
+    }
     // Filter Tgl Mulai
     if (req.query.hasOwnProperty("tgl_mulai")) {
       qryString += ` created_at>='${req.query.tgl_mulai}' AND`;
@@ -54,11 +62,25 @@ module.exports = {
       .withGraphFetched("data_metode_pembayaran")
       .withGraphFetched("data_metode_pengiriman")
       .withGraphFetched("data_user")
+      .withGraphFetched("data_warehouse")
+      .withGraphFetched("data_alamat_user_single.[datapropinsi,datakabkota]")
+      .withGraphFetched("data_permintaan_produk_single")
       .withGraphFetched(
-        "data_detail_transaksi_master_produk.[data_master_produk, data_warehouse]"
+        "data_detail_transaksi_master_produk.[data_master_produk,data_persediaan_produk_single]"
       )
+      .modifyGraph(
+        "data_detail_transaksi_master_produk.[data_persediaan_produk_single]",
+        (builder) => {
+          if (req.query.hasOwnProperty("id_warehouse"))
+            builder.where("id_warehouse", req.query.id_warehouse);
+        }
+      )
+      .modifyGraph("data_alamat_user_single", (builder) => {
+        builder.where("is_default", 1);
+      })
+      .orderBy("created_at", "desc")
       .page(pages, maxPerPage);
-    res.status(200).send({
+    return res.status(200).send({
       ...output,
       maxPerPage,
       pagesNow: pages,

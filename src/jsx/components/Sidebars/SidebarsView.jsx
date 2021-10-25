@@ -17,30 +17,53 @@ const SidebarsView = (props) => {
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
     { link: "/orders", icon: "#table", name: "Orders" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
+    { link: "/product-list", icon: "#grid", name: "Products" },
+    // { link: "/warehouse", icon: "#home", name: "Warehouse" },
     {
       link: "/permintaan-barang",
       icon: "#request-produk",
       name: "Request Products",
     },
     { link: "/history-barang", icon: "#calendar3", name: "History Products" },
-    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
     { link: "/notif", icon: "#notif", name: "Notifications" },
+    { link: "/transactions", icon: "#credit-card", name: "Transactions" },
     {
       link: "/history-transaksi",
       icon: "#archieve",
       name: "History Transactions",
     },
-    { link: "/products", icon: "#grid", name: "Products" },
+    { link: "/list-admins", icon: "#person-circle", name: "Admins" },
+  ]);
+
+  const [sidebarItemSuperAdmin, setsidebarItemSuperAdmin] = useState([
+    // { link: "/home", icon: "#home", name: "Home" },
+    { link: "/warehouse", icon: "#home", name: "Warehouse" },
   ]);
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
-    { link: "/orders", icon: "#table", name: "Orders" },
-    { link: "/upload-bukti-bayar", icon: "#notif", name: "Order Confirmation" },
     { link: "/products", icon: "#grid", name: "Products" },
+    { link: "/transactions", icon: "#credit-card", name: "Transactions" },
   ]);
 
   const renderMenuAdmin = () => {
     let output = sidebarItemAdmin.map((el, index) => {
+      const { link, icon, name } = el;
+      return (
+        <li className="nav-item" key={index}>
+          <NavLink to={link} className={`nav-link link-dark`}>
+            <svg className="bi me-2" width="16" height="16">
+              <use xlinkHref={icon} />
+            </svg>
+            {name}
+          </NavLink>
+        </li>
+      );
+    });
+    return output;
+  };
+
+  const renderMenuSuperAdmin = () => {
+    let output = sidebarItemSuperAdmin.map((el, index) => {
       const { link, icon, name } = el;
       return (
         <li className="nav-item" key={index}>
@@ -85,6 +108,7 @@ const SidebarsView = (props) => {
           {props.userGlobal.id_role < 3
             ? renderMenuAdmin()
             : renderMenuCustomer()}
+          {props.userGlobal.id_role == 1 ? renderMenuSuperAdmin() : ""}
         </ul>
         <hr />
         <Dropdown>

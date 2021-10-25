@@ -387,13 +387,13 @@ class AppPermintaanBarangView extends React.Component {
             <h1 className="h2">Data Permintaan Produk</h1>
             <div className="btn-toolbar mb-2 mb-md-0">
               <div className="btn-group me-2">
-                <button
+                {/* <button
                   type="button"
                   className="btn btn-primary"
                   onClick={this.tambahModalHandler}
                 >
                   &#10147; Kirim Permintaan
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -533,12 +533,12 @@ class AppPermintaanBarangView extends React.Component {
             </div>
           </div>
         </div>
-        <AppPermintaanBarangCreateUpdate
+        {/* <AppPermintaanBarangCreateUpdate
           isAddData={this.state.isAddData}
           modalData={this.state.modalData}
           isShow={this.props.permintaanProdukGlobal.modalIsOpen}
           modalTitle={this.state.modalTitle}
-        />
+        /> */}
       </React.Fragment>
     );
   }

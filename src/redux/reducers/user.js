@@ -14,7 +14,8 @@ const INIT_STATE = {
   address: "",
   loading: false,
   error: "",
-  isLogin: false,
+  isLogin: true,
+  url_profile: "",
 };
 
 export const authReducer = (state = INIT_STATE, action) => {

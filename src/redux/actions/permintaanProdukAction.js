@@ -189,8 +189,17 @@ const isTerimaPermintaanBarang = (id, data, status) => {
         );
       })
       .catch((err) => {
-        SwalFire.fire("Gagal Updated!", "Server Error", "danger");
+        SwalFire.fire("Gagal Updated!", "Server Error", "error");
       });
+  };
+};
+
+const updateJmlSelisih = (jml_selisih) => {
+  return (dispatch) => {
+    dispatch({
+      type: "GET_PERMINTAAN_BARANG",
+      payload: { jml_selisih: jml_selisih },
+    });
   };
 };
 
@@ -201,4 +210,5 @@ export {
   deleteDataPermintaanProduk,
   modalIsOpen,
   isTerimaPermintaanBarang,
+  updateJmlSelisih,
 };

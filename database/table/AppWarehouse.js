@@ -1,4 +1,4 @@
-const AppKabKota = require("./AppKabKota");
+const AppPersediaanProduk = require("./AppPersediaanProduk");
 const { ProjectAkhirPurwadhika } = require("../mysql/ProjectAkhirPurwadhika");
 
 class AppWarehouse extends ProjectAkhirPurwadhika {
@@ -8,14 +8,14 @@ class AppWarehouse extends ProjectAkhirPurwadhika {
 
   static get relationMappings() {
     return {
-      // datakabkota: {
-      //   relation: ProjectAkhirPurwadhika.HasManyRelation,
-      //   modelClass: AppKabKota,
-      //   join: {
-      //     from: "app_propinsi.id_propinsi",
-      //     to: "app_kabkota.id_propinsi",
-      //   },
-      // },
+      data_persediaan_produk_single: {
+        relation: ProjectAkhirPurwadhika.BelongsToOneRelation,
+        modelClass: AppPersediaanProduk,
+        join: {
+          from: "app_warehouse.id_warehouse",
+          to: "app_persediaan_produk.id_warehouse",
+        },
+      },
     };
   }
 }

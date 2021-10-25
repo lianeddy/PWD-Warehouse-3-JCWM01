@@ -185,9 +185,64 @@ const CreateWarehouseComponent = ({
 
   return (
     <Container>
-      <p className="fs-4">Buat warehouse baru</p>
-      <hr />
       <Form>
+        <p className="fs-4">Buat Admin baru</p>
+        <hr />
+        <Form.Group as={Row} className="mb-3" controlId="full_name">
+          <Form.Label column sm="3" className="text-end">
+            Full Name Admin
+          </Form.Label>
+          <Col sm="7">
+            <Form.Control type="text" onChange={onInputchangeHandler} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3" controlId="gender">
+          <Form.Label column sm="3" className="text-end">
+            Gender
+          </Form.Label>
+          <Col sm="7">
+            <Form.Select onChange={onInputchangeHandler}>
+              <option>Pilih Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3" controlId="email">
+          <Form.Label column sm="3" className="text-end">
+            Email
+          </Form.Label>
+          <Col sm="7">
+            <Form.Control type="email" onChange={onInputchangeHandler} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3" controlId="password">
+          <Form.Label column sm="3" className="text-end">
+            Password
+          </Form.Label>
+          <Col sm="7">
+            <Form.Control type="password" onChange={onInputchangeHandler} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3" controlId="birth_date">
+          <Form.Label column sm="3" className="text-end">
+            Birth Date
+          </Form.Label>
+          <Col sm="7">
+            <Form.Control type="date" onChange={onInputchangeHandler} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3" controlId="phone">
+          <Form.Label column sm="3" className="text-end">
+            Phone
+          </Form.Label>
+          <Col sm="7">
+            <Form.Control type="number" onChange={onInputchangeHandler} />
+          </Col>
+        </Form.Group>
+
+        <p className="fs-4">Buat warehouse baru</p>
+        <hr />
         <Form.Group as={Row} className="mb-3" controlId="nm_warehouse">
           <Form.Label column sm="3" className="text-end">
             Nama Warehouse

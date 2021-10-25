@@ -1,6 +1,9 @@
 const AppMetodePengiriman = require("./AppMetodePengiriman");
 const AppMetodePembayaran = require("./AppMetodePembayaran");
 const AppTransaksiMasterProdukDetail = require("./AppTransaksiMasterProdukDetail");
+const AppWarehouse = require("./AppWarehouse");
+const AppDataAlamatUser = require("./AppDataAlamatUser");
+const AppPermintaanProduk = require("./AppPermintaanProduk");
 const SysUser = require("./SysUser");
 const { ProjectAkhirPurwadhika } = require("../mysql/ProjectAkhirPurwadhika");
 
@@ -41,6 +44,30 @@ class AppTransaksiMasterProduk extends ProjectAkhirPurwadhika {
         join: {
           from: "app_transaksi_master_produk.id_transaksi_master_produk",
           to: "app_detail_transaksi_master_produk.id_transaksi_master_produk",
+        },
+      },
+      data_warehouse: {
+        relation: ProjectAkhirPurwadhika.BelongsToOneRelation,
+        modelClass: AppWarehouse,
+        join: {
+          from: "app_transaksi_master_produk.id_warehouse",
+          to: "app_warehouse.id_warehouse",
+        },
+      },
+      data_alamat_user_single: {
+        relation: ProjectAkhirPurwadhika.BelongsToOneRelation,
+        modelClass: AppDataAlamatUser,
+        join: {
+          from: "app_transaksi_master_produk.id_user",
+          to: "app_data_alamat_user.id_user",
+        },
+      },
+      data_permintaan_produk_single: {
+        relation: ProjectAkhirPurwadhika.BelongsToOneRelation,
+        modelClass: AppPermintaanProduk,
+        join: {
+          from: "app_transaksi_master_produk.id_transaksi_master_produk",
+          to: "app_permintaan_produk.id_transaksi_master_produk",
         },
       },
     };
