@@ -25,12 +25,38 @@ module.exports = {
 
     // Filter Name Master Produk
     if (req.query.hasOwnProperty("nm_warehouse")) {
-      qryString += ` nm_warehouse LIKE '%${req.query.nm_warehouse}%' 
-      OR kode_warehouse LIKE '%${req.query.nm_warehouse}%'`;
+      qryString += ` (app_warehouse.nm_warehouse LIKE '%${req.query.nm_warehouse}%' 
+      OR app_warehouse.kode_warehouse LIKE '%${req.query.nm_warehouse}%')`;
+    }
+    // Filter ID Master Produk
+    if (req.query.hasOwnProperty("id_master_produk")) {
+      qryString += ` AND app_persediaan_produk.id_master_produk = ${req.query.id_master_produk}`;
+    }
+    // Filter Jumlah Produk
+    if (req.query.hasOwnProperty("jumlah_produk")) {
+      qryString += ` AND app_persediaan_produk.stok >= ${req.query.jumlah_produk}`;
+    }
+    // Filter Jumlah Produk
+    if (req.query.hasOwnProperty("id_warehouse_user")) {
+      qryString += ` AND app_warehouse.id_warehouse != ${req.query.id_warehouse_user}`;
     }
 
     let output = await AppWarehouse.query()
       .whereNotDeleted()
+      // .withGraphFetched("data_persediaan_produk_single")
+      // .modifyGraph("data_persediaan_produk_single", (builder) => {
+      //   if (req.query.hasOwnProperty("id_master_produk"))
+      //     builder.where("id_master_produk", req.query.id_master_produk);
+      //   if (req.query.hasOwnProperty("jumlah_produk")) {
+      //     console.log(req.query.jumlah_produk);
+      //     builder.where("stok", ">=", req.query.jumlah_produk);
+      //   }
+      // })
+      .leftJoin(
+        "app_persediaan_produk",
+        "app_warehouse.id_warehouse",
+        "app_persediaan_produk.id_warehouse"
+      )
       .whereRaw(qryString)
       .page(pages, maxPerPage);
     res.status(200).send({

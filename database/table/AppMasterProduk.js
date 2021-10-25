@@ -1,4 +1,5 @@
 const AppHistoryPersediaanProduk = require("./AppHistoryPersediaanProduk");
+const AppPersediaanProduk = require("./AppPersediaanProduk");
 const { ProjectAkhirPurwadhika } = require("../mysql/ProjectAkhirPurwadhika");
 
 class AppMasterProduk extends ProjectAkhirPurwadhika {
@@ -14,6 +15,14 @@ class AppMasterProduk extends ProjectAkhirPurwadhika {
         join: {
           from: "app_master_produk.id_master_produk",
           to: "app_history_persediaan_produk.id_master_produk",
+        },
+      },
+      data_persediaan_produk: {
+        relation: ProjectAkhirPurwadhika.HasManyRelation,
+        modelClass: AppPersediaanProduk,
+        join: {
+          from: "app_master_produk.id_master_produk",
+          to: "app_persediaan_produk.id_master_produk",
         },
       },
     };
