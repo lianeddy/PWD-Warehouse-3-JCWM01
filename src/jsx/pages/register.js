@@ -95,7 +95,7 @@ class Register extends React.Component {
 
           <button
             type="submit"
-            className="btn btn-primary btn-block btn-auth"
+            className="btn btn-primary btn-block btn-register"
             onClick={this.onBtnRegister}
             disabled={this.state.disableBtn}
           >

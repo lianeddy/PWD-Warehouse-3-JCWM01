@@ -46,6 +46,7 @@ export const keepLoginAction = (userData) => {
 
 export const logoutUser = () => {
   localStorage.removeItem("dataToken");
+  window.location.assign("/login");
   return {
     type: "LOGOUT_SUCCESS",
   };

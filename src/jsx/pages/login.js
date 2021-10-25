@@ -34,6 +34,7 @@ class Login extends React.Component {
         console.log("Login Success");
         this.inputUsername.value = "";
         this.inputPassword.value = "";
+        window.location.assign("/Products");
       })
       .catch((err) => {
         // event.preventDefault();
@@ -44,7 +45,7 @@ class Login extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/products" />;
     }
 
     return (
