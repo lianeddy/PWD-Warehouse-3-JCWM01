@@ -148,7 +148,7 @@ module.exports = {
     let nextPage;
     let previusPage;
 
-    const scriptQuery = `SELECT id_persediaan_produk, id_master_produk, nm_master_produk, harga, description, sum(stok) as total_stok, URL FROM app_persediaan_produk pp JOIN app_master_produk p on pp.id_produk = p.id_master_produk group by id_master_produk;`;
+    const scriptQuery = `SELECT p.id_master_produk, p.nm_master_produk, p.harga, p.description, pp.total_stok, p.URL FROM (SELECT sum(stok) as total_stok, id_master_produk FROM app_persediaan_produk GROUP BY id_master_produk) as pp JOIN app_master_produk as p on pp.id_master_produk = p.id_master_produk;`;
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
         res.status(500).send({
@@ -180,7 +180,7 @@ module.exports = {
       //     return results;
       //   }
       // });
-
+      console.table(results);
       let productsCount = results.length;
       let maxPageProducts = Math.ceil(productsCount / limit);
 
