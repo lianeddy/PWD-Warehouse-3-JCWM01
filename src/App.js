@@ -20,22 +20,21 @@ import DasboardExample from "./jsx/example/DashboardExample";
 import { keepLoginAction } from "./redux/actions/user";
 
 function App(props) {
-  useEffect(() => {
-    //
-    const userLocalStorage = localStorage.getItem("dataToken");
-    // const userData = JSON.parse(userLocalStorage);
-    console.log(userLocalStorage);
+  const userLocalStorage = localStorage.getItem("dataToken");
 
-    // console.log(userData);
+  const keepLogin = () => {
     if (userLocalStorage) {
-      console.log("HERE");
-      // const userData = JSON.parse(userLocalStorage);
-      props.keepLoginAction();
-      // this.props.getCartData(userData.id);
-    } else {
-      // this.props.checkStorage();
-      console.log("Data localStorage tidak ada");
+      // console.log(userLocalStorage);
+      //get user login action
+      props.keepLoginAction(userLocalStorage);
+      //get Cart Action Reducer
+      // props.CheckCart(userLocalStorage)
+      //Get Address action Reducer
+      // props.checkAddress(userLocalStorage)
     }
+  };
+  useEffect(() => {
+    keepLogin();
   }, []);
 
   return (

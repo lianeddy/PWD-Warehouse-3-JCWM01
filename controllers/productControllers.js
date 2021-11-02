@@ -180,7 +180,7 @@ module.exports = {
       //     return results;
       //   }
       // });
-      console.table(results);
+      // console.table(results);
       let productsCount = results.length;
       let maxPageProducts = Math.ceil(productsCount / limit);
 

@@ -112,6 +112,17 @@ const NavbarView = (props) => {
     },
   ]);
 
+  const [pageNonLogin, setPageNonLogin] = useState([
+    {
+      path: "/products",
+      component: ProductList,
+    },
+    {
+      path: "/product-detail/:id_master_produk",
+      component: productDetail,
+    },
+  ]);
+
   const renderItemAdmin = () => {
     let output = pageAdmin.map((el, index) => {
       const { path, component } = el;
@@ -128,20 +139,30 @@ const NavbarView = (props) => {
     return output;
   };
 
+  const renderItemNonLogin = () => {
+    let output = pageNonLogin.map((el, index) => {
+      const { path, component } = el;
+      return <Route path={path} component={component} key={index} />;
+    });
+    return output;
+  };
+
   return (
     <>
       <Navbar bg="dark" expand="lg" variant="dark">
         <Container fluid>
-          <Navbar.Brand href="#home">Judul Brand</Navbar.Brand>
+          <Navbar.Brand href="#home">SPORTYFY</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"
             className="d-flex justify-content-end"
           >
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              {!props.userGlobal.id_role ? (
+                <Nav.Link href="/login">Login</Nav.Link>
+              ) : null}
+              {/* <Nav.Link href="#link">Link</Nav.Link> */}
+              {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.2">
                   Notification
                 </NavDropdown.Item>
@@ -150,16 +171,28 @@ const NavbarView = (props) => {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       <div className="p-2">
         <Switch>
-          {props.userGlobal.id_role < 3
+          {props.userGlobal.id_role === 1
             ? renderItemAdmin()
-            : renderItemCustomer()}
+            : props.userGlobal.id_role === 2
+            ? renderItemAdmin()
+            : props.userGlobal.id_role === 3
+            ? renderItemCustomer()
+            : props.userGlobal.id_role === null
+            ? renderItemNonLogin()
+            : null}
+
+          {/* {props.userGlobal.id_role < 3
+            ? renderItemAdmin()
+            : renderItemCustomer()} */}
+          {/* renderItemNonLogin() */}
+          {/* Render Navbar User Not Login Here */}
         </Switch>
       </div>
     </>

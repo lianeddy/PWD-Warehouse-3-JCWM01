@@ -12,6 +12,7 @@ const SidebarsView = (props) => {
     orders: "",
     name: "Home",
   });
+
   const [sidebarItemAdmin, setsidebarItemAdmin] = useState([
     // { link: "/home", icon: "#home", name: "Home" },
     { link: "/dashboard", icon: "#speedometer2", name: "Dashboard" },
@@ -47,6 +48,10 @@ const SidebarsView = (props) => {
       icon: "#credit-card",
       name: "Order Confirmation",
     },
+  ]);
+
+  const [sidebarItemNonLogin, setsidebarItemNonLogin] = useState([
+    { link: "/products", icon: "#grid", name: "Products" },
   ]);
 
   const renderMenuAdmin = () => {
@@ -100,6 +105,23 @@ const SidebarsView = (props) => {
     return output;
   };
 
+  const renderMenuNonLogin = () => {
+    let output = sidebarItemNonLogin.map((el, index) => {
+      const { link, icon, name } = el;
+      return (
+        <li className="nav-item" key={index}>
+          <NavLink to={link} className={`nav-link link-dark`}>
+            <svg className="bi me-2" width="16" height="16">
+              <use xlinkHref={icon} />
+            </svg>
+            {name}
+          </NavLink>
+        </li>
+      );
+    });
+    return output;
+  };
+
   return (
     <>
       <SVG />
@@ -109,41 +131,50 @@ const SidebarsView = (props) => {
         style={{ width: "16.66666667%", minHeight: "100vh", position: "fixed" }}
       >
         <ul className="nav nav-pills flex-column mb-auto">
-          {props.userGlobal.id_role < 3
+          {props.userGlobal.id_role === null
+            ? renderMenuNonLogin()
+            : props.userGlobal.id_role === 2
             ? renderMenuAdmin()
-            : renderMenuCustomer()}
-          {props.userGlobal.id_role == 1 ? renderMenuSuperAdmin() : ""}
+            : props.userGlobal.id_role === 1
+            ? renderMenuSuperAdmin()
+            : props.userGlobal.id_role === 3
+            ? renderMenuCustomer()
+            : null}
         </ul>
         <hr />
-        <Dropdown>
-          <Dropdown.Toggle
-            id="dropdown-basic"
-            style={{ width: "100%" }}
-            className="d-flex align-items-center"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              className="rounded-circle me-2"
-            />
-            <strong>mdo</strong>
-          </Dropdown.Toggle>
+        {props.userGlobal.id_role ? (
+          <Dropdown>
+            <Dropdown.Toggle
+              id="dropdown-basic"
+              style={{ width: "100%" }}
+              className="d-flex align-items-center"
+            >
+              <img
+                src="https://github.com/mdo.png"
+                alt=""
+                width="32"
+                height="32"
+                className="rounded-circle me-2"
+              />
+              <strong>Hi, {props.userGlobal.username}</strong>
+            </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <Link to={`/change-password`}>change pass</Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <Link to={`/profile/`}>My profile</Link>
-            </Dropdown.Item>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link to={`/change-password`}>change pass</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to={`/profile/`}>My profile</Link>
+              </Dropdown.Item>
 
-            <Link>
-              <Dropdown.Item onClick={props.logoutUser}>Log Out</Dropdown.Item>
-            </Link>
-          </Dropdown.Menu>
-        </Dropdown>
+              <Link>
+                <Dropdown.Item onClick={props.logoutUser}>
+                  Log Out
+                </Dropdown.Item>
+              </Link>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null}
       </div>
     </>
   );

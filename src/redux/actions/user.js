@@ -9,45 +9,63 @@ export const authLogin = (data) => {
   };
 };
 
-export const keepLoginAction = (userData) => {
-  console.log("Here");
+export const keepLoginAction = (userLocalStorage) => {
   return async (dispatch) => {
-    dispatch({ type: "API_USER_START" });
     try {
-      const token = localStorage.getItem("dataToken");
-      // const token = JSON.parse(userLocalStorage);
-      const headers = {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await Axios.post(
+      const getDataLogin = await Axios.post(
         `${URL_API}/users/keep-login`,
         {},
-        headers
+        {
+          headers: {
+            authorization: `Bearer ${userLocalStorage}`,
+          },
+        }
       );
-      const { id_user, id_warehouse, id_role, username, email, is_valid } =
-        response.data;
-      dispatch({
-        type: "LOGIN_SUCCESS",
-        payload: { id_user, id_warehouse, id_role, username, email, is_valid },
-      });
-      dispatch({
-        type: "API_USER_SUCCESS",
-      });
+      delete getDataLogin.data.password;
+      if (getDataLogin.data.id_role === 1) {
+        dispatch({
+          type: "ADMIN_CHECK_LOGIN",
+          payload: getDataLogin.data,
+        });
+        return;
+      } else if (getDataLogin.data.id_role === 2) {
+        dispatch({
+          type: "ADMIN_CHECK_LOGIN",
+          payload: getDataLogin.data,
+        });
+        return;
+      } else {
+        dispatch({
+          type: "USER_CHECK_LOGIN",
+          payload: getDataLogin.data,
+        });
+      }
     } catch (err) {
-      dispatch({
-        type: "API_USER_FAILED",
-        payload: err.message,
-      });
+      alert(err);
     }
   };
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("dataToken");
-  window.location.assign("/login");
-  return {
-    type: "LOGOUT_SUCCESS",
+  return async (dispatch) => {
+    try {
+      localStorage.removeItem("dataToken");
+      localStorage.removeItem("dataUser");
+      dispatch({
+        type: "USER_LOGOUT",
+      });
+      dispatch({
+        type: "ADMIN_LOGOUT",
+      });
+      window.location.assign("/products");
+    } catch (err) {
+      alert(err);
+    }
   };
+  // localStorage.removeItem("dataToken");
+  // localStorage.removeItem("dataUser");
+  // window.location.assign("/login");
+  // return {
+  //   type: "LOGOUT_SUCCESS",
+  // };
 };

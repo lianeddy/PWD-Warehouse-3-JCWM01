@@ -61,10 +61,9 @@ module.exports = {
     password = Crypto.createHmac("sha1", "hash123")
       .update(password)
       .digest("hex"); //hashing  before store in database
-    let insertQuery = `insert into sys_user 
-    (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at)
-    values (null, ${db.escape(username)}, ${db.escape(email)}, 
-    ${db.escape(password)}, 0, now(), now(), null)`;
+    let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
+      username
+    )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null);`;
     console.log(username, email, password);
     console.log(insertQuery);
     db.query(insertQuery, (err, results) => {
@@ -170,15 +169,18 @@ module.exports = {
     });
   },
   keepLogin: (req, res) => {
-    console.log("HERE");
+    console.log(req.user);
     let sql = `Select id_user, id_warehouse, id_role, username, email, is_valid from sys_user where id_user= ${db.escape(
-      req.id_user
+      req.user.id_user
     )}`;
-    db.query(sql, (err, data) => {
+    db.query(sql, (err, results) => {
+      console.log(results);
       if (err) {
-        return res.status(500).send(err);
+        return res
+          .status(500)
+          .send({ message: "Gagal mendapatkan data", error: err });
       }
-      return res.status(200).send(data[0]);
+      return res.status(200).send(results[0]);
     });
   },
 

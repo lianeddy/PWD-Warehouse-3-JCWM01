@@ -32,9 +32,9 @@ const Card = (props) => {
     }
   };
 
-  useEffect(() => {
-    checkStokProduct();
-  }, []);
+  // useEffect(() => {
+  //   checkStokProduct();
+  // }, []);
 
   return (
     <div class="col">
