@@ -10,7 +10,6 @@ import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangV
 import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
 import { connect } from "react-redux";
-import Profile from "../../pages/profile";
 import ProfileEdit from "../../pages/profile.edit";
 import AdminProducts from "../../pages/admin.products";
 import UploadPaymentImages from "../../example/UploadPaymentImages";
@@ -20,13 +19,14 @@ import ProductList from "../../pages/ProductLists";
 import productDetail from "../../pages/ProductDetail";
 import AppTransaksiAdminView from "../AppTransaksiAdmin/AppTransaksiAdminView";
 import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetail";
+import Profile from "../../pages/profile";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
-    {
-      path: "/profile",
-      component: ProfileExample,
-    },
+    // {
+    //   path: "/profile",
+    //   component: ProfileExample,
+    // },
     {
       path: "/warehouse",
       component: CreateWarehouseComponent,
@@ -79,13 +79,21 @@ const NavbarView = (props) => {
       path: "/transactions/",
       component: AppTransaksiAdminView,
     },
+    {
+      path: "/profile",
+      component: Profile,
+    },
+    {
+      path: "/profile-edit/:id",
+      component: ProfileEdit,
+    },
   ]);
 
   const [pageCustomer, setPageCustomer] = useState([
-    {
-      path: "/profile",
-      component: ProfileExample,
-    },
+    // {
+    //   path: "/profile",
+    //   component: ProfileExample,
+    // },
     {
       path: "/profileold/",
       component: Profile,
@@ -109,6 +117,14 @@ const NavbarView = (props) => {
     {
       path: "/products",
       component: ProductList,
+    },
+    {
+      path: "/profile",
+      component: Profile,
+    },
+    {
+      path: "/profile-edit/:id",
+      component: ProfileEdit,
     },
   ]);
 
