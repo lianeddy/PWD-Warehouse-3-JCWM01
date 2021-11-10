@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import UploadProfileUserComponent from "../components/UploadProfileUser/UploadProfileUserComponent";
 
-const UpdateProfileImages = () => {
+const UpdateProfileImages = (props) => {
   return (
     <UploadProfileUserComponent
       title="Input Profile Images"
       isUpdate={true}
-      idUser={0}
+      idUser={props.userGlobal.id_user}
     ></UploadProfileUserComponent>
   );
 };

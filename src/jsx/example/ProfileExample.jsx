@@ -18,14 +18,14 @@ const ProfileExample = ({ pathBase = "/profile" }) => {
     },
     {
       path: "/profile/image/update",
-      component: <UpdateProfileImages />,
+      component: <div>Belum Ada</div>,
     },
   ]);
   const [navItem, setNavItem] = useState([
     {
       eventKey: `link-datadiri`,
       textTitle: `Data Diri`,
-      indexSelector: 0,
+      indexSelector: 2,
     },
     {
       eventKey: `link-dataalamat`,
@@ -40,7 +40,7 @@ const ProfileExample = ({ pathBase = "/profile" }) => {
     {
       eventKey: `link-riwayattransaksi`,
       textTitle: `Riwayat Transaksi`,
-      indexSelector: 1,
+      indexSelector: 2,
     },
   ]);
 
