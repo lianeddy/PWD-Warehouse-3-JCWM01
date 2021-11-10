@@ -45,7 +45,7 @@ const NavbarView = (props) => {
     },
     {
       path: "/profileold/",
-      component: Profile,
+      component: ProfileExample,
     },
     {
       path: "/profileold-edit/",
@@ -96,7 +96,7 @@ const NavbarView = (props) => {
     // },
     {
       path: "/profileold/",
-      component: Profile,
+      component: ProfileExample,
     },
     {
       path: "/profileold-edit/",
