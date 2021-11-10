@@ -1,7 +1,9 @@
-const { AppTransaksiMasterProduk } = require("../database/table");
+const { AppTransaksiMasterProduk,AppTransaksiMasterProdukDetail } = require("../database/table");
 const { raw, ref } = require("objection");
+const Axios = require("axios");
 
 const ID = "id_transaksi_master_produk";
+const URL_API = "http://localhost:3300";
 
 module.exports = {
   getData: async (req, res, next) => {
@@ -118,14 +120,48 @@ module.exports = {
     else next();
   },
   updateData: async (req, res, next) => {
+    if (Object.keys(req.body).length == 0) next();
+
+    if (req.body.hasOwnProperty('is_terima_pesanan')) {
+      const {id_warehouse, id_user} = req.body;
+      let dataTD = await AppTransaksiMasterProdukDetail.query()
+        .where(ID, req.params.id);
+      console.table(dataTD);
+      for (const key in dataTD) {
+        const {id_master_barang, jumlah} = dataTD[key];
+        let dataAPIPerPro = await Axios.get(`${URL_API}/persediaan-produk`, {
+          params: {id_warehouse, id_master_produk: id_master_barang}
+        }).then((res) => res.data);
+        console.table(dataAPIPerPro.results);
+        console.log(typeof dataAPIPerPro.results);
+        
+        if(dataAPIPerPro.results.length == 0) next(); // apakah produk tersedia di warehouse
+        const {stok, id_persediaan_produk} = dataAPIPerPro.results[0];
+        let stokNow = parseInt(stok) - parseInt(jumlah); // kurangi jumlah persediaan-produk dengan item yg dibeli
+        
+        let updateAPIPerPro = await Axios.patch(`${URL_API}/persediaan-produk/${id_persediaan_produk}`, {
+          stok: stokNow,
+          id_user,
+          id_warehouse,
+          id_master_produk: id_master_barang,
+          keluar: jumlah, // karena terima pesanan jadi barang keluar
+        }).then((res) => res.data)
+        .catch((err) => console.error(err));
+        console.table(updateAPIPerPro);
+      }
+
+      delete req.body.is_terima_pesanan; // remove value
+    }
+
     let output = await AppTransaksiMasterProduk.query()
       .update(req.body)
       .where(ID, req.params.id);
-    if (output)
-      res.status(200).send({
+    if (output){
+      return res.status(200).send({
         message: "success",
         code: 1,
       });
+    }
     else next();
   },
   updateManyDataByIdUser: async (req, res, next) => {

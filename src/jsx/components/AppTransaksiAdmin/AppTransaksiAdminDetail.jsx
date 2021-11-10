@@ -108,7 +108,8 @@ class AppTransaksiAdminDetail extends React.Component {
         // Mengirim data update
         this.props.isTerimaPesanan(
           this.state.dataDetail.id_transaksi_master_produk,
-          this.props.history
+          this.props.history,
+          this.props.userGlobal
         );
       }
     });

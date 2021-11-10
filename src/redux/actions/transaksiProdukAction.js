@@ -161,12 +161,22 @@ const modalIsOpen = (status) => {
   };
 };
 
-const isTerimaPesanan = (id, propsHistory) => {
+const isTerimaPesanan = (id, propsHistory, data = null) => {
   return (dispatch) => {
-    Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, {
+    let dataOut = {
       is_tolak: 1,
       is_verify: 1,
-    })
+      is_terima_pesanan: true,
+    }
+    if (data != null) {
+      const {id_user, id_warehouse} = data;
+      dataOut = {
+        ...dataOut,
+        id_user,
+        id_warehouse,
+      }
+    }
+    Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, dataOut)
       .then((result) => {
         SwalFire.fire("Pesanan Diterima!", result.data.message, "success");
         propsHistory.goBack();

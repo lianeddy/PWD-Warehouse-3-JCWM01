@@ -2,6 +2,7 @@ const AppHistoryPersediaanProduk = require("./AppHistoryPersediaanProduk");
 const AppPersediaanProduk = require("./AppPersediaanProduk");
 const AppPermintaanProduk = require("./AppPermintaanProduk");
 const AppTransaksiMasterProduk = require("./AppTransaksiMasterProduk");
+const AppTransaksiMasterProdukDetail = require("./AppTransaksiMasterProdukDetail");
 const AppMasterProduk = require("./AppMasterProduk");
 const SysFile = require("./SysFile");
 const SysAuthorization = require("./SysAuthorization");
@@ -24,4 +25,5 @@ module.exports = {
   AppMasterProduk,
   AppHistoryPersediaanProduk,
   AppPersediaanProduk,
+  AppTransaksiMasterProdukDetail
 };
