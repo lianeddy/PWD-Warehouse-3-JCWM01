@@ -11,6 +11,7 @@ class ForgotPasswordUpdate extends React.Component {
     this.state = {
       newPassword: "",
       confirmPassword: "",
+      hidden: true,
     };
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.toggleShow = this.toggleShow.bind(this);

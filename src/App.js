@@ -24,7 +24,6 @@ function App(props) {
 
   const keepLogin = () => {
     if (userLocalStorage) {
-      // console.log(userLocalStorage);
       //get user login action
       props.keepLoginAction(userLocalStorage);
       //get Cart Action Reducer
@@ -66,26 +65,7 @@ function App(props) {
                 path="/users/example-component/profile-image/update"
                 component={UpdateProfileImages}
               />
-              {/* <Route path="/uploadProduct" component={UploadProductImage} />
-              <Route
-                path="/users/example-component/typehead"
-                component={Typeahead}
-              />
-              <Route path="/admin-product" component={ProductAdmin} />
-              <Route
-                path="/product-detail/:id_master_produk"
-                component={ProductDetail}
-              />
-              <Route
-                path="/upload-bukti-bayar"
-                component={UploadPaymentImages}
-              />
-              <Route path="/product-list" component={ProductLists} /> */}
-              <Route component={Profile} path="/profile/" />
-              <Route component={ProfileEdit} path="/profile-edit/:id" />
-
               <Route path="/" component={DasboardExample} />
-              {/* <Route path="/" component={Landing} /> */}
             </Switch>
           </BrowserRouter>
         </div>

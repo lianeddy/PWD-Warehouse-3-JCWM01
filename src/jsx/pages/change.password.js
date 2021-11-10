@@ -151,7 +151,7 @@ class ChangePassword extends React.Component {
 
           <div>
             <button type="submit" className="btn btn-secondary btn-cancel ">
-              <Link className="text-light text-decoration-none" to="/">
+              <Link className="text-light text-decoration-none" to="/profile">
                 Cancel
               </Link>
             </button>

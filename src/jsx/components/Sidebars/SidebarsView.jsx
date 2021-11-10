@@ -164,7 +164,7 @@ const SidebarsView = (props) => {
                 <Link to={`/change-password`}>change pass</Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Link to={`/profile/`}>My profile</Link>
+                <Link to={`/profile`}>My profile</Link>
               </Dropdown.Item>
 
               <Link>
