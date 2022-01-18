@@ -13,6 +13,7 @@ const productControllers = require("./productControllers");
 const productImageController = require("./productImageController");
 const AppPersediaanProdukController = require("./AppPersediaanProdukController");
 const AppTransaksiMasterProdukController = require("./AppTransaksiMasterProdukController");
+const cartContollers = require('./cartControllers')
 
 module.exports = {
   userControllers,
@@ -30,4 +31,5 @@ module.exports = {
   productImageController,
   AppPersediaanProdukController,
   AppTransaksiMasterProdukController,
+  cartContollers
 };

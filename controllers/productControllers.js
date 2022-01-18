@@ -1,8 +1,11 @@
-const { db } = require("../helpers/index");
+const {
+  db
+} = require("../helpers/index");
 
 module.exports = {
   getData: (req, res) => {
-    console.log(req.query.sortBy);
+
+    // console.log(req.query.sortBy);
 
     // filter products & sort by query
     const sortBy = req.query.sortBy;
@@ -34,11 +37,11 @@ module.exports = {
         if (filterProductByName && filterProductByCategory) {
           return (
             val.nm_master_produk
-              .toLowerCase()
-              .includes(filterProductByName.toLowerCase()) &&
+            .toLowerCase()
+            .includes(filterProductByName.toLowerCase()) &&
             val.nm_category_master_produk
-              .toLowerCase()
-              .includes(filterProductByCategory.toLowerCase())
+            .toLowerCase()
+            .includes(filterProductByCategory.toLowerCase())
           );
         } else if (filterProductByName) {
           return val.nm_master_produk
@@ -114,7 +117,6 @@ module.exports = {
     });
   },
   getDataById: (req, res) => {
-    console.log(req.params);
     let scriptQuery = `SELECT id_master_produk, nm_master_produk, harga, description, nm_category_master_produk, URL FROM app_master_produk p JOIN app_category_master_produk c on p.id_category = c.id_category_master_produk WHERE id_master_produk=${db.escape(
       req.params.id_master_produk
     )};`;

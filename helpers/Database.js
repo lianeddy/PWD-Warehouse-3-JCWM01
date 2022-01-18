@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const config = require("dotenv").config();
+const util = require("util");
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -14,6 +15,8 @@ const db = mysql.createConnection({
   // port: 3306,
   // multipleStatements: true,
 });
+
+db.query = util.promisify(db.query).bind(db);
 
 db.connect((err) => {
   if (err) {

@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { authLogin } from "../../redux/actions/user";
 import "./auth.css";
 import { Redirect } from "react-router";
-import Swal from "sweetalert2";
+import Form from "../components/form";
+import { Container, Row, Col } from "react-bootstrap";
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,33 +17,33 @@ class Login extends React.Component {
     };
   }
 
-  onBtnLogin = (event) => {
+  onBtnLogin = async (event) => {
     this.setState({ disableBtn: true });
-    Axios.post(`${URL_API}/users/login`, {
-      email: this.inputEmail.value,
-      password: this.inputPassword.value,
-    })
-      .then((result) => {
-        localStorage.setItem("dataToken", result.data.token);
-        localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
-        //action
-        this.props.authLogin(result.data.dataLogin);
-        this.setState({ redirect: true });
-        localStorage.getItem("dataToken");
-        localStorage.getItem("dataUser");
-
-        // const userData = JSON.parse(userLocalStorage);
-        // console.log(userLocalStorage);
-        console.log("Login Success");
-        this.inputUsername.value = "";
-        this.inputPassword.value = "";
-        // window.location.assign("/Products");
-      })
-      .catch((err) => {
-        // event.preventDefault();
-        console.log(err.message);
-        this.setState({ alertShow: "block" });
+    try {
+      const result = await Axios.post(`${URL_API}/users/login`, {
+        email: this.inputEmail.value,
+        password: this.inputPassword.value,
       });
+
+      localStorage.setItem("dataToken", result.data.token);
+      localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
+      //action
+      this.props.authLogin(result.data.dataLogin);
+      this.setState({ redirect: true });
+      localStorage.getItem("dataToken");
+      localStorage.getItem("dataUser");
+
+      // const userData = JSON.parse(userLocalStorage);
+      // console.log(userLocalStorage);
+      console.log("Login Success");
+      this.inputUsername.value = "";
+      this.inputPassword.value = "";
+      // window.location.assign("/Products");
+    } catch (err) {
+      // event.preventDefault();
+      console.log(err.message);
+      this.setState({ alertShow: "block" });
+    }
   };
 
   render() {
@@ -51,6 +52,14 @@ class Login extends React.Component {
     }
 
     return (
+      // <div className="intro">
+      //   <div className="form-inner">
+      //     <h3>Sign In</h3>
+      //     <Form />
+      //   </div>
+      // </div>
+
+      // Without OOP
       <div className="intro">
         <div className="form-inner">
           <div

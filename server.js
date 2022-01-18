@@ -25,6 +25,7 @@ const {
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
+  cartRouters
 } = require("./routers");
 
 app.use("/users", userRouters);
@@ -36,5 +37,7 @@ app.use("/utility", UtilityRouters);
 app.use("/transactions", TransactionsRouters);
 app.use("/persediaan-produk", AppPersediaanProdukRouter);
 app.use("/history-transaksi-produk", AppTransaksiProdukRouter);
+app.use("/cart", cartRouters);
+
 
 app.listen(port, () => console.log(`API Running: ${port}`));

@@ -1,9 +1,20 @@
-const { db } = require("../helpers/index");
+const {
+  insertProductToCartMdl
+} = require('../models/cartModels')
 
 module.exports = {
-  getData: (req, res) => {},
-  addData: (req, res) => {
-    let { id_user, id_master_produk, quantity } = req.body;
-    let scriptQuery = `Insert into app_carts_transaksi_produk (id_master_produk, id_user, quantity)`;
+  addProductToCart: async (req, res, next) => {
+    // data from client
+    const data = {
+      ...req.params,
+      ...req.query
+    }
+
+    console.log(data);
+    // query sql
+    const querySql = 'INSERT INTO app_carts_produk SET ?'
+
+    // pass into a model
+    insertProductToCartMdl(res, querySql, data)
   },
 };

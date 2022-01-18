@@ -3,7 +3,7 @@ const { db, createToken } = require("../helpers/index");
 const transporter = require("../helpers/nodemailer");
 
 module.exports = {
-  getData: (req, res) => {
+  userLogin: (req, res) => {
     req.body.password = Crypto.createHmac("sha1", "hash123")
       .update(req.body.password)
       .digest("hex");
@@ -78,9 +78,11 @@ module.exports = {
             res.status(500).send(errGet);
           }
 
+          console.log(resultsGet);
           //material for token
           let { id_user, id_role, username, email, password, is_valid } =
             resultsGet[0];
+
           //create token
           let token = createToken({
             id_user,
@@ -90,6 +92,8 @@ module.exports = {
             password,
             is_valid,
           });
+
+          console.log(token);
 
           //configuration for send an email
           let mail = {
@@ -158,7 +162,7 @@ module.exports = {
         return res.status(500).send(err);
       }
 
-      if (results[0].password == currentPassword) {
+      if (results[0].password === currentPassword) {
         db.query(updateQuery, (err2, results2) => {
           if (err2) return res.status(500).send(err2);
           return res.status(200).send(results2);

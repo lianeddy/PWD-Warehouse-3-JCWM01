@@ -7,6 +7,7 @@ const uploadProductRouter = require("./uploadProductRouter");
 const TransactionsRouters = require("./TransactionsRouters");
 const AppPersediaanProdukRouter = require("./AppPersediaanProdukRouter");
 const AppTransaksiProdukRouter = require("./AppTransaksiProdukRouter");
+const cartRouters = require('./cartRouters')
 
 module.exports = {
   userRouters,
@@ -18,4 +19,5 @@ module.exports = {
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
+  cartRouters
 };

@@ -8,6 +8,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "dev": "npx nodemon server.js",
     "eject": "react-scripts eject"
   },
   "author": "sarewes23",
