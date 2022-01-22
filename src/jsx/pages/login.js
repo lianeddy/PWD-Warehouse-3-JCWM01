@@ -50,7 +50,6 @@ class Login extends React.Component {
     if (this.state.redirect) {
       return <Redirect to="/products" />;
     }
-
     return (
       // <div className="intro">
       //   <div className="form-inner">

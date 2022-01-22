@@ -20,6 +20,7 @@ import productDetail from "../../pages/ProductDetail";
 import AppTransaksiAdminView from "../AppTransaksiAdmin/AppTransaksiAdminView";
 import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetail";
 import Profile from "../../pages/profile";
+import Cart from "../../pages/cart/cart";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -125,6 +126,10 @@ const NavbarView = (props) => {
     {
       path: "/profile-edit/:id",
       component: ProfileEdit,
+    },
+    {
+      path: "/cart",
+      component: Cart,
     },
   ]);
 
