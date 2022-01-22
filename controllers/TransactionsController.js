@@ -2,6 +2,11 @@ const { db, createToken } = require("../helpers/index");
 const { StorageHelper } = require("../helpers");
 const fs = require("fs");
 
+const {
+  checkoutMdl,
+  seeOnGoingTransactionMdl
+} = require('../models/transactionModels')
+
 const NAME_FILE = "product-image";
 
 module.exports = {
@@ -52,4 +57,34 @@ module.exports = {
       // next();
     }
   },
+
+  checkout: async (req, res, next) => {
+    // Data from client
+    const data = {
+      ...req.query,
+      ...req.body
+    }
+
+    // query to inject
+    const addQuery = 'INSERT INTO app_transaksi_master_produk SET ?'
+
+
+    // Pass into model
+    checkoutMdl(res, addQuery, data)
+  }, 
+
+  seeOnGoingMyTransaction: async (req, res, next) => {
+    // Query to inject
+    const getQuery = `SELECT ?? FROM 
+    app_transaksi_master_produk
+		  JOIN app_metode_pembayaran 
+			  ON app_transaksi_master_produk.id_metode_pembayaran = app_metode_pembayaran.id_metode_pembayaran
+		  JOIN app_metode_pengiriman
+			  ON app_transaksi_master_produk.id_metode_pengiriman = app_metode_pengiriman.id_metode_pengiriman
+	  WHERE id_transaksi_master_produk = ?
+    `
+
+    // Pass into model
+    seeOnGoingTransactionMdl(res, getQuery, req.params.id)
+  }
 };
