@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button, InputGroup } from "react-bootstrap";
 
 import { URL_API } from "../../../helper";
 
@@ -11,35 +11,36 @@ class TableCl extends React.Component {
   render() {
     return (
       <Table responsive>
-        <thead>
-          <tr>
-            <th>NO</th>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <th key={index}>s</th>
-            ))}
-          </tr>
-        </thead>
+        {/* {Object.keys(...this.props.data).map((judul) => (
+          <thead>
+            <tr>
+              <th>{judul}</th>
+            </tr>
+          </thead>
+        ))} */}
         <tbody>
-          <tr>
-            <td>1</td>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <td key={index}>
-                <img src={this.props.image} height={100} width={100} />
+          {this.props.data.map((value) => (
+            <tr>
+              <td>
+                <img src={URL_API + value.URL} height={90} width={90} />
               </td>
-            ))}
-          </tr>
-          <tr>
-            <td>2</td>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <td key={index}>Table cell {index}</td>
-            ))}
-          </tr>
-          <tr>
-            <td>3</td>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <td key={index}>Table cell {index}</td>
-            ))}
-          </tr>
+              <td>{value.ITEM}</td>
+              {/* <td>{value.QTY}</td> */}
+              <td>
+                <InputGroup className="mb-3">
+                  <Button variant="outline-secondary" id="button-addon1">
+                    -
+                  </Button>
+                  <input placeholder={value.QTY} />
+                  <Button variant="outline-secondary" id="button-addon1">
+                    +
+                  </Button>
+                </InputGroup>
+              </td>
+              <td>{value.PRICE}$</td>
+              <td>{value.TOTAL}$</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     );

@@ -38,14 +38,15 @@ class Cart extends React.Component {
   }
 
   renderCartTable = function () {
-    return this.state.cart.map((cart) => {
+    return this.state.cart.map((item) => {
       return (
         <TableCl
-          cartProduct={cart.nm_master_produk}
-          qty={cart.quantity}
-          harga={cart.harga}
-          total={cart.total_produk}
-          image={URL_API + cart.URL}
+          head={Object.keys(item)[1]}
+          cartProduct={item.nm_master_produk}
+          qty={item.quantity}
+          harga={item.harga}
+          total={item.total_produk}
+          image={URL_API + item.URL}
         />
       );
     });
@@ -55,13 +56,17 @@ class Cart extends React.Component {
     return (
       <Container>
         <Row>
-          <Col>{this.renderCartTable()}</Col>
-          {/* <Col hidden>
-            <CardCl />
-          </Col> */}
+          {/* <Col>{this.renderCartTable()}</Col> */}
           <Col>
+            <TableCl data={this.state.cart} />
+          </Col>
+
+          <Col hidden>
             <CardCl />
           </Col>
+          {/* <Col>
+            <CardCl  />
+          </Col> */}
         </Row>
       </Container>
     );
