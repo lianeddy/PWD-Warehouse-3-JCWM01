@@ -14,6 +14,7 @@ class Login extends React.Component {
     this.state = {
       alertShow: "none",
       redirect: false,
+      error: "",
     };
   }
 
@@ -41,7 +42,10 @@ class Login extends React.Component {
       // window.location.assign("/Products");
     } catch (err) {
       // event.preventDefault();
+      console.log(err);
       console.log(err.message);
+
+      this.setState({ error: err.message });
       this.setState({ alertShow: "block" });
     }
   };
@@ -66,7 +70,7 @@ class Login extends React.Component {
             style={{ display: this.state.alertShow }}
             role="alert"
           >
-            Account not found
+            {this.state.error}
           </div>
 
           <h3>Sign In</h3>

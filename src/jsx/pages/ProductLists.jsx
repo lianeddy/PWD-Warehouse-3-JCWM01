@@ -52,8 +52,6 @@ const Landing = () => {
   };
 
   const renderProducts = () => {
-    console.log(filtering.sort);
-
     return products.map((product) => {
       return (
         <CardProduct

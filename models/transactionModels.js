@@ -57,5 +57,19 @@ module.exports = {
         } catch (err) {
             responError(response, err.status, err)
         }
+    },
+    generatedOngkirMdl : async function (response, data) {
+        try {
+            if (!data) {
+                throw {
+                    message: 'Gagal memuat ongkir',
+                    status: 400
+                }
+            } 
+
+            responseData(response, 200, data)
+        } catch (err) {
+            responError(response, err.status, err)
+        }
     }
 }

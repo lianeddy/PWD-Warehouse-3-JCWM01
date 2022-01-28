@@ -45,14 +45,14 @@ module.exports = {
           is_valid,
         });
         if (is_valid === 0) {
-          res.status(404).send({ message: "Your account not verified" });
+          res.status(401).send({ message: "Your account not verified" });
         } else {
           res
             .status(200)
             .send({ dataLogin: results[0], token, message: "Login Berhasil" });
         }
       } else {
-        res.status(400).send({ message: "email/password not match" });
+        res.status(400).json({ error: "email/password not match" });
       }
     });
   },

@@ -1,4 +1,5 @@
 const axios = require("axios");
+const request = require('request')
 const config = require("dotenv").config();
 
 let AxiosConfig = {
@@ -7,6 +8,11 @@ let AxiosConfig = {
     key: process.env.RAJA_ONGKIR_TOKEN,
   },
 };
+
+// Config default axios RajaOngkir
+axios.defaults.baseURL = 'https://api.rajaongkir.com/starter'
+axios.defaults.headers.common['key'] = process.env.RAJA_ONGKIR_TOKEN
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 module.exports = {
   /**
@@ -60,20 +66,41 @@ module.exports = {
    * @param  {int} weight
    * @param  {string} courier
    */
-  getCost: (origin, destination, weight, courier) => {
-    let url = "https://api.rajaongkir.com/starter/cost?";
-    url += `origin=${origin}`;
-    url += `destination=${destination}`;
-    url += `weight=${weight}`;
-    url += `courier=${courier}`;
+  // getCost: (origin, destination, weight, courier) => {
+  //   let url = "https://api.rajaongkir.com/starter/cost?";
+  //   url += `origin=${origin}`;
+  //   url += `?destination=${destination}`;
+  //   url += `?weight=${weight}`;
+  //   url += `?courier=${courier}`;
 
-    AxiosConfig = {
-      ...AxiosConfig,
-      url,
-    };
+  //   AxiosConfig = {
+  //     ...AxiosConfig,
+  //     url,
+  //   };
 
-    return axios(AxiosConfig).catch((error) => {
-      throw error;
-    });
+  //   console.log(AxiosConfig);
+  //   return axios(AxiosConfig).catch((error) => {
+  //     throw error;
+  //   });
+  // },
+
+  getCost: async (origin, destination, weight, courier) => {
+    try {
+      // request to Raja Ongkir API
+      const res = await axios.post('/cost', {
+        origin,
+        destination, 
+        weight,
+        courier
+      })
+      
+      if (res.data.rajaongkir.status.code === 400) {
+        throw new Error('Data not found')
+      }
+
+      return res.data.rajaongkir.results[0].costs
+    } catch (err) {
+      console.error(err.message);
+    }
   },
 };

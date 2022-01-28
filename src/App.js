@@ -13,8 +13,6 @@ import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import ChangePassword from "./jsx/pages/change.password";
 import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
-import Profile from "./jsx/pages/profile";
-import ProfileEdit from "./jsx/pages/profile.edit";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
 import { keepLoginAction } from "./redux/actions/user";

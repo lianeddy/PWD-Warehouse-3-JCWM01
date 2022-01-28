@@ -19,7 +19,6 @@ const INIT_STATE = {
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case "LOGIN_SUCCESS":
       return { ...state, ...action.payload, isLogin: true };

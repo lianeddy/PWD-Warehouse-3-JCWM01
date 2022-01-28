@@ -11,10 +11,6 @@ app.use(bearerToken());
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello");
-});
-
 const {
   userRouters,
   UtilityRouters,
@@ -25,7 +21,7 @@ const {
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
-  cartRouters
+  cartRouters,
 } = require("./routers");
 
 app.use("/users", userRouters);
@@ -38,6 +34,5 @@ app.use("/transactions", TransactionsRouters);
 app.use("/persediaan-produk", AppPersediaanProdukRouter);
 app.use("/history-transaksi-produk", AppTransaksiProdukRouter);
 app.use("/cart", cartRouters);
-
 
 app.listen(port, () => console.log(`API Running: ${port}`));

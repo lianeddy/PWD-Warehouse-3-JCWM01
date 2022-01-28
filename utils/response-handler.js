@@ -19,13 +19,13 @@ module.exports = {
     res.status(statusCode).send(data);
   },
 
-  responError: function (res, statusCode, error) {
-    const data = {
-      success: false,
-      data: error,
-    };
+  // responError: function (res, statusCode, error) {
+  //   const err = {
+  //     success: false,
+  //     data: error,
+  //   };
 
-    // Give respon as a error
-    res.status(statusCode).send(data);
-  },
+  //   // Give respon as a error
+  //   res.status(statusCode).send(err);
+  // },
 };

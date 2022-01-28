@@ -1,10 +1,11 @@
-const { db, createToken } = require("../helpers/index");
+const { db, createToken, RajaOngkirHelper } = require("../helpers/index");
 const { StorageHelper } = require("../helpers");
 const fs = require("fs");
 
 const {
   checkoutMdl,
-  seeOnGoingTransactionMdl
+  seeOnGoingTransactionMdl,
+  generatedOngkirMdl
 } = require('../models/transactionModels')
 
 const NAME_FILE = "product-image";
@@ -86,5 +87,16 @@ module.exports = {
 
     // Pass into model
     seeOnGoingTransactionMdl(res, getQuery, req.params.id)
+  },
+  generatedOngkir: async (req, res, next) => {
+    // Data from client
+    const {origin, destination, weight, courier} =  req.body
+    console.log(origin, destination, weight, courier);
+
+    // req generated ongkir to RajaOngkir API
+    const data = await RajaOngkirHelper.getCost(origin, destination, weight, courier) 
+    
+    // Pass into model
+    generatedOngkirMdl(res, data)
   }
 };
