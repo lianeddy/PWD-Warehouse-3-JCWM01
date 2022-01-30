@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import CardProduct from "../components/Card";
-import NavbarView from "../components/Navbar/NavbarView";
 import "./Products.css";
 import { URL_API } from "../../helper";
 import { Col, Container, Row, Card } from "react-bootstrap";

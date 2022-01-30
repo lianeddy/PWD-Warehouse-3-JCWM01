@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Axios from "axios";
-import { URL_API } from "../../helper";
 import "./productDetail.css";
+import Swal from "sweetalert2";
 import { Col, Container, Row, Card } from "react-bootstrap";
+
+import { URL_API } from "../../helper";
 
 const ProductDetail = (props) => {
   //global state
@@ -22,6 +24,7 @@ const ProductDetail = (props) => {
 
   const [countAddToCart, setCountAddToCart] = useState(1);
 
+  console.log(countAddToCart);
   //handle count input
   const handleInput = (e) => {
     setCountAddToCart(parseInt(e.target.value));
@@ -29,7 +32,7 @@ const ProductDetail = (props) => {
 
   const fetchProducts = () => {
     const token = localStorage.getItem("dataToken");
-    console.log(token);
+    // console.log(token);
     Axios.get(
       `${URL_API}/products/${props.match.params.id_master_produk}`
       // {
@@ -50,6 +53,7 @@ const ProductDetail = (props) => {
       });
   };
 
+  // FIXME
   const fetchStock = () => {};
 
   useEffect(() => {
@@ -58,13 +62,28 @@ const ProductDetail = (props) => {
 
   const addToCartHandler = async () => {
     // AJAX CALL
-    // FIXME
     try {
-      const editCart = await Axios.patch(
-        `${URL_API}/cart/edit-Qtyitem-in-cart/${props.match.params.id_master_produk}`
+      const { data } = await Axios.post(
+        `${URL_API}/cart/add-from-product-list/${productDetail.id_master_produk}?quantity=${countAddToCart}&id_user=${id_user}`
       );
-    } catch (err) {}
-    // Error Handling
+
+      const msg = data.data;
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `${msg}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (err) {
+      // Error Handling
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${err.response.data}`,
+      });
+    }
   };
 
   return (
@@ -127,7 +146,12 @@ const ProductDetail = (props) => {
                   >
                     +
                   </button>
-                  <button className="btn btn-success me-4">Add to cart</button>
+                  <button
+                    onClick={addToCartHandler}
+                    className="btn btn-success me-4"
+                  >
+                    Add to cart
+                  </button>
                 </div>
               </div>
             </div>
