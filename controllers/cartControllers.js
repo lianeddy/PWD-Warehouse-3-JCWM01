@@ -3,6 +3,7 @@ const {
   getCartMdl,
   deleteItemInCartMdl,
   editQtyItemInCartMdl,
+  addToCartMdl,
 } = require("../models/cartModels");
 
 module.exports = {
@@ -69,5 +70,28 @@ module.exports = {
 
     // Pass query into model
     editQtyItemInCartMdl(res, querySelect, queryEditQty, req.params.id, data);
+  },
+
+  addToCart: async (req, res, next) => {
+    // Data from client
+    const data = {
+      ...req.query,
+    };
+
+    // query SQL
+    const searchStatement = `SELECT * FROM app_carts_produk WHERE id_master_barang = ? && id_user = ?`;
+    const updateStatement = `UPDATE app_carts_produk SET ? WHERE id_app_carts_produk = ?`;
+    const addStatement = `INSERT INTO app_carts_produk SET ?`;
+
+    // Pass query into model
+    addToCartMdl(
+      res,
+      searchStatement,
+      updateStatement,
+      addStatement,
+      req.query.id_user,
+      req.params.id,
+      data
+    );
   },
 };

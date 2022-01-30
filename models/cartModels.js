@@ -182,4 +182,62 @@ module.exports = {
       responError(response, err.status, err);
     }
   },
+  addToCartMdl: async function (
+    response,
+    searchCart,
+    updateQTYCart,
+    addCart,
+    id_user,
+    id_master_barang,
+    data
+  ) {
+    console.log(data);
+    try {
+      // data from req query + req params id
+      const newRow = { ...data, id_master_barang };
+
+      // Query injection
+      const searchData = await db
+        .query(searchCart, [id_master_barang, id_user])
+        .catch((err) => {
+          throw {
+            message: "gagal menemukan item di cart",
+            status: 500,
+            error: err,
+          };
+        });
+
+      // Check if product is same in cart
+      if (searchData.length) {
+        // mutate object data from client
+        const idSelector = searchData[0].id_app_carts_produk;
+        data.quantity = +data.quantity + searchData[0].quantity;
+
+        const updateData = await db
+          .query(updateQTYCart, [data, idSelector])
+          .catch((err) => {
+            throw {
+              message: "gagal menambahkan sejumlah item ke cart Anda",
+              status: 500,
+              error: err,
+            };
+          });
+        responseMessage(response, 200, "Produk berhasil ditambahkan");
+      } else {
+        // add product to cart which is new in database cart
+        const addData = await db.query(addCart, [newRow]).catch((err) => {
+          throw {
+            message: "gagal menambahkan item ke cart",
+            status: 500,
+            error: err,
+          };
+        });
+
+        responseMessage(response, 201, "Produk berhasil ditambahkan");
+      }
+    } catch (err) {
+      // error hadling
+      responError(response, err.status, err);
+    }
+  },
 };

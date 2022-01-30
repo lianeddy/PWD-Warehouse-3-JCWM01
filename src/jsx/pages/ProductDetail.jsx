@@ -56,7 +56,16 @@ const ProductDetail = (props) => {
     fetchProducts();
   }, []);
 
-  const addToCartHandler = () => {};
+  const addToCartHandler = async () => {
+    // AJAX CALL
+    // FIXME
+    try {
+      const editCart = await Axios.patch(
+        `${URL_API}/cart/edit-Qtyitem-in-cart/${props.match.params.id_master_produk}`
+      );
+    } catch (err) {}
+    // Error Handling
+  };
 
   return (
     <div className="col-md-12 col-lg-12 px-md-4">
