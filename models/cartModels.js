@@ -1,7 +1,5 @@
 "use strict";
 const { db } = require("../helpers");
-const Api500Error = require("../utils/api500Error");
-const Api404Error = require("../utils/api404Error");
 
 const {
   responseData,
