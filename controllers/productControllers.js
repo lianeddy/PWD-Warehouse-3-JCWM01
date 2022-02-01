@@ -1,5 +1,8 @@
 const { db } = require("../helpers/index");
-const { searchProductMdl } = require("../models/productModels");
+const {
+  searchProductMdl,
+  getProductsByFilterMdl,
+} = require("../models/productModels");
 
 module.exports = {
   getData: (req, res) => {
@@ -296,5 +299,44 @@ module.exports = {
     const querySelect = `SELECT ?? FROM app_master_produk WHERE nm_master_produk LIKE ? ${data.sortBy} LIMIT ? OFFSET ?`;
     // Pass to Model
     searchProductMdl(res, querySelect, data, next);
+  },
+  getProductsByFilter: async (req, res, next) => {
+    // Data from clint
+    /**
+     * page=${pagination.currentPage} INT (*OFFSET)
+     * productName=${filtering.byName} VARCHAR FIXME : FALSE IF DONT FILTER
+     * category=${filtering.byCategory} VARCHAR
+     * sortBy=${filtering.sort} NAME(A-Z, Z-A), PRICE(A-Z, Z-A)
+     */
+
+    const pagLimit = 6;
+    let offset = 0;
+    let rows = "";
+
+    const data = { ...req.query, pagLimit };
+    offset = pagLimit * +data.page;
+    data.page = offset;
+
+    // No sorting
+    if (!data.sortBy) data.sortBy = "";
+    // sort by rows
+    if (data.sortBy === "lowPrice" || data.sortBy === "highPrice")
+      rows = "harga";
+    if (data.sortBy === "az" || data.sortBy === "za") rows = "nm_master_produk";
+
+    // sorting
+    if (data.sortBy === "lowPrice" || data.sortBy === "az")
+      data.sortBy = `ORDER BY ${rows} ASC`;
+    if (data.sortBy === "highPrice" || data.sortBy === "za")
+      data.sortBy = `ORDER BY ${rows} DESC`;
+    if (!data.sortBy) data.sortBy = "";
+
+    console.log(data);
+
+    // query
+    const querySelect = `SELECT ?? FROM app_master_produk JOIN app_category_master_produk ON app_master_produk.id_category = app_category_master_produk.id_category_master_produk WHERE nm_category_master_produk = ? ${data.sortBy} LIMIT ? OFFSET ?`;
+
+    // pass to model
+    getProductsByFilterMdl(res, querySelect, data, next);
   },
 };
