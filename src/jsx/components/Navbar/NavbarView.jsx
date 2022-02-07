@@ -21,6 +21,7 @@ import AppTransaksiAdminView from "../AppTransaksiAdmin/AppTransaksiAdminView";
 import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetail";
 import Profile from "../../pages/profile";
 import Cart from "../../pages/cart/cart";
+import Checkout from "../../pages/checkout/Checkout";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -130,6 +131,10 @@ const NavbarView = (props) => {
     {
       path: "/cart",
       component: Cart,
+    },
+    {
+      path: "/checkout",
+      component: Checkout,
     },
   ]);
 
