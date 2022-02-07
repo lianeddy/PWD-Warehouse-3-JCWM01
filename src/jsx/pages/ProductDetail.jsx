@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
 import "./productDetail.css";
 import Swal from "sweetalert2";
-import { Col, Container, Row, Card } from "react-bootstrap";
+import { Card, Badge } from "react-bootstrap";
 
 import { URL_API } from "../../helper";
+import { quickShowStocks } from "../../redux/actions/transaksiProdukAction";
 
 const ProductDetail = (props) => {
   //global state
   const userGlobal = useSelector((state) => state.authReducer);
   const { id_user } = userGlobal;
 
-  //Redirect
-  const [redirect, setRedirect] = useState(null);
-
   //productDetailData
   const [productDetail, setProductDetail] = useState([]);
   const [otherInfo, setOtherInfo] = useState({
-    quantity: 1,
-    productNotFound: false,
+    stock: 1,
   });
 
   const [countAddToCart, setCountAddToCart] = useState(1);
 
-  console.log(countAddToCart);
-  //handle count input
-  const handleInput = (e) => {
-    setCountAddToCart(parseInt(e.target.value));
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const fetchProducts = () => {
     const token = localStorage.getItem("dataToken");
-    // console.log(token);
     Axios.get(
       `${URL_API}/products/${props.match.params.id_master_produk}`
       // {
@@ -42,23 +38,13 @@ const ProductDetail = (props) => {
       // }
     )
       .then((res) => {
-        if (res.data.length) {
-          setProductDetail(res.data[0]);
-        } else {
-          setOtherInfo({ productNotFound: true });
-        }
+        setProductDetail(res.data[0]);
+        dispatch(quickShowStocks(res.data[0].id_master_produk, setOtherInfo));
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  // FIXME
-  const fetchStock = () => {};
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const addToCartHandler = async () => {
     // AJAX CALL
@@ -84,6 +70,19 @@ const ProductDetail = (props) => {
         text: `${err.response.data}`,
       });
     }
+  };
+
+  //handle count input
+  const handleInput = (e) => {
+    let input = e.target.value;
+    if (+input === 0) return (input = 1);
+    const data = input > otherInfo.stock ? otherInfo.stock : input;
+    setCountAddToCart(+data);
+  };
+
+  const badgeShow = (bgColor, text) => {
+    const component = <Badge bg={bgColor}>{text}</Badge>;
+    return component;
   };
 
   return (
@@ -116,6 +115,11 @@ const ProductDetail = (props) => {
               <div className="col-6 d-flex flex-column justify-content-center">
                 {/* <h4>{productDetail.nm_master_produk}</h4> */}
                 <h5>${productDetail.harga}</h5>
+                <div>
+                  {otherInfo.stock !== 0
+                    ? badgeShow("success", "In stock")
+                    : badgeShow("danger", "out of stock")}
+                </div>
                 <p>{productDetail.description}</p>
                 <div className="d-flex flex-row align-items-center ">
                   <button
@@ -130,10 +134,13 @@ const ProductDetail = (props) => {
                     style={{
                       textAlign: "center",
                       border: "none",
-                      width: "35px",
+                      width: "100px",
                       height: "20px",
                     }}
                     className="input__qty"
+                    // value={
+                    //   countAddToCart > otherInfo.stock ? otherInfo.stock : 1
+                    // }
                     value={countAddToCart}
                     type="number"
                     min="1"
@@ -143,12 +150,14 @@ const ProductDetail = (props) => {
                     onClick={() => setCountAddToCart(countAddToCart + 1)}
                     className="btn btn-outline-success me-4"
                     style={{ marginLeft: "20px" }}
+                    disabled={otherInfo.stock === countAddToCart}
                   >
                     +
                   </button>
                   <button
                     onClick={addToCartHandler}
                     className="btn btn-success me-4"
+                    disabled={otherInfo.stock === 0}
                   >
                     Add to cart
                   </button>

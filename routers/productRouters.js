@@ -9,7 +9,7 @@ routers.get("/", productControllers.getData);
 routers.get("/search-product", productControllers.searchProduct);
 routers.get("/get-product-filter", productControllers.getProductsByFilter);
 routers.get("/product-admin", productControllers.getDataAdmin);
-routers.get("/check-stok", productControllers.checkStokProduct);
+routers.get("/quick-check-stocks", productControllers.quickCheckStocks);
 routers.get("/:id_master_produk", productControllers.getDataById);
 
 module.exports = routers;

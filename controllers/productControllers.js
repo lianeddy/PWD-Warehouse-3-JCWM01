@@ -2,6 +2,7 @@ const { db } = require("../helpers/index");
 const {
   searchProductMdl,
   getProductsByFilterMdl,
+  quickCheckStocksMdl,
 } = require("../models/productModels");
 
 module.exports = {
@@ -244,26 +245,12 @@ module.exports = {
       });
     });
   },
-  checkStokProduct: (req, res) => {
-    const checkProduk = req.query.product;
-    console.log(checkProduk);
+  quickCheckStocks: (req, res, next) => {
+    // Query
+    const querySelect = `SELECT app_master_produk.nm_master_produk, SUM(stok) AS total_stock FROM app_persediaan_produk JOIN app_warehouse ON app_persediaan_produk.id_warehouse = app_warehouse.id_warehouse JOIN app_master_produk ON app_persediaan_produk.id_master_produk = app_master_produk.id_master_produk WHERE app_master_produk.id_master_produk = ? GROUP BY nm_master_produk;`;
 
-    const scriptQuery = `SELECT id_persediaan_produk, id_master_produk, nm_master_produk, sum(stok) as total_stok FROM app_persediaan_produk pp JOIN app_master_produk p on pp.id_produk = p.id_master_produk where id_master_produk = ${checkProduk};`;
-
-    db.query(scriptQuery, [], (err, results) => {
-      if (err) {
-        res.status(500).send({
-          message: "Data gagal diakses",
-          success: false,
-          err,
-        });
-      } else {
-        res.status(200).send({
-          message: "Data berhasil diakses",
-          dataStok: results[0],
-        });
-      }
-    });
+    // Pass to model
+    quickCheckStocksMdl(res, querySelect, req.query.id, next);
   },
   searchProduct: async (req, res, next) => {
     // Data from clint

@@ -44,6 +44,11 @@ const SidebarsView = (props) => {
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
     { link: "/products", icon: "#grid", name: "Products" },
     {
+      link: "/cart",
+      icon: "#cart",
+      name: "Cart",
+    },
+    {
       link: "/upload-bukti-bayar",
       icon: "#credit-card",
       name: "Order Confirmation",

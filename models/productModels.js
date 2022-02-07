@@ -57,4 +57,22 @@ module.exports = {
       next(err);
     }
   },
+  quickCheckStocksMdl: async function (response, getStatement, id, next) {
+    try {
+      // INJECT QUERY
+      const data = await db.query(getStatement, id).catch((err) => {
+        throw new Api500Error("Failed to get current stocks", err);
+      });
+
+      if (!data.length) {
+        throw new Api404Error("Not found current stocks");
+      }
+
+      responseData(response, OK, data);
+      // RESPONSE SUCCESS
+    } catch (err) {
+      // ERROR HANDLING TO MIDDLEWARE
+      next(err);
+    }
+  },
 };

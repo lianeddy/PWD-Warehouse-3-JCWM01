@@ -25,7 +25,6 @@ class Login extends React.Component {
         email: this.inputEmail.value,
         password: this.inputPassword.value,
       });
-
       localStorage.setItem("dataToken", result.data.token);
       localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
       //action
@@ -33,13 +32,11 @@ class Login extends React.Component {
       this.setState({ redirect: true });
       localStorage.getItem("dataToken");
       localStorage.getItem("dataUser");
-
       // const userData = JSON.parse(userLocalStorage);
       // console.log(userLocalStorage);
       console.log("Login Success");
       this.inputUsername.value = "";
       this.inputPassword.value = "";
-      // window.location.assign("/Products");
     } catch (err) {
       // event.preventDefault();
       console.log(err);

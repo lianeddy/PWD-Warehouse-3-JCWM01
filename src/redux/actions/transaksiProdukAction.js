@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
 import { SwalFire } from "../../utility/SwalFire";
+import Swal from "sweetalert2";
 
 const getDataTransaksiProdukHandler = (
   pages,
@@ -167,14 +168,14 @@ const isTerimaPesanan = (id, propsHistory, data = null) => {
       is_tolak: 1,
       is_verify: 1,
       is_terima_pesanan: true,
-    }
+    };
     if (data != null) {
-      const {id_user, id_warehouse} = data;
+      const { id_user, id_warehouse } = data;
       dataOut = {
         ...dataOut,
         id_user,
         id_warehouse,
-      }
+      };
     }
     Axios.patch(`${URL_API}/history-transaksi-produk/${id}`, dataOut)
       .then((result) => {
@@ -204,6 +205,23 @@ const isTolakPesanan = (id, propsHistory) => {
   };
 };
 
+const quickShowStocks = async (id_product, state) => {
+  try {
+    const { data } = await Axios.get(
+      `${URL_API}/products/quick-check-stocks?id=${id_product}`
+    );
+
+    const stock = ++data.data[0].total_stock;
+    return state({ stock });
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${err.response.data}`,
+    });
+  }
+};
+
 export {
   getDataTransaksiProduk,
   // addDataTransaksiProduk,
@@ -212,4 +230,5 @@ export {
   modalIsOpen,
   isTerimaPesanan,
   isTolakPesanan,
+  quickShowStocks,
 };
