@@ -7,6 +7,7 @@ import InputSpinner from "react-bootstrap-input-spinner";
 
 import { URL_API } from "../../../helper";
 import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
+import { getCart } from "../../../redux/actions/cartAction";
 
 class Cart extends React.Component {
   constructor(props) {
@@ -14,33 +15,14 @@ class Cart extends React.Component {
   }
 
   state = {
-    cart: [],
     qtyInCart: 0,
     typing: false,
     typingTimeout: 0,
     stock: 0,
   };
 
-  fetchCart = async function (id_user) {
-    try {
-      const { data } = await Axios.get(
-        `${URL_API}/cart/get-my-cart?id_user=${id_user}`
-      );
-      const cartItem = data.data;
-      console.log(cartItem);
-      this.setState({ cart: cartItem });
-    } catch (err) {
-      const msgErr = err.response.data.message;
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Something went wrong! ${msgErr}`,
-      });
-    }
-  };
-
   componentDidMount() {
-    this.fetchCart(this.props.userGlobal.id_user);
+    this.props.getCart(this.props.userGlobal.id_user);
   }
 
   confirmDelete = async function (id) {
@@ -66,7 +48,7 @@ class Cart extends React.Component {
       const cartDelete = await Axios.delete(
         `${URL_API}/cart/delete-item-in-cart/${id}`
       );
-      this.fetchCart(this.props.userGlobal.id_user);
+      this.props.getCart(this.props.userGlobal.id_user);
     } catch (err) {
       const msgErr = err.response.data.message;
       Swal.fire({
@@ -107,7 +89,7 @@ class Cart extends React.Component {
       const { data } = await Axios.patch(
         `${URL_API}/cart/edit-Qtyitem-in-cart/${id_cart}?quantity=${value}`
       );
-      this.fetchCart(this.props.userGlobal.id_user);
+      this.props.getCart(this.props.userGlobal.id_user);
     } catch (err) {
       console.log(err);
     }
@@ -135,7 +117,7 @@ class Cart extends React.Component {
   };
 
   renderCartTable = function () {
-    return this.state.cart.map((item, idx) => {
+    return this.props.cartGlobal.cartList.map((item, idx) => {
       return (
         <tr key={idx}>
           <td className="align-middle">
@@ -208,11 +190,13 @@ class Cart extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userGlobal: state.authReducer,
+    cartGlobal: state.cartReducer,
   };
 };
 
 const mapDispatchToProps = {
   quickShowStocks,
+  getCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

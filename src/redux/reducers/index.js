@@ -9,6 +9,7 @@ import { filterWarehouseReducer } from "./filterWarehouseReducer";
 import { filterMasterProdukReducer } from "./filterMasterProdukReducer";
 import { historyProdukReducer } from "./historyProdukReducer";
 import { transaksiProdukReducer } from "./transaksiProdukReducer";
+import { cartReducer } from "./cartReducers";
 
 export const Reducers = combineReducers({
   authReducer,
@@ -21,4 +22,5 @@ export const Reducers = combineReducers({
   filterMasterProdukReducer,
   historyProdukReducer,
   transaksiProdukReducer,
+  cartReducer,
 });

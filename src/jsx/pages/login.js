@@ -27,14 +27,12 @@ class Login extends React.Component {
       });
       localStorage.setItem("dataToken", result.data.token);
       localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
+
       //action
       this.props.authLogin(result.data.dataLogin);
       this.setState({ redirect: true });
       localStorage.getItem("dataToken");
       localStorage.getItem("dataUser");
-      // const userData = JSON.parse(userLocalStorage);
-      // console.log(userLocalStorage);
-      console.log("Login Success");
       this.inputUsername.value = "";
       this.inputPassword.value = "";
     } catch (err) {

@@ -16,22 +16,22 @@ import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
 import { keepLoginAction } from "./redux/actions/user";
+import { getCart } from "./redux/actions/cartAction";
 
 function App(props) {
-  const userLocalStorage = localStorage.getItem("dataToken");
+  const userTokenStorage = localStorage.getItem("dataToken");
+  const userDataStorage = JSON.parse(localStorage.getItem("dataUser"));
 
   const keepLogin = () => {
-    if (userLocalStorage) {
+    if (userTokenStorage) {
       //get user login action
-      props.keepLoginAction(userLocalStorage);
-      //get Cart Action Reducer
-      // props.CheckCart(userLocalStorage)
-      //Get Address action Reducer
-      // props.checkAddress(userLocalStorage)
+      props.keepLoginAction(userTokenStorage);
     }
   };
+
   useEffect(() => {
     keepLogin();
+    props.getCart(+userDataStorage.id_user);
   }, []);
 
   return (
@@ -75,11 +75,13 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     userGlobal: state.authReducer,
+    cartGlobal: state.cartReducer,
   };
 };
 
 const mapDispatchToProps = {
   keepLoginAction,
+  getCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
