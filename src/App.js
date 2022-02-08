@@ -23,7 +23,7 @@ function App(props) {
   const userDataStorage = JSON.parse(localStorage.getItem("dataUser"));
 
   const keepLogin = () => {
-    if (userTokenStorage) {
+    if (userTokenStorage !== null) {
       //get user login action
       props.keepLoginAction(userTokenStorage);
     }
@@ -31,7 +31,9 @@ function App(props) {
 
   useEffect(() => {
     keepLogin();
-    props.getCart(+userDataStorage.id_user);
+    if (userDataStorage !== null) {
+      props.getCart(+userDataStorage.id_user);
+    }
   }, []);
 
   return (

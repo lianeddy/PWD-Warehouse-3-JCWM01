@@ -1,9 +1,33 @@
 import React from "react";
+import { connect } from "react-redux";
 
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  renderCartInfo = () => {
+    return this.props.cartGlobal.cartList.map((value) => {
+      return (
+        <li className="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 className="my-0">{value.ITEM}</h6>
+            <small className="text-muted">
+              ${value.PRICE} x {value.QTY}
+            </small>
+          </div>
+          <span className="text-muted">${value.TOTAL}</span>
+        </li>
+      );
+    });
+  };
+
+  renderTotalCart = () => {
+    return this.props.cartGlobal.cartList
+      .map((value) => value.TOTAL)
+      .reduce((cur, price) => cur + price, 0);
+  };
+
   render() {
     return (
       <div className="container">
@@ -15,30 +39,13 @@ class Checkout extends React.Component {
           <div className="col-md-5 col-lg-4 order-md-last">
             <h4 className="d-flex justify-content-between align-items-center mb-3">
               <span className="text-primary">Your cart</span>
-              <span className="badge bg-primary rounded-pill">3</span>
+              <span className="badge bg-primary rounded-pill">
+                {this.props.cartGlobal.cartList.length}
+              </span>
             </h4>
             <ul className="list-group mb-3">
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Product name</h6>
-                  <small className="text-muted">Brief description</small>
-                </div>
-                <span className="text-muted">$12</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Second product</h6>
-                  <small className="text-muted">Brief description</small>
-                </div>
-                <span className="text-muted">$8</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Third item</h6>
-                  <small className="text-muted">Brief description</small>
-                </div>
-                <span className="text-muted">$5</span>
-              </li>
+              {/* render list item here */}
+              {this.renderCartInfo()}
               <li className="list-group-item d-flex justify-content-between bg-light">
                 <div className="text-success">
                   <h6 className="my-0">Promo code</h6>
@@ -48,7 +55,7 @@ class Checkout extends React.Component {
               </li>
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
-                <strong>$20</strong>
+                <strong>${this.renderTotalCart()}</strong>
               </li>
             </ul>
 
@@ -166,8 +173,8 @@ class Checkout extends React.Component {
                 </div>
 
                 <div className="col-md-5">
-                  <label for="country" className="form-label">
-                    Country
+                  <label for="provinsi" className="form-label">
+                    Provinsi
                   </label>
                   <select className="form-select" id="country" required>
                     <option value="">Choose...</option>
@@ -179,8 +186,8 @@ class Checkout extends React.Component {
                 </div>
 
                 <div className="col-md-4">
-                  <label for="state" className="form-label">
-                    State
+                  <label for="kabKota" className="form-label">
+                    Kabupaten/kota
                   </label>
                   <select className="form-select" id="state" required>
                     <option value="">Choose...</option>
@@ -354,4 +361,13 @@ class Checkout extends React.Component {
   }
 }
 
-export default Checkout;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.authReducer,
+    cartGlobal: state.cartReducer,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
