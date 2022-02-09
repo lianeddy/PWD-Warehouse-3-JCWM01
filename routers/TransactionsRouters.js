@@ -4,10 +4,11 @@ const route = express.Router();
 
 route.post("/paymentProof", TransactionsController.addPaymentProof);
 route.post("/checkout", TransactionsController.checkout);
-route.get("/see-my-ongoing-transaction/:id", TransactionsController.seeOnGoingMyTransaction);
+route.get(
+  "/see-my-ongoing-transaction/:id",
+  TransactionsController.seeOnGoingMyTransaction
+);
 route.get("/ongkir", TransactionsController.generatedOngkir);
-
-
-
+route.get("/get-shipping-method", TransactionsController.getShippingMethod);
 
 module.exports = route;

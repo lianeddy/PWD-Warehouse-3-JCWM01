@@ -5,8 +5,9 @@ const fs = require("fs");
 const {
   checkoutMdl,
   seeOnGoingTransactionMdl,
-  generatedOngkirMdl
-} = require('../models/transactionModels')
+  generatedOngkirMdl,
+  getShippingMethodMdl,
+} = require("../models/transactionModels");
 
 const NAME_FILE = "product-image";
 
@@ -63,16 +64,15 @@ module.exports = {
     // Data from client
     const data = {
       ...req.query,
-      ...req.body
-    }
+      ...req.body,
+    };
 
     // query to inject
-    const addQuery = 'INSERT INTO app_transaksi_master_produk SET ?'
-
+    const addQuery = "INSERT INTO app_transaksi_master_produk SET ?";
 
     // Pass into model
-    checkoutMdl(res, addQuery, data)
-  }, 
+    checkoutMdl(res, addQuery, data);
+  },
 
   seeOnGoingMyTransaction: async (req, res, next) => {
     // Query to inject
@@ -83,20 +83,30 @@ module.exports = {
 		  JOIN app_metode_pengiriman
 			  ON app_transaksi_master_produk.id_metode_pengiriman = app_metode_pengiriman.id_metode_pengiriman
 	  WHERE id_transaksi_master_produk = ?
-    `
+    `;
 
     // Pass into model
-    seeOnGoingTransactionMdl(res, getQuery, req.params.id)
+    seeOnGoingTransactionMdl(res, getQuery, req.params.id);
   },
   generatedOngkir: async (req, res, next) => {
     // Data from client
-    const {origin, destination, weight, courier} =  req.body
+    const { origin, destination, weight, courier } = req.body;
     console.log(origin, destination, weight, courier);
 
     // req generated ongkir to RajaOngkir API
-    const data = await RajaOngkirHelper.getCost(origin, destination, weight, courier) 
-    
+    const data = await RajaOngkirHelper.getCost(
+      origin,
+      destination,
+      weight,
+      courier
+    );
+
     // Pass into model
-    generatedOngkirMdl(res, data)
-  }
+    generatedOngkirMdl(res, data);
+  },
+  getShippingMethod: (req, res, next) => {
+    const getQuery = "SELECT * FROM app_metode_pengiriman";
+
+    getShippingMethodMdl(res, getQuery, next);
+  },
 };

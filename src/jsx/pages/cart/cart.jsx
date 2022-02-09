@@ -1,17 +1,19 @@
 import React from "react";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Stack } from "react-bootstrap";
+// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import InputSpinner from "react-bootstrap-input-spinner";
 
-import { URL_API } from "../../../helper";
+import { URL_API, URL_WEB } from "../../../helper";
 import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
 import { getCart } from "../../../redux/actions/cartAction";
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
+    this.routeChange = this.routeChange.bind(this);
   }
 
   state = {
@@ -19,6 +21,7 @@ class Cart extends React.Component {
     typing: false,
     typingTimeout: 0,
     stock: 0,
+    redirect: false,
   };
 
   componentDidMount() {
@@ -150,9 +153,9 @@ class Cart extends React.Component {
           <td className="align-middle">
             <Button
               onClick={() => this.confirmDelete(item.id_app_carts_produk)}
-              variant="danger"
+              variant="outline-danger"
             >
-              Delete
+              X
             </Button>
           </td>
         </tr>
@@ -160,29 +163,42 @@ class Cart extends React.Component {
     });
   };
 
+  routeChange = () => {
+    let url = "/checkout";
+    this.props.history.push(url);
+  };
+
   render() {
     return (
-      <Container>
-        <Row>
-          <Col>
-            <Table responsive>
-              <thead className="thead light">
-                <tr>
-                  <th className="align-middle"></th>
-                  <th className="align-middle">Product</th>
-                  <th className="align-middle">Quantity</th>
-                  <th className="align-middle">Price</th>
-                  <th className="align-middle">Total price</th>
-                </tr>
-              </thead>
-              <tbody>{this.renderCartTable()}</tbody>
-            </Table>
-          </Col>
-          {/* <Col>
-            <TableCl data={this.state.cart} />
-          </Col> */}
-        </Row>
-      </Container>
+      <>
+        <Container>
+          <Row>
+            <Col>
+              <Table responsive>
+                <thead className="thead light">
+                  <tr>
+                    <th className="align-middle"></th>
+                    <th className="align-middle">Product</th>
+                    <th className="align-middle">Quantity</th>
+                    <th className="align-middle">Price</th>
+                    <th className="align-middle">Total price</th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderCartTable()}</tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Stack gap={2} className="col-md-5 mx-auto">
+            <hr />
+            <Button onClick={this.routeChange} variant="primary">
+              Process your cart
+            </Button>
+            <hr />
+          </Stack>
+        </Container>
+      </>
     );
   }
 }
