@@ -1,6 +1,6 @@
 "use strict";
 
-const { db } = require("../helpers");
+const { db, RajaOngkirHelper } = require("../helpers");
 const { Api404Error, Api500Error } = require("../utils/Error");
 const { OK, BAD_REQUEST, NOT_FOUND } = require("../utils/httpStatusCodes");
 
@@ -106,6 +106,72 @@ module.exports = {
       });
 
       responseData(response, OK, data);
+    } catch (err) {
+      next(err);
+    }
+  },
+  getMinCostShippingMdl: async function (
+    response,
+    getStatementAddress,
+    getStatementWh,
+    getStatementWarehouseOrigin,
+    id_user,
+    courierProvider,
+    next
+  ) {
+    try {
+      // get idKabKota for destination
+      const getDefaultAdress = await db
+        .query(getStatementAddress, id_user)
+        .catch((err) => {
+          throw new Api500Error("Gagal mendapatkan default adress", err);
+        });
+
+      const idKabKotaUser = getDefaultAdress[0].id_kabkota;
+
+      // get idKabKota warehouses for origin
+      const getIdKabKota = await db.query(getStatementWh).catch((err) => {
+        throw new Api500Error("Gagal mendapatkan idKabKota", err);
+      });
+
+      // Pass to 3rd API for Data Shipping
+      const minOngkir = await Promise.all(
+        getIdKabKota.map(
+          async (value) =>
+            await RajaOngkirHelper.getCost(
+              value.id_kabkota,
+              idKabKotaUser,
+              1000,
+              courierProvider
+            )
+        )
+      );
+
+      // min cost shipping
+      const minCostShipping = Math.min(
+        ...minOngkir.map((cost) => cost.results[0].costs[0].cost[0].value)
+      );
+
+      // data shipping with min cost
+      let result = minOngkir.filter(
+        (data) => data.results[0].costs[0].cost[0].value === minCostShipping
+      );
+
+      const idKabKotaOrigin = result[0].query.origin;
+
+      // get id_warehouse origin
+      const getWhOrigin = await db
+        .query(getStatementWarehouseOrigin, idKabKotaOrigin)
+        .catch((err) => {
+          throw new Api500Error("gagal mendapatkan data id_warehouse", err);
+        });
+
+      // data to client
+      const data = {};
+      data.minCost = minCostShipping;
+      data.id_warehouse_origin = getWhOrigin[0].id_warehouse;
+      data.shipping_service = result[0].results[0].costs;
+      responseData(response, OK, [data]);
     } catch (err) {
       next(err);
     }

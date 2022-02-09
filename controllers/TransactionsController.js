@@ -8,6 +8,7 @@ const {
   generatedOngkirMdl,
   getShippingMethodMdl,
   getPaymentMethodMdl,
+  getMinCostShippingMdl,
 } = require("../models/transactionModels");
 
 const NAME_FILE = "product-image";
@@ -114,5 +115,19 @@ module.exports = {
     const getQuery = `SELECT ?? FROM app_metode_pembayaran JOIN app_category_metode_pembayaran ON app_category_metode_pembayaran.id_category_metode_pembayaran = app_metode_pembayaran.id_category_metode_pembayaran;`;
 
     getPaymentMethodMdl(res, getQuery, next);
+  },
+  getMinCostShipping: (req, res, next) => {
+    const getDefaultAdressQuery = `SELECT id_kabkota FROM app_data_alamat_user WHERE id_user = ? AND is_default = 1;`;
+    const getIdKabKotaWhQuery = `SELECT nm_warehouse, id_kabkota FROM app_warehouse;`;
+    const getIdWarehouseQuery = `SELECT id_warehouse FROM app_warehouse WHERE id_kabkota = ?;`;
+    getMinCostShippingMdl(
+      res,
+      getDefaultAdressQuery,
+      getIdKabKotaWhQuery,
+      getIdWarehouseQuery,
+      req.query.id_user,
+      req.query.courier,
+      next
+    );
   },
 };

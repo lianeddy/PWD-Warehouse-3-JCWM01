@@ -123,9 +123,9 @@ class Checkout extends React.Component {
 
               <Form.Select aria-label="Default select example">
                 <option>Shipping Option</option>
-                <option value="1">JNE</option>
-                <option value="2">AnterAja</option>
-                <option value="3">Ninja</option>
+                <option value="jne">JNE</option>
+                <option value="pos">POS Indonesia</option>
+                <option value="tiki">TIKI</option>
               </Form.Select>
 
               {/* <div className="form-check">

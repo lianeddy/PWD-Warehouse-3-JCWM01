@@ -11,5 +11,6 @@ route.get(
 route.get("/ongkir", TransactionsController.generatedOngkir);
 route.get("/get-shipping-method", TransactionsController.getShippingMethod);
 route.get("/get-payment-method", TransactionsController.getPaymentMethods);
+route.get("/min-cost-shipping", TransactionsController.getMinCostShipping);
 
 module.exports = route;

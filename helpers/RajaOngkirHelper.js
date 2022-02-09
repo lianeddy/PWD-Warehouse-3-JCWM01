@@ -1,5 +1,5 @@
 const axios = require("axios");
-const request = require('request')
+const request = require("request");
 const config = require("dotenv").config();
 
 let AxiosConfig = {
@@ -10,9 +10,10 @@ let AxiosConfig = {
 };
 
 // Config default axios RajaOngkir
-axios.defaults.baseURL = 'https://api.rajaongkir.com/starter'
-axios.defaults.headers.common['key'] = process.env.RAJA_ONGKIR_TOKEN
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = "https://api.rajaongkir.com/starter";
+axios.defaults.headers.common["key"] = process.env.RAJA_ONGKIR_TOKEN;
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded";
 
 module.exports = {
   /**
@@ -87,18 +88,18 @@ module.exports = {
   getCost: async (origin, destination, weight, courier) => {
     try {
       // request to Raja Ongkir API
-      const res = await axios.post('/cost', {
+      const res = await axios.post("/cost", {
         origin,
-        destination, 
+        destination,
         weight,
-        courier
-      })
-      
+        courier,
+      });
+
       if (res.data.rajaongkir.status.code === 400) {
-        throw new Error('Data not found')
+        throw new Error("Data not found");
       }
 
-      return res.data.rajaongkir.results[0].costs
+      return res.data.rajaongkir;
     } catch (err) {
       console.error(err.message);
     }
