@@ -92,4 +92,22 @@ module.exports = {
       next(err);
     }
   },
+  getPaymentMethodMdl: async function (response, getStatment, next) {
+    const columns = [
+      "id_metode_pembayaran",
+      "app_metode_pembayaran.id_category_metode_pembayaran",
+      "nm_metode_pembayaran",
+      "nm_category_metode_pembayaran",
+    ];
+
+    try {
+      const data = await db.query(getStatment, [columns]).catch((err) => {
+        throw new Api500Error("gagal mendapatkan shipping method", err);
+      });
+
+      responseData(response, OK, data);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

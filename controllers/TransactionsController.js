@@ -7,6 +7,7 @@ const {
   seeOnGoingTransactionMdl,
   generatedOngkirMdl,
   getShippingMethodMdl,
+  getPaymentMethodMdl,
 } = require("../models/transactionModels");
 
 const NAME_FILE = "product-image";
@@ -108,5 +109,10 @@ module.exports = {
     const getQuery = "SELECT * FROM app_metode_pengiriman";
 
     getShippingMethodMdl(res, getQuery, next);
+  },
+  getPaymentMethods: (req, res, next) => {
+    const getQuery = `SELECT ?? FROM app_metode_pembayaran JOIN app_category_metode_pembayaran ON app_category_metode_pembayaran.id_category_metode_pembayaran = app_metode_pembayaran.id_category_metode_pembayaran;`;
+
+    getPaymentMethodMdl(res, getQuery, next);
   },
 };
