@@ -136,6 +136,10 @@ const NavbarView = (props) => {
       path: "/checkout",
       component: Checkout,
     },
+    {
+      path: "/users/multi-address",
+      component: AppDataAlamatUserView,
+    },
   ]);
 
   const [pageNonLogin, setPageNonLogin] = useState([

@@ -53,10 +53,10 @@ function App(props) {
               />
 
               <Route component={AdminProducts} path="/admin-products/" />
-              <Route
+              {/* <Route
                 path="/users/multi-address"
                 component={AppDataAlamatUserView}
-              />
+              /> */}
               <Route
                 path="/users/example-component/profile-image/add"
                 component={AddProfileImages}

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
 
@@ -121,7 +121,14 @@ class Checkout extends React.Component {
 
               <hr class="my-4" />
 
-              <div className="form-check">
+              <Form.Select aria-label="Default select example">
+                <option>Shipping Option</option>
+                <option value="1">JNE</option>
+                <option value="2">AnterAja</option>
+                <option value="3">Ninja</option>
+              </Form.Select>
+
+              {/* <div className="form-check">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -142,7 +149,7 @@ class Checkout extends React.Component {
                 <label className="form-check-label" for="save-info">
                   Save this information for next time
                 </label>
-              </div>
+              </div> */}
 
               <hr class="my-4" />
 
