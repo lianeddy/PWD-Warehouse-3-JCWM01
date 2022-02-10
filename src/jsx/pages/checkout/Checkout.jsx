@@ -4,11 +4,17 @@ import { Card, Form } from "react-bootstrap";
 
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
 import { getShippingService } from "../../../redux/actions/transaksiProdukAction";
+import "./styles.css";
 
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  state = {
+    courier: "",
+    isFirst: false,
+  };
 
   componentDidMount() {
     this.props.getDataMultiAddress(
@@ -62,15 +68,44 @@ class Checkout extends React.Component {
       .reduce((cur, price) => cur + price, 0);
   };
 
-  dropDownShippingHandler = (e) => {
-    console.log(e.target.value);
-    this.props.getShippingService(
+  dropDownShippingHandler = async (e) => {
+    await this.props.getShippingService(
       this.props.userGlobal.id_user,
       e.target.value
     );
-    console.log(this.props.transaksiProdukReducer.shippingCourier);
+    this.setState({ isFirst: true });
   };
 
+  inputHandler = (e) => {
+    console.log(e.target.value);
+  };
+
+  renderShippingServices = (courier) => {
+    return courier.map((value) => {
+      return (
+        <React.Fragment>
+          <input
+            className="list-group-item-check"
+            type="radio"
+            name="listGroupCheckableRadios"
+            id="listGroupCheckableRadios1"
+            value={value.cost[0].value}
+            onClick={this.inputHandler}
+          />
+          <label
+            className="list-group-item py-3"
+            for="listGroupCheckableRadios1"
+          >
+            {value.service} || {value.description}
+            <span className="d-block small opacity-50">
+              estimated shipping {value.cost[0].etd}
+            </span>
+            <span>Rp. {value.cost[0].value}</span>
+          </label>
+        </React.Fragment>
+      );
+    });
+  };
   render() {
     return (
       <div className="container">
@@ -131,15 +166,28 @@ class Checkout extends React.Component {
 
               <hr class="my-4" />
 
-              <Form.Select
-                onChange={this.dropDownShippingHandler}
-                aria-label="Default select example"
-              >
-                <option>Shipping Option</option>
-                <option value="jne">JNE</option>
-                <option value="pos">POS Indonesia</option>
-                <option value="tiki">TIKI</option>
-              </Form.Select>
+              <div className="list-group-checkable">
+                <Form.Select
+                  onChange={this.dropDownShippingHandler}
+                  aria-label="Default select example"
+                >
+                  <option>Shipping Option</option>
+                  <option value="jne">JNE</option>
+                  <option value="pos">POS Indonesia</option>
+                  <option disabled value="tiki">
+                    TIKI
+                  </option>
+                </Form.Select>
+
+                {/* RENDER SHIPPING SERVICES HERE */}
+
+                {this.state.isFirst
+                  ? this.renderShippingServices(
+                      this.props.transaksiProdukReducer.shippingCourier[0]
+                        .shipping_service
+                    )
+                  : []}
+              </div>
 
               {/* <div className="form-check">
                 <input

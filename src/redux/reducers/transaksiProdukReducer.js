@@ -16,7 +16,6 @@ export const transaksiProdukReducer = (state = INIT_STATE, action) => {
     case "SET_TOTAL_PAGE_TRANSAKSI_PRODUK":
       return { ...state, ...action.payload };
     case "GET_SHIPPING_COURIER":
-      console.log("Masuk Get SHIPPING CORIUTU");
       return { ...state, shippingCourier: [...action.payload] };
     default:
       return state;

@@ -11,8 +11,6 @@ const INIT_STATE = {
 export const userMultiAddressReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
     case "GET_MULTI_ADDRESS":
-      console.log("masuk get multi");
-      console.log(action.payload);
       return { ...state, ...action.payload };
     case "ADD_MULTI_ADDRESS":
       return { ...state, ...action.payload };
