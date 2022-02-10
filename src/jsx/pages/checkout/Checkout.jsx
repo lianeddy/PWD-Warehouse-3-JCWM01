@@ -14,6 +14,7 @@ class Checkout extends React.Component {
   state = {
     courier: "",
     isFirst: false,
+    shippingCostSelected: "",
   };
 
   componentDidMount() {
@@ -78,6 +79,7 @@ class Checkout extends React.Component {
 
   inputHandler = (e) => {
     console.log(e.target.value);
+    this.setState({ shippingCostSelected: e.target.value });
   };
 
   renderShippingServices = (courier) => {
@@ -126,14 +128,17 @@ class Checkout extends React.Component {
               {this.renderCartInfo()}
               <li className="list-group-item d-flex justify-content-between bg-light">
                 <div className="text-success">
-                  <h6 className="my-0">Promo code</h6>
-                  <small>EXAMPLECODE</small>
+                  <h6 className="my-0">Shipping Costs</h6>
                 </div>
-                <span className="text-success">−$5</span>
+                <span className="text-success">
+                  ${this.state.shippingCostSelected}
+                </span>
               </li>
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
-                <strong>${this.renderTotalCart()}</strong>
+                <strong>
+                  ${+this.renderTotalCart() + +this.state.shippingCostSelected}
+                </strong>
               </li>
             </ul>
 
