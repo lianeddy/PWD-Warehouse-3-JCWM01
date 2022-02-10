@@ -4,6 +4,7 @@ const INIT_STATE = {
   pagesNow: 0,
   maxPerPage: 10,
   total: 0,
+  shippingCourier: [],
 };
 
 export const transaksiProdukReducer = (state = INIT_STATE, action) => {
@@ -14,6 +15,9 @@ export const transaksiProdukReducer = (state = INIT_STATE, action) => {
       return { ...state, ...action.payload };
     case "SET_TOTAL_PAGE_TRANSAKSI_PRODUK":
       return { ...state, ...action.payload };
+    case "GET_SHIPPING_COURIER":
+      console.log("Masuk Get SHIPPING CORIUTU");
+      return { ...state, shippingCourier: [...action.payload] };
     default:
       return state;
   }

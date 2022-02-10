@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Card, Form } from "react-bootstrap";
 
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
+import { getShippingService } from "../../../redux/actions/transaksiProdukAction";
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -59,6 +60,15 @@ class Checkout extends React.Component {
     return this.props.cartGlobal.cartList
       .map((value) => value.TOTAL)
       .reduce((cur, price) => cur + price, 0);
+  };
+
+  dropDownShippingHandler = (e) => {
+    console.log(e.target.value);
+    this.props.getShippingService(
+      this.props.userGlobal.id_user,
+      e.target.value
+    );
+    console.log(this.props.transaksiProdukReducer.shippingCourier);
   };
 
   render() {
@@ -121,7 +131,10 @@ class Checkout extends React.Component {
 
               <hr class="my-4" />
 
-              <Form.Select aria-label="Default select example">
+              <Form.Select
+                onChange={this.dropDownShippingHandler}
+                aria-label="Default select example"
+              >
                 <option>Shipping Option</option>
                 <option value="jne">JNE</option>
                 <option value="pos">POS Indonesia</option>
@@ -263,7 +276,11 @@ class Checkout extends React.Component {
               </div>
 
               <hr class="my-4" />
-              <button className="w-100 btn btn-primary btn-lg" type="submit">
+              <button
+                onClick={this.test}
+                className="w-100 btn btn-primary btn-lg"
+                type="submit"
+              >
                 Continue to checkout
               </button>
             </form>
@@ -279,11 +296,13 @@ const mapStateToProps = (state) => {
     userGlobal: state.authReducer,
     cartGlobal: state.cartReducer,
     multiAdressGlobal: state.userMultiAddressReducer,
+    transaksiProdukReducer: state.transaksiProdukReducer,
   };
 };
 
 const mapDispatchToProps = {
   getDataMultiAddress,
+  getShippingService,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

@@ -19,18 +19,22 @@ import { keepLoginAction } from "./redux/actions/user";
 import { getCart } from "./redux/actions/cartAction";
 
 function App(props) {
-  const userTokenStorage = localStorage.getItem("dataToken");
   const userDataStorage = JSON.parse(localStorage.getItem("dataUser"));
+  const userTokenStorage = localStorage.getItem("dataToken");
 
   const keepLogin = () => {
+    // FIXME
     if (userTokenStorage !== null) {
+      console.log(userTokenStorage);
       //get user login action
       props.keepLoginAction(userTokenStorage);
     }
   };
 
   useEffect(() => {
-    keepLogin();
+    if (userTokenStorage !== null) {
+      keepLogin();
+    }
     if (userDataStorage !== null) {
       props.getCart(+userDataStorage.id_user);
     }

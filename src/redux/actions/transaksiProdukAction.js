@@ -222,6 +222,26 @@ const quickShowStocks = async (id_product, state) => {
   }
 };
 
+const getShippingService = (id, courier) => {
+  return async (dispatch) => {
+    try {
+      const data = await Axios.get(
+        `${URL_API}/transactions/min-cost-shipping?id_user=${id}&courier=${courier}`
+      );
+
+      const courierService = data.data.data;
+      dispatch({ type: "GET_SHIPPING_COURIER", payload: courierService });
+    } catch (err) {
+      const msgErr = err.response.data.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something went wrong! ${msgErr}`,
+      });
+    }
+  };
+};
+
 export {
   getDataTransaksiProduk,
   // addDataTransaksiProduk,
@@ -231,4 +251,5 @@ export {
   isTerimaPesanan,
   isTolakPesanan,
   quickShowStocks,
+  getShippingService,
 };
