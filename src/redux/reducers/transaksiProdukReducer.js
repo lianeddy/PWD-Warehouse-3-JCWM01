@@ -5,6 +5,8 @@ const INIT_STATE = {
   maxPerPage: 10,
   total: 0,
   shippingCourier: [],
+  paymentMethods: [],
+  shippingMethods: [],
 };
 
 export const transaksiProdukReducer = (state = INIT_STATE, action) => {
@@ -17,6 +19,10 @@ export const transaksiProdukReducer = (state = INIT_STATE, action) => {
       return { ...state, ...action.payload };
     case "GET_SHIPPING_COURIER":
       return { ...state, shippingCourier: [...action.payload] };
+    case "GET_PAYMENT_METHODS":
+      return { ...state, paymentMethods: [...action.payload] };
+    case "GET_SHIPPING_METHODS":
+      return { ...state, shippingMethods: [...action.payload] };
     default:
       return state;
   }

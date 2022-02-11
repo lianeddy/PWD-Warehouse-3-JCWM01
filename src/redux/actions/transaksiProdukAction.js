@@ -242,6 +242,46 @@ const getShippingService = (id, courier) => {
   };
 };
 
+const getPaymentMethods = () => {
+  return async (dispatch) => {
+    try {
+      const value = await Axios.get(
+        `${URL_API}/transactions/get-payment-method`
+      );
+      const paymentMethods = value.data.data;
+      console.log(paymentMethods);
+      dispatch({ type: "GET_PAYMENT_METHODS", payload: paymentMethods });
+    } catch (err) {
+      const msgErr = err.response.data.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something went wrong! ${msgErr}`,
+      });
+    }
+  };
+};
+
+const getShippingMethods = () => {
+  return async (dispatch) => {
+    try {
+      const value = await Axios.get(
+        `${URL_API}/transactions/get-shipping-method`
+      );
+
+      const shippingMethods = value.data.data;
+      dispatch({ type: "GET_SHIPPING_METHODS", payload: shippingMethods });
+    } catch (err) {
+      const msgErr = err.response.data.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something went wrong! ${msgErr}`,
+      });
+    }
+  };
+};
+
 export {
   getDataTransaksiProduk,
   // addDataTransaksiProduk,
@@ -252,4 +292,6 @@ export {
   isTolakPesanan,
   quickShowStocks,
   getShippingService,
+  getPaymentMethods,
+  getShippingMethods,
 };

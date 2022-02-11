@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { Card, Form } from "react-bootstrap";
 
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
-import { getShippingService } from "../../../redux/actions/transaksiProdukAction";
+import {
+  getShippingService,
+  getPaymentMethods,
+  getShippingMethods,
+} from "../../../redux/actions/transaksiProdukAction";
 import "./styles.css";
 
 class Checkout extends React.Component {
@@ -15,6 +19,18 @@ class Checkout extends React.Component {
     courier: "",
     isFirst: false,
     shippingCostSelected: "",
+    checkoutDatas: {
+      id_user: 0,
+      id_metode_pembayaran: 0,
+      id_metode_pengiriman: 0,
+      id_warehouse: 0,
+      invoice_code: "",
+      keterangan: "",
+      alamat: "",
+      total_harga: 0,
+      ongkos_kirim: 0,
+    },
+    test: "",
   };
 
   componentDidMount() {
@@ -25,26 +41,46 @@ class Checkout extends React.Component {
       10,
       this.props.userGlobal.id_user
     );
+    this.props.getPaymentMethods();
+    this.props.getShippingMethods();
   }
 
   renderCardAdress = () => {
-    return this.props.multiAdressGlobal.multiAddressList
-      .filter((address) => address.is_default === 1)
-      .map((defValue) => {
-        return (
-          <div>
-            <Card.Subtitle className="mb-2 text-muted">
-              {defValue.nm_data_alamat_user} (
-              {defValue.contact_data_alamat_user})
-            </Card.Subtitle>
-            <Card.Text>
-              {defValue.address_data_alamat_user} <br />
-              Provinsi {defValue.datapropinsi.nm_propinsi} -{" "}
-              {defValue.datakabkota.type} {defValue.datakabkota.nm_kabkota}
-            </Card.Text>
-          </div>
-        );
-      });
+    //FIXME
+    const findAddressDefault =
+      this.props.multiAdressGlobal.multiAddressList.find(
+        (address) => address.is_default === 1
+      );
+
+    if (findAddressDefault !== undefined) {
+      console.log(findAddressDefault);
+
+      const {
+        nm_data_alamat_user,
+        address_data_alamat_user,
+        datakabkota,
+        datapropinsi,
+        contact_data_alamat_user,
+      } = findAddressDefault;
+
+      const alamat = `[${nm_data_alamat_user}], ${address_data_alamat_user}, ${datakabkota.type} ${datakabkota.nm_kabkota} - Provinsi ${datapropinsi.nm_propinsi}`;
+      console.log(alamat);
+
+      this.submitCheckout(alamat);
+
+      return (
+        <div>
+          <Card.Subtitle className="mb-2 text-muted">
+            {nm_data_alamat_user} ({contact_data_alamat_user})
+          </Card.Subtitle>
+          <Card.Text>
+            {address_data_alamat_user} <br />
+            Provinsi {datapropinsi.nm_propinsi} - {datakabkota.type}{" "}
+            {datakabkota.nm_kabkota}
+          </Card.Text>
+        </div>
+      );
+    }
   };
 
   renderCartInfo = () => {
@@ -74,12 +110,54 @@ class Checkout extends React.Component {
       this.props.userGlobal.id_user,
       e.target.value
     );
-    this.setState({ isFirst: true });
+
+    const idWarehouseOrigin =
+      this.props.transaksiProdukReducer.shippingCourier[0].id_warehouse_origin;
+    // this.setState({ isFirst: true });
+    this.setState((prevState) => ({
+      isFirst: true,
+      checkoutDatas: {
+        ...prevState.checkoutDatas,
+        id_warehouse: idWarehouseOrigin,
+      },
+    }));
   };
 
-  inputHandler = (e) => {
+  submitCheckout = (alamat) => {
+    // this.setState
+    // this.setState((prevState) => ({
+    //   checkoutDatas: {
+    //     ...prevState.checkoutDatas,
+    //     alamat,
+    //   },
+    // }));
+  };
+
+  inputHandler = (e, service) => {
     console.log(e.target.value);
-    this.setState({ shippingCostSelected: e.target.value });
+    console.log(this.props.transaksiProdukReducer.shippingMethods);
+    const data = this.props.transaksiProdukReducer.shippingMethods.find(
+      (el) => el.kode_metode_pengiriman === service
+    );
+    console.log(data.id_metode_pengiriman);
+    console.log(this.props.multiAdressGlobal);
+    this.setState((prevState) => ({
+      checkoutDatas: {
+        ...prevState.checkoutDatas,
+        ongkos_kirim: e.target.value,
+        id_metode_pengiriman: data.id_metode_pengiriman,
+      },
+    }));
+  };
+
+  renderCategoryMethods = () => {
+    return this.props.transaksiProdukReducer.paymentMethods.map((value) => {
+      return (
+        <option value={value.id_metode_pembayaran}>
+          {value.nm_metode_pembayaran}
+        </option>
+      );
+    });
   };
 
   renderShippingServices = (courier) => {
@@ -92,7 +170,7 @@ class Checkout extends React.Component {
             name="listGroupCheckableRadios"
             id="listGroupCheckableRadios1"
             value={value.cost[0].value}
-            onClick={this.inputHandler}
+            onClick={(e) => this.inputHandler(e, value.service)}
           />
           <label
             className="list-group-item py-3"
@@ -108,6 +186,17 @@ class Checkout extends React.Component {
       );
     });
   };
+
+  dropDownPaymentHandler = (e) => {
+    console.log(e.target.value);
+    this.setState((prevState) => ({
+      checkoutDatas: {
+        ...prevState.checkoutDatas,
+        id_metode_pembayaran: e.target.value,
+      },
+    }));
+  };
+
   render() {
     return (
       <div className="container">
@@ -131,13 +220,15 @@ class Checkout extends React.Component {
                   <h6 className="my-0">Shipping Costs</h6>
                 </div>
                 <span className="text-success">
-                  ${this.state.shippingCostSelected}
+                  ${this.state.checkoutDatas.ongkos_kirim}
                 </span>
               </li>
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
                 <strong>
-                  ${+this.renderTotalCart() + +this.state.shippingCostSelected}
+                  $
+                  {+this.renderTotalCart() +
+                    +this.state.checkoutDatas.ongkos_kirim}
                 </strong>
               </li>
             </ul>
@@ -176,7 +267,7 @@ class Checkout extends React.Component {
                   onChange={this.dropDownShippingHandler}
                   aria-label="Default select example"
                 >
-                  <option>Shipping Option</option>
+                  <option value="">Shipping Option</option>
                   <option value="jne">JNE</option>
                   <option value="pos">POS Indonesia</option>
                   <option disabled value="tiki">
@@ -194,139 +285,17 @@ class Checkout extends React.Component {
                   : []}
               </div>
 
-              {/* <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="same-address"
-                />
-
-                <label className="form-check-label" for="same-address">
-                  Shipping address is the same as my billing address
-                </label>
-              </div>
-
-              <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="save-info"
-                />
-                <label className="form-check-label" for="save-info">
-                  Save this information for next time
-                </label>
-              </div> */}
-
               <hr class="my-4" />
 
               <h4 className="mb-3">Payment</h4>
 
-              <div className="my-3">
-                <div className="form-check">
-                  <input
-                    id="credit"
-                    name="paymentMethod"
-                    type="radio"
-                    className="form-check-input"
-                    checked
-                    required
-                  />
-                  <label className="form-check-label" for="credit">
-                    Credit card
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    id="debit"
-                    name="paymentMethod"
-                    type="radio"
-                    className="form-check-input"
-                    required
-                  />
-                  <label className="form-check-label" for="debit">
-                    Debit card
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    id="paypal"
-                    name="paymentMethod"
-                    type="radio"
-                    className="form-check-input"
-                    required
-                  />
-                  <label className="form-check-label" for="paypal">
-                    PayPal
-                  </label>
-                </div>
-              </div>
-
-              <div className="row gy-3">
-                <div className="col-md-6">
-                  <label for="cc-name" className="form-label">
-                    Name on card
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="cc-name"
-                    placeholder=""
-                    required
-                  />
-                  <small className="text-muted">
-                    Full name as displayed on card
-                  </small>
-                  <div className="invalid-feedback">
-                    Name on card is required
-                  </div>
-                </div>
-
-                <div className="col-md-6">
-                  <label for="cc-number" className="form-label">
-                    Credit card number
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="cc-number"
-                    placeholder=""
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    Credit card number is required
-                  </div>
-                </div>
-
-                <div className="col-md-3">
-                  <label for="cc-expiration" className="form-label">
-                    Expiration
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="cc-expiration"
-                    placeholder=""
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    Expiration date required
-                  </div>
-                </div>
-
-                <div className="col-md-3">
-                  <label for="cc-cvv" className="form-label">
-                    CVV
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="cc-cvv"
-                    placeholder=""
-                    required
-                  />
-                  <div className="invalid-feedback">Security code required</div>
-                </div>
-              </div>
+              <Form.Select
+                onChange={this.dropDownPaymentHandler}
+                aria-label="Default select example"
+              >
+                <option value="">Payment Option</option>
+                {this.renderCategoryMethods()}
+              </Form.Select>
 
               <hr class="my-4" />
               <button
@@ -356,6 +325,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getDataMultiAddress,
   getShippingService,
+  getPaymentMethods,
+  getShippingMethods,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
