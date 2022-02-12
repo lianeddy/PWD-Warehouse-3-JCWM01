@@ -7,6 +7,13 @@ import {
   getShippingService,
   getPaymentMethods,
   getShippingMethods,
+  passOngkirAndIdMetodePengiriman,
+  passIdMetodePembayaran,
+  passIdWarehouseOrigin,
+  passLocation,
+  passTotalHarga,
+  passKeterangan,
+  passAllCheckoutDatas,
 } from "../../../redux/actions/transaksiProdukAction";
 import "./styles.css";
 
@@ -66,7 +73,7 @@ class Checkout extends React.Component {
       const alamat = `[${nm_data_alamat_user}], ${address_data_alamat_user}, ${datakabkota.type} ${datakabkota.nm_kabkota} - Provinsi ${datapropinsi.nm_propinsi}`;
       console.log(alamat);
 
-      this.submitCheckout(alamat);
+      this.props.passLocation(alamat, this.props.userGlobal.id_user);
 
       return (
         <div>
@@ -100,9 +107,12 @@ class Checkout extends React.Component {
   };
 
   renderTotalCart = () => {
-    return this.props.cartGlobal.cartList
+    const total_harga = this.props.cartGlobal.cartList
       .map((value) => value.TOTAL)
       .reduce((cur, price) => cur + price, 0);
+
+    this.props.passTotalHarga(total_harga);
+    return total_harga;
   };
 
   dropDownShippingHandler = async (e) => {
@@ -113,41 +123,46 @@ class Checkout extends React.Component {
 
     const idWarehouseOrigin =
       this.props.transaksiProdukReducer.shippingCourier[0].id_warehouse_origin;
-    // this.setState({ isFirst: true });
-    this.setState((prevState) => ({
-      isFirst: true,
-      checkoutDatas: {
-        ...prevState.checkoutDatas,
-        id_warehouse: idWarehouseOrigin,
-      },
-    }));
-  };
 
-  submitCheckout = (alamat) => {
-    // this.setState
+    this.props.passIdWarehouseOrigin(idWarehouseOrigin);
+    this.setState({ isFirst: true });
     // this.setState((prevState) => ({
+    //   isFirst: true,
     //   checkoutDatas: {
     //     ...prevState.checkoutDatas,
-    //     alamat,
+    //     id_warehouse: idWarehouseOrigin,
     //   },
     // }));
   };
 
+  submitCheckout = async () => {
+    // FIXME AXIOS POST
+    this.props.passAllCheckoutDatas();
+    try {
+      console.log(this.props.transaksiProdukReducer.checkoutData);
+    } catch (err) {}
+  };
+
   inputHandler = (e, service) => {
-    console.log(e.target.value);
-    console.log(this.props.transaksiProdukReducer.shippingMethods);
+    const ongkos_kirim = e.target.value;
+    console.log(ongkos_kirim);
     const data = this.props.transaksiProdukReducer.shippingMethods.find(
       (el) => el.kode_metode_pengiriman === service
     );
+    const id_metode_pengiriman = data.id_metode_pengiriman;
     console.log(data.id_metode_pengiriman);
-    console.log(this.props.multiAdressGlobal);
-    this.setState((prevState) => ({
-      checkoutDatas: {
-        ...prevState.checkoutDatas,
-        ongkos_kirim: e.target.value,
-        id_metode_pengiriman: data.id_metode_pengiriman,
-      },
-    }));
+    // this.setState((prevState) => ({
+    //   checkoutDatas: {
+    //     ...prevState.checkoutDatas,
+    //     ongkos_kirim,
+    //     id_metode_pengiriman,
+    //   },
+    // }));
+    // for checkout data
+    this.props.passOngkirAndIdMetodePengiriman(
+      ongkos_kirim,
+      id_metode_pengiriman
+    );
   };
 
   renderCategoryMethods = () => {
@@ -188,13 +203,21 @@ class Checkout extends React.Component {
   };
 
   dropDownPaymentHandler = (e) => {
+    const id_metode_pembayaran = e.target.value;
     console.log(e.target.value);
-    this.setState((prevState) => ({
-      checkoutDatas: {
-        ...prevState.checkoutDatas,
-        id_metode_pembayaran: e.target.value,
-      },
-    }));
+    // this.setState((prevState) => ({
+    //   checkoutDatas: {
+    //     ...prevState.checkoutDatas,
+    //     id_metode_pembayaran
+    //   },
+    // }));
+    this.props.passIdMetodePembayaran(id_metode_pembayaran);
+  };
+
+  inputAdditionalInfo = (e) => {
+    // console.log(e.target.value);
+    const keterangan = e.target.value;
+    this.props.passKeterangan(keterangan);
   };
 
   render() {
@@ -233,7 +256,7 @@ class Checkout extends React.Component {
               </li>
             </ul>
 
-            <form className="card p-2">
+            {/* <form className="card p-2">
               <div className="input-group">
                 <input
                   type="text"
@@ -244,68 +267,76 @@ class Checkout extends React.Component {
                   Redeem
                 </button>
               </div>
-            </form>
+            </form> */}
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="additional information"
+                onChange={this.inputAdditionalInfo}
+              />
+            </div>
           </div>
           <div className="col-md-7 col-lg-8">
-            <form className="needs-validation" novalidate>
-              <Card>
-                <Card.Body>
-                  <Card.Title>Alamat pengirim</Card.Title>
-                  <hr />
-                  {/* render here */}
-                  {this.renderCardAdress()}
-                  <Card.Link href="users/multi-address">
-                    Pilih Alamat Lain
-                  </Card.Link>
-                </Card.Body>
-              </Card>
+            {/* <form className="needs-validation" novalidate> */}
+            <Card>
+              <Card.Body>
+                <Card.Title>Alamat pengirim</Card.Title>
+                <hr />
+                {/* render here */}
+                {this.renderCardAdress()}
+                <Card.Link href="users/multi-address">
+                  Pilih Alamat Lain
+                </Card.Link>
+              </Card.Body>
+            </Card>
 
-              <hr class="my-4" />
+            <hr class="my-4" />
 
-              <div className="list-group-checkable">
-                <Form.Select
-                  onChange={this.dropDownShippingHandler}
-                  aria-label="Default select example"
-                >
-                  <option value="">Shipping Option</option>
-                  <option value="jne">JNE</option>
-                  <option value="pos">POS Indonesia</option>
-                  <option disabled value="tiki">
-                    TIKI
-                  </option>
-                </Form.Select>
-
-                {/* RENDER SHIPPING SERVICES HERE */}
-
-                {this.state.isFirst
-                  ? this.renderShippingServices(
-                      this.props.transaksiProdukReducer.shippingCourier[0]
-                        .shipping_service
-                    )
-                  : []}
-              </div>
-
-              <hr class="my-4" />
-
-              <h4 className="mb-3">Payment</h4>
-
+            <div className="list-group-checkable">
               <Form.Select
-                onChange={this.dropDownPaymentHandler}
+                onChange={this.dropDownShippingHandler}
                 aria-label="Default select example"
               >
-                <option value="">Payment Option</option>
-                {this.renderCategoryMethods()}
+                <option value="">Shipping Option</option>
+                <option value="jne">JNE</option>
+                <option value="pos">POS Indonesia</option>
+                <option disabled value="tiki">
+                  TIKI
+                </option>
               </Form.Select>
 
-              <hr class="my-4" />
-              <button
-                onClick={this.test}
-                className="w-100 btn btn-primary btn-lg"
-                type="submit"
-              >
-                Continue to checkout
-              </button>
-            </form>
+              {/* RENDER SHIPPING SERVICES HERE */}
+
+              {this.state.isFirst
+                ? this.renderShippingServices(
+                    this.props.transaksiProdukReducer.shippingCourier[0]
+                      .shipping_service
+                  )
+                : []}
+            </div>
+
+            <hr class="my-4" />
+
+            <h4 className="mb-3">Payment</h4>
+
+            <Form.Select
+              onChange={this.dropDownPaymentHandler}
+              aria-label="Default select example"
+            >
+              <option value="">Payment Option</option>
+              {this.renderCategoryMethods()}
+            </Form.Select>
+
+            <hr class="my-4" />
+            <button
+              onClick={this.submitCheckout}
+              className="w-100 btn btn-primary btn-lg"
+              type="submit"
+            >
+              Continue to checkout
+            </button>
+            {/* </form> */}
           </div>
         </div>
       </div>
@@ -327,6 +358,13 @@ const mapDispatchToProps = {
   getShippingService,
   getPaymentMethods,
   getShippingMethods,
+  passOngkirAndIdMetodePengiriman,
+  passIdMetodePembayaran,
+  passIdWarehouseOrigin,
+  passLocation,
+  passTotalHarga,
+  passKeterangan,
+  passAllCheckoutDatas,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

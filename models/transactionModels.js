@@ -11,11 +11,36 @@ const {
 } = require("../utils/response-handler");
 
 module.exports = {
-  checkoutMdl: async function (response, addStatement, data) {
+  checkoutMdl: async function (
+    response,
+    updateStatement,
+    // addStatementDetailTransactions,
+    addStatementCheckout,
+    // dataDetailTransactions,
+    dataCheckout,
+    id_user
+  ) {
     try {
-      // insert to database
-      const insertCheckotToDatabase = await db
-        .query(addStatement, [data])
+      // update cart
+      const updateCartIsCheckout = await db
+        .query(updateStatement, id_user)
+        .catch((err) => {
+          throw new Api500Error("Gagal mengubah cart", err);
+        });
+
+      // insert to detailTransactions
+      // const insertDetailTransactions = await db
+      //   .query(addStatementDetailTransactions, [dataDetailTransactions])
+      //   .catch((err) => {
+      //     throw new Api500Error(
+      //       "Gagal menambahkan data detail transactions",
+      //       err
+      //     );
+      //   });
+
+      // insert to checkout
+      const insertCheckot = await db
+        .query(addStatementCheckout, [dataCheckout])
         .catch((err) => {
           throw {
             message: "Gagal melakukan checkout",

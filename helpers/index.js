@@ -8,6 +8,7 @@ const { db } = require("./Database");
 const { createToken } = require("./createToken");
 const { auth } = require("./authToken");
 const { transporter } = require("./nodemailer");
+const { generateValueUniq } = require("./RandomHelper");
 
 module.exports = {
   MysqlConnector,
@@ -20,4 +21,5 @@ module.exports = {
   createToken,
   auth,
   transporter,
+  generateValueUniq,
 };

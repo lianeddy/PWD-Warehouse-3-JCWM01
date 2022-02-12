@@ -16,7 +16,7 @@ module.exports = {
 
     // query sql
     const querySelectUser = "SELECT * FROM sys_user WHERE id_user = ?";
-    const querySelectCart = `SELECT URL, nm_master_produk AS ITEM, quantity AS QTY, harga AS PRICE, app_carts_produk.quantity * app_master_produk.harga AS TOTAL, id_app_carts_produk, id_master_barang FROM app_carts_produk INNER JOIN app_master_produk ON app_carts_produk.id_master_barang = app_master_produk.id_master_produk INNER JOIN sys_user ON app_carts_produk.id_user = sys_user.id_user WHERE app_carts_produk.id_user = ?`;
+    const querySelectCart = `SELECT URL, nm_master_produk AS ITEM, quantity AS QTY, harga AS PRICE, app_carts_produk.quantity * app_master_produk.harga AS TOTAL, id_app_carts_produk, id_master_barang FROM app_carts_produk INNER JOIN app_master_produk ON app_carts_produk.id_master_barang = app_master_produk.id_master_produk INNER JOIN sys_user ON app_carts_produk.id_user = sys_user.id_user WHERE app_carts_produk.id_user = ? AND is_checkout = 0`;
     // const querySelectCart = `SELECT app_carts_produk.id_user, nm_master_produk, quantity, harga, app_carts_produk.quantity * app_master_produk.harga AS total_produk , URL FROM ?? WHERE app_carts_produk.id_user = ?`
 
     // Pass into model

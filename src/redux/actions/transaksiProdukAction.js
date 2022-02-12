@@ -282,6 +282,84 @@ const getShippingMethods = () => {
   };
 };
 
+const dataCheckout = {};
+
+const passOngkirAndIdMetodePengiriman = (
+  dataOngkir,
+  dataIdMetodePengiriman
+) => {
+  dataCheckout.ongkos_kirim = dataOngkir;
+  dataCheckout.id_metode_pengiriman = dataIdMetodePengiriman;
+
+  console.log(dataCheckout);
+  return async (dispatch) => {
+    return dispatch({
+      type: "PASS_ONGKIR_ID_METODE_PENGIRIMAN",
+    });
+  };
+};
+
+const passIdMetodePembayaran = (dataIdMetodePembayaran) => {
+  dataCheckout.id_metode_pembayaran = dataIdMetodePembayaran;
+  console.log(dataCheckout);
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_ID_METODE_PEMBAYARAN",
+    });
+  };
+};
+
+const passIdWarehouseOrigin = (dataIdWarehouse) => {
+  dataCheckout.id_warehouse = dataIdWarehouse;
+  console.log(dataCheckout);
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_ID_WAREHOUSE_ORIGIN",
+    });
+  };
+};
+
+const passLocation = (dataLocation, dataIdUser) => {
+  dataCheckout.alamat = dataLocation;
+  dataCheckout.id_user = dataIdUser;
+  console.log(dataCheckout);
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_LOCATION",
+    });
+  };
+};
+
+const passTotalHarga = (dataTotalHarga) => {
+  dataCheckout.total_harga = dataTotalHarga;
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_DATA_HARGA_TOTAL",
+    });
+  };
+};
+
+const passKeterangan = (dataKeterangan) => {
+  dataCheckout.keterangan = dataKeterangan;
+  console.log(dataCheckout);
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_KETERANGAN_DATA",
+    });
+  };
+};
+
+const passAllCheckoutDatas = () => {
+  return (dispatch) => {
+    return dispatch({
+      type: "PASS_ALL_CHECKOUT_DATAS",
+      payload: {
+        checkoutData: dataCheckout,
+      },
+    });
+  };
+};
+
 export {
   getDataTransaksiProduk,
   // addDataTransaksiProduk,
@@ -294,4 +372,11 @@ export {
   getShippingService,
   getPaymentMethods,
   getShippingMethods,
+  passOngkirAndIdMetodePengiriman,
+  passIdMetodePembayaran,
+  passIdWarehouseOrigin,
+  passLocation,
+  passTotalHarga,
+  passKeterangan,
+  passAllCheckoutDatas,
 };

@@ -1,4 +1,9 @@
-const { db, createToken, RajaOngkirHelper } = require("../helpers/index");
+const {
+  db,
+  createToken,
+  RajaOngkirHelper,
+  generateValueUniq,
+} = require("../helpers/index");
 const { StorageHelper } = require("../helpers");
 const fs = require("fs");
 
@@ -64,16 +69,31 @@ module.exports = {
 
   checkout: async (req, res, next) => {
     // Data from client
-    const data = {
-      ...req.query,
-      ...req.body,
-    };
+    // const data = {
+    //   ...req.query,
+    //   ...req.body,
+    // };
+    const d = new Date();
+    const invoice_code = generateValueUniq(d);
+
+    // const dataDetailTransactions = { ...req.query };
+    const dataCheckout = { ...req.body, invoice_code };
 
     // query to inject
-    const addQuery = "INSERT INTO app_transaksi_master_produk SET ?";
+    const updateCartQuery = `UPDATE app_carts_produk SET is_checkout = 1 WHERE id_user = ?`;
+    // const addQueryDetailTransactions = `UPDATE app_detail_transaksi_master_produk SET ?`;
+    const addQueryCheckout = "INSERT INTO app_transaksi_master_produk SET ?";
 
     // Pass into model
-    checkoutMdl(res, addQuery, data);
+    checkoutMdl(
+      res,
+      updateCartQuery,
+      // addQueryDetailTransactions,
+      addQueryCheckout,
+      // dataDetailTransactions,
+      dataCheckout,
+      req.body.id_user
+    );
   },
 
   seeOnGoingMyTransaction: async (req, res, next) => {
