@@ -72,24 +72,24 @@ module.exports = {
     const invoice_code = generateValueUniq(d);
 
     const dataCheckout = { ...req.query, invoice_code };
-    console.log(dataCheckout);
-    console.log(req.body);
+    // console.log(dataCheckout);
+    // console.log(req.body);
 
-    // // query to inject
-    // const updateCartQuery = `UPDATE app_carts_produk SET is_checkout = 1 WHERE id_user = ?`;
-    // // const addQueryDetailTransactions = `UPDATE app_detail_transaksi_master_produk SET ?`;
-    // const addQueryCheckout = "INSERT INTO app_transaksi_master_produk SET ?";
+    // query to inject
+    const updateCartQuery = `UPDATE app_carts_produk SET is_checkout = 1 WHERE id_user = ?`;
+    const addCheckoutQuery = "INSERT INTO app_transaksi_master_produk SET ?";
+    const addDetailTransactionsQuery = `INSERT INTO app_detail_transaksi_master_produk SET ?`;
 
-    // // Pass into model
-    // checkoutMdl(
-    //   res,
-    //   updateCartQuery,
-    //   // addQueryDetailTransactions,
-    //   addQueryCheckout,
-    //   // dataDetailTransactions,
-    //   dataCheckout,
-    //   req.body.id_user
-    // );
+    // Pass into model
+    checkoutMdl(
+      res,
+      updateCartQuery,
+      addCheckoutQuery,
+      addDetailTransactionsQuery,
+      dataCheckout,
+      req.body,
+      req.query.id_user
+    );
   },
 
   seeOnGoingMyTransaction: async (req, res, next) => {

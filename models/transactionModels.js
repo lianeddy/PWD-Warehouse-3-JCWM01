@@ -13,44 +13,48 @@ const {
 module.exports = {
   checkoutMdl: async function (
     response,
-    updateStatement,
-    // addStatementDetailTransactions,
-    addStatementCheckout,
-    // dataDetailTransactions,
+    updateCartStatement,
+    addCheckoutStatement,
+    addDetailTransStatement,
     dataCheckout,
+    dataDetail,
     id_user
   ) {
     try {
       // update cart
       const updateCartIsCheckout = await db
-        .query(updateStatement, id_user)
+        .query(updateCartStatement, id_user)
         .catch((err) => {
           throw new Api500Error("Gagal mengubah cart", err);
         });
 
-      // insert to detailTransactions
-      // const insertDetailTransactions = await db
-      //   .query(addStatementDetailTransactions, [dataDetailTransactions])
-      //   .catch((err) => {
-      //     throw new Api500Error(
-      //       "Gagal menambahkan data detail transactions",
-      //       err
-      //     );
-      //   });
-
       // insert to checkout
       const insertCheckot = await db
-        .query(addStatementCheckout, [dataCheckout])
+        .query(addCheckoutStatement, [dataCheckout])
         .catch((err) => {
-          throw {
-            message: "Gagal melakukan checkout",
-            status: 500,
-            error: err,
-          };
+          throw new Api500Error("Gagal melakukan checkout", err);
         });
 
-      console.log(insertCheckot);
+      const id_transaksi_master_produk = insertCheckot.insertId;
+      console.log(dataDetail);
+      const data = dataDetail.map((el) => ({
+        ...el,
+        id_transaksi_master_produk,
+      }));
 
+      // insert to detailTransactions
+      data.forEach(async (el) => {
+        const insertDetailTransactions = await db
+          .query(addDetailTransStatement, [el])
+          .catch((err) => {
+            throw new Api500Error(
+              "Gagal menambahkan data detail transactions",
+              err
+            );
+          });
+      });
+
+      // console.log(insertDetailTransactions);
       responseMessage(response, 201, "Berhasil melakukan checkout");
     } catch (err) {
       responError(response, err.status, err);
