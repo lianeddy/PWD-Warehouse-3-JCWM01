@@ -49,6 +49,8 @@ module.exports = {
           };
         });
 
+      console.log(insertCheckot);
+
       responseMessage(response, 201, "Berhasil melakukan checkout");
     } catch (err) {
       responError(response, err.status, err);

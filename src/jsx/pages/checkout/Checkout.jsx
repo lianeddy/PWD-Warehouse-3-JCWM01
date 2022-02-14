@@ -1,7 +1,9 @@
 import React from "react";
+import Axios from "axios";
 import { connect } from "react-redux";
 import { Card, Form } from "react-bootstrap";
 
+import { URL_API } from "../../../helper";
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
 import {
   getShippingService,
@@ -135,12 +137,53 @@ class Checkout extends React.Component {
     // }));
   };
 
-  submitCheckout = async () => {
-    // FIXME AXIOS POST
-    this.props.passAllCheckoutDatas();
+  componentDidUpdate(prevProps) {
+    const props_checkout = this.props.transaksiProdukReducer.checkoutData;
+    const props_detailTrans = this.props.cartGlobal.cartList;
+    if (props_checkout !== prevProps.transaksiProdukReducer.checkoutData) {
+      this.postDataCheckout(props_checkout, props_detailTrans);
+    }
+  }
+
+  postDataCheckout = async (checkout, detailTrans) => {
     try {
-      console.log(this.props.transaksiProdukReducer.checkoutData);
-    } catch (err) {}
+      const dataDetailTrancs = detailTrans.map((elem) => ({
+        id_master_barang: elem.id_master_barang,
+        harga: elem.PRICE,
+        jumlah: elem.QTY,
+      }));
+
+      const {
+        alamat,
+        id_metode_pembayaran,
+        id_metode_pengiriman,
+        id_user,
+        id_warehouse,
+        keterangan,
+        ongkos_kirim,
+        total_harga,
+      } = checkout;
+
+      let url = `${URL_API}/transactions/checkout`;
+      if (alamat !== undefined) url += `?alamat=${alamat}`;
+      if (id_metode_pembayaran !== undefined)
+        url += `&id_metode_pembayaran=${id_metode_pembayaran}`;
+      if (id_metode_pengiriman !== undefined)
+        url += `&id_metode_pengiriman=${id_metode_pengiriman}`;
+      if (id_user !== undefined) url += `&id_user=${id_user}`;
+      if (id_warehouse !== undefined) url += `&id_warehouse=${id_warehouse}`;
+      if (keterangan !== undefined) url += `&keterangan=${keterangan}`;
+      if (ongkos_kirim !== undefined) url += `&ongkos_kirim=${ongkos_kirim}`;
+      if (total_harga !== undefined) url += `&total_harga=${total_harga}`;
+      console.log(url);
+
+      const postData = await Axios.post(`${url}`, dataDetailTrancs);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  submitCheckout = () => {
+    this.props.passAllCheckoutDatas();
   };
 
   inputHandler = (e, service) => {
@@ -226,7 +269,6 @@ class Checkout extends React.Component {
         <div className="py-5 text-center">
           <h2>Checkout</h2>
         </div>
-
         <div className="row g-5">
           <div className="col-md-5 col-lg-4 order-md-last">
             <h4 className="d-flex justify-content-between align-items-center mb-3">
