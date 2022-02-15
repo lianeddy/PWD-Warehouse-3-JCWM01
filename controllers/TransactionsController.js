@@ -101,9 +101,11 @@ module.exports = {
 	  WHERE id_user = ?
     `;
 
-    const getDetailTransactions = `SELECT ?? from app_detail_transaksi_master_produk
-    JOIN app_master_produk ON app_detail_transaksi_master_produk.id_master_barang = app_master_produk.id_master_produk
-    WHERE id_transaksi_master_produk = ?`;
+    const getDetailTransactions = `SELECT ?? FROM 
+    app_detail_transaksi_master_produk
+      JOIN app_master_produk 
+        ON app_detail_transaksi_master_produk.id_master_barang = app_master_produk.id_master_produk
+      WHERE id_transaksi_master_produk = ?`;
 
     // Pass into model
     seeOnGoingTransactionMdl(

@@ -360,6 +360,15 @@ const passAllCheckoutDatas = () => {
   };
 };
 
+const getBuyTransactionDatas = (data) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "GET_BUY_TRANSACTIONS_DATAS",
+      payload: data,
+    });
+  };
+};
+
 export {
   getDataTransaksiProduk,
   // addDataTransaksiProduk,
@@ -379,4 +388,5 @@ export {
   passTotalHarga,
   passKeterangan,
   passAllCheckoutDatas,
+  getBuyTransactionDatas,
 };

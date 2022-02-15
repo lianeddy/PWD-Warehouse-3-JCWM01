@@ -8,6 +8,7 @@ const INIT_STATE = {
   paymentMethods: [],
   shippingMethods: [],
   checkoutData: {},
+  buyTransactionData: [],
 };
 
 export const transaksiProdukReducer = (state = INIT_STATE, action) => {
@@ -26,6 +27,8 @@ export const transaksiProdukReducer = (state = INIT_STATE, action) => {
       return { ...state, shippingMethods: [...action.payload] };
     case "PASS_ALL_CHECKOUT_DATAS":
       return { ...state, ...action.payload };
+    case "GET_BUY_TRANSACTIONS_DATAS":
+      return { ...state, buyTransactionData: [...action.payload] };
     // case "PASS_ONGKIR_ID-METODE-PENGIRIMAN":
     //   // console.log(action.payload);
     //   return { ...state, ...action.payload };
