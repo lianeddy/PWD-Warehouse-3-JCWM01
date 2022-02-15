@@ -22,6 +22,7 @@ import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetai
 import Profile from "../../pages/profile";
 import Cart from "../../pages/cart/cart";
 import Checkout from "../../pages/checkout/Checkout";
+import Orders from "../../pages/orders/order";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -139,6 +140,10 @@ const NavbarView = (props) => {
     {
       path: "/users/multi-address",
       component: AppDataAlamatUserView,
+    },
+    {
+      path: "/orders",
+      component: Orders,
     },
   ]);
 

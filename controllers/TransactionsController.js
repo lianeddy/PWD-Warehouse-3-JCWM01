@@ -72,8 +72,6 @@ module.exports = {
     const invoice_code = generateValueUniq(d);
 
     const dataCheckout = { ...req.query, invoice_code };
-    // console.log(dataCheckout);
-    // console.log(req.body);
 
     // query to inject
     const updateCartQuery = `UPDATE app_carts_produk SET is_checkout = 1 WHERE id_user = ?`;
@@ -94,17 +92,27 @@ module.exports = {
 
   seeOnGoingMyTransaction: async (req, res, next) => {
     // Query to inject
-    const getQuery = `SELECT ?? FROM 
+    const getTransactions = `SELECT ?? FROM 
     app_transaksi_master_produk
 		  JOIN app_metode_pembayaran 
 			  ON app_transaksi_master_produk.id_metode_pembayaran = app_metode_pembayaran.id_metode_pembayaran
 		  JOIN app_metode_pengiriman
 			  ON app_transaksi_master_produk.id_metode_pengiriman = app_metode_pengiriman.id_metode_pengiriman
-	  WHERE id_transaksi_master_produk = ?
+	  WHERE id_user = ?
     `;
 
+    const getDetailTransactions = `SELECT ?? from app_detail_transaksi_master_produk
+    JOIN app_master_produk ON app_detail_transaksi_master_produk.id_master_barang = app_master_produk.id_master_produk
+    WHERE id_transaksi_master_produk = ?`;
+
     // Pass into model
-    seeOnGoingTransactionMdl(res, getQuery, req.params.id);
+    seeOnGoingTransactionMdl(
+      res,
+      getTransactions,
+      getDetailTransactions,
+      req.params.id,
+      next
+    );
   },
   generatedOngkir: async (req, res, next) => {
     // Data from client

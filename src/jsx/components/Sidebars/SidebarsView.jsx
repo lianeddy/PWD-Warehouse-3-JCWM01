@@ -53,6 +53,11 @@ const SidebarsView = (props) => {
       icon: "#credit-card",
       name: "Order Confirmation",
     },
+    {
+      link: "orders",
+      icon: "#calendar3",
+      name: "Order",
+    },
   ]);
 
   const [sidebarItemNonLogin, setsidebarItemNonLogin] = useState([

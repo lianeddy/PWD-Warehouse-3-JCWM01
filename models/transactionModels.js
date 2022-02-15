@@ -60,9 +60,16 @@ module.exports = {
       responError(response, err.status, err);
     }
   },
-  seeOnGoingTransactionMdl: async function (response, getStatement, id) {
+  seeOnGoingTransactionMdl: async function (
+    response,
+    getTransStatement,
+    getDetailTransStatement,
+    id_user,
+    next
+  ) {
     try {
-      const column = [
+      const columnTrans = [
+        "id_transaksi_master_produk",
         "invoice_code",
         "keterangan",
         "alamat",
@@ -73,10 +80,11 @@ module.exports = {
         "ongkos_kirim",
         "app_metode_pengiriman.nm_metode_pengiriman",
         "app_metode_pembayaran.nm_metode_pembayaran",
+        "app_transaksi_master_produk.updated_at",
       ];
       // inject to database
       const getData = await db
-        .query(getStatement, [column, id])
+        .query(getTransStatement, [columnTrans, id_user])
         .catch((err) => {
           throw {
             message: "Gagal memuat status transaksi Anda",
@@ -85,16 +93,45 @@ module.exports = {
           };
         });
 
+      const columnDetailTrans = [
+        "id_transaksi_master_produk",
+        "app_detail_transaksi_master_produk.harga",
+        "jumlah",
+        "nm_master_produk",
+        "URL",
+      ];
+
       if (getData.length) {
-        responseData(response, 200, getData);
+        const dataCompleted = await Promise.all(
+          getData.map(async (el) => {
+            // const getDetail = await
+            const getDetail = await db
+              .query(getDetailTransStatement, [
+                columnDetailTrans,
+                el.id_transaksi_master_produk,
+              ])
+              .catch((err) => {
+                throw new Api500Error(
+                  "gagal mendapatkan data detail transcations",
+                  err
+                );
+              });
+            return {
+              ...el,
+              getDetail,
+            };
+          })
+        );
+        if (dataCompleted.length) {
+          responseData(response, 200, dataCompleted);
+        } else {
+          throw new Api404Error("Your data & detail transaction not found");
+        }
       } else {
-        throw {
-          message: "Transaksi Anda tidak ditemukan",
-          status: 404,
-        };
+        throw new Api404Error("Your data transaction not found");
       }
     } catch (err) {
-      responError(response, err.status, err);
+      next(err);
     }
   },
   generatedOngkirMdl: async function (response, data) {
