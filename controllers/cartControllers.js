@@ -80,7 +80,7 @@ module.exports = {
 
     // query SQL
     const searchStatement = `SELECT * FROM app_carts_produk WHERE id_master_barang = ? && id_user = ?`;
-    const updateStatement = `UPDATE app_carts_produk SET ? WHERE id_app_carts_produk = ?`;
+    const updateStatement = `UPDATE app_carts_produk SET ? WHERE id_app_carts_produk = ? && is_checkout = 0`;
     const addStatement = `INSERT INTO app_carts_produk SET ?`;
 
     // Pass query into model
