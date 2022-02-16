@@ -192,7 +192,11 @@ class Cart extends React.Component {
         <Container>
           <Stack gap={2} className="col-md-5 mx-auto">
             <hr />
-            <Button onClick={this.routeChange} variant="primary">
+            <Button
+              onClick={this.routeChange}
+              variant="primary"
+              disabled={this.props.cartGlobal.cartList.length === 0}
+            >
               Process your cart
             </Button>
             <hr />
