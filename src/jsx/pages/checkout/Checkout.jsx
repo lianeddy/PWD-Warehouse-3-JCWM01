@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Card, Form } from "react-bootstrap";
 
@@ -27,6 +28,7 @@ class Checkout extends React.Component {
   state = {
     courier: "",
     isFirst: false,
+    redirect: false,
     shippingCostSelected: "",
     checkoutDatas: {
       id_user: 0,
@@ -39,7 +41,6 @@ class Checkout extends React.Component {
       total_harga: 0,
       ongkos_kirim: 0,
     },
-    test: "",
   };
 
   componentDidMount() {
@@ -55,15 +56,12 @@ class Checkout extends React.Component {
   }
 
   renderCardAdress = () => {
-    //FIXME
     const findAddressDefault =
       this.props.multiAdressGlobal.multiAddressList.find(
         (address) => address.is_default === 1
       );
 
     if (findAddressDefault !== undefined) {
-      console.log(findAddressDefault);
-
       const {
         nm_data_alamat_user,
         address_data_alamat_user,
@@ -73,9 +71,8 @@ class Checkout extends React.Component {
       } = findAddressDefault;
 
       const alamat = `[${nm_data_alamat_user}], ${address_data_alamat_user}, ${datakabkota.type} ${datakabkota.nm_kabkota} - Provinsi ${datapropinsi.nm_propinsi}`;
-      console.log(alamat);
 
-      this.props.passLocation(alamat, this.props.userGlobal.id_user);
+      passLocation(alamat, this.props.userGlobal.id_user);
 
       return (
         <div>
@@ -93,9 +90,12 @@ class Checkout extends React.Component {
   };
 
   renderCartInfo = () => {
-    return this.props.cartGlobal.cartList.map((value) => {
+    return this.props.cartGlobal.cartList.map((value, idx) => {
       return (
-        <li className="list-group-item d-flex justify-content-between lh-sm">
+        <li
+          key={idx}
+          className="list-group-item d-flex justify-content-between lh-sm"
+        >
           <div>
             <h6 className="my-0">{value.ITEM}</h6>
             <small className="text-muted">
@@ -113,7 +113,7 @@ class Checkout extends React.Component {
       .map((value) => value.TOTAL)
       .reduce((cur, price) => cur + price, 0);
 
-    this.props.passTotalHarga(total_harga);
+    passTotalHarga(total_harga);
     return total_harga;
   };
 
@@ -126,15 +126,8 @@ class Checkout extends React.Component {
     const idWarehouseOrigin =
       this.props.transaksiProdukReducer.shippingCourier[0].id_warehouse_origin;
 
-    this.props.passIdWarehouseOrigin(idWarehouseOrigin);
+    passIdWarehouseOrigin(idWarehouseOrigin);
     this.setState({ isFirst: true });
-    // this.setState((prevState) => ({
-    //   isFirst: true,
-    //   checkoutDatas: {
-    //     ...prevState.checkoutDatas,
-    //     id_warehouse: idWarehouseOrigin,
-    //   },
-    // }));
   };
 
   componentDidUpdate(prevProps) {
@@ -184,6 +177,7 @@ class Checkout extends React.Component {
   };
   submitCheckout = () => {
     this.props.passAllCheckoutDatas();
+    this.setState({ redirect: true });
   };
 
   inputHandler = (e, service) => {
@@ -193,19 +187,7 @@ class Checkout extends React.Component {
       (el) => el.kode_metode_pengiriman === service
     );
     const id_metode_pengiriman = data.id_metode_pengiriman;
-    console.log(data.id_metode_pengiriman);
-    // this.setState((prevState) => ({
-    //   checkoutDatas: {
-    //     ...prevState.checkoutDatas,
-    //     ongkos_kirim,
-    //     id_metode_pengiriman,
-    //   },
-    // }));
-    // for checkout data
-    this.props.passOngkirAndIdMetodePengiriman(
-      ongkos_kirim,
-      id_metode_pengiriman
-    );
+    passOngkirAndIdMetodePengiriman(ongkos_kirim, id_metode_pengiriman);
   };
 
   renderCategoryMethods = () => {
@@ -247,23 +229,19 @@ class Checkout extends React.Component {
 
   dropDownPaymentHandler = (e) => {
     const id_metode_pembayaran = e.target.value;
-    console.log(e.target.value);
-    // this.setState((prevState) => ({
-    //   checkoutDatas: {
-    //     ...prevState.checkoutDatas,
-    //     id_metode_pembayaran
-    //   },
-    // }));
-    this.props.passIdMetodePembayaran(id_metode_pembayaran);
+    passIdMetodePembayaran(id_metode_pembayaran);
   };
 
   inputAdditionalInfo = (e) => {
-    // console.log(e.target.value);
     const keterangan = e.target.value;
-    this.props.passKeterangan(keterangan);
+    passKeterangan(keterangan);
   };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/orders" />;
+    }
+
     return (
       <div className="container">
         <div className="py-5 text-center">
@@ -298,18 +276,6 @@ class Checkout extends React.Component {
               </li>
             </ul>
 
-            {/* <form className="card p-2">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Promo code"
-                />
-                <button type="submit" className="btn btn-secondary">
-                  Redeem
-                </button>
-              </div>
-            </form> */}
             <div className="input-group">
               <input
                 type="text"
@@ -325,7 +291,6 @@ class Checkout extends React.Component {
               <Card.Body>
                 <Card.Title>Alamat pengirim</Card.Title>
                 <hr />
-                {/* render here */}
                 {this.renderCardAdress()}
                 <Card.Link href="users/multi-address">
                   Pilih Alamat Lain
@@ -337,6 +302,7 @@ class Checkout extends React.Component {
 
             <div className="list-group-checkable">
               <Form.Select
+                isValid={false}
                 onChange={this.dropDownShippingHandler}
                 aria-label="Default select example"
               >
@@ -347,8 +313,6 @@ class Checkout extends React.Component {
                   TIKI
                 </option>
               </Form.Select>
-
-              {/* RENDER SHIPPING SERVICES HERE */}
 
               {this.state.isFirst
                 ? this.renderShippingServices(
@@ -363,6 +327,7 @@ class Checkout extends React.Component {
             <h4 className="mb-3">Payment</h4>
 
             <Form.Select
+              isValid={false}
               onChange={this.dropDownPaymentHandler}
               aria-label="Default select example"
             >
@@ -378,7 +343,6 @@ class Checkout extends React.Component {
             >
               Continue to checkout
             </button>
-            {/* </form> */}
           </div>
         </div>
       </div>
@@ -400,12 +364,6 @@ const mapDispatchToProps = {
   getShippingService,
   getPaymentMethods,
   getShippingMethods,
-  passOngkirAndIdMetodePengiriman,
-  passIdMetodePembayaran,
-  passIdWarehouseOrigin,
-  passLocation,
-  passTotalHarga,
-  passKeterangan,
   passAllCheckoutDatas,
 };
 

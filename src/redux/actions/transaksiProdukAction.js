@@ -291,62 +291,62 @@ const passOngkirAndIdMetodePengiriman = (
   dataCheckout.ongkos_kirim = dataOngkir;
   dataCheckout.id_metode_pengiriman = dataIdMetodePengiriman;
 
-  console.log(dataCheckout);
-  return async (dispatch) => {
-    return dispatch({
-      type: "PASS_ONGKIR_ID_METODE_PENGIRIMAN",
-    });
-  };
+  // console.log(dataCheckout);
+  // return async (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_ONGKIR_ID_METODE_PENGIRIMAN",
+  //   });
+  // };
 };
 
 const passIdMetodePembayaran = (dataIdMetodePembayaran) => {
   dataCheckout.id_metode_pembayaran = dataIdMetodePembayaran;
-  console.log(dataCheckout);
-  return (dispatch) => {
-    return dispatch({
-      type: "PASS_ID_METODE_PEMBAYARAN",
-    });
-  };
+  // console.log(dataCheckout);
+  // return (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_ID_METODE_PEMBAYARAN",
+  //   });
+  // };
 };
 
 const passIdWarehouseOrigin = (dataIdWarehouse) => {
   dataCheckout.id_warehouse = dataIdWarehouse;
-  console.log(dataCheckout);
-  return (dispatch) => {
-    return dispatch({
-      type: "PASS_ID_WAREHOUSE_ORIGIN",
-    });
-  };
+  // console.log(dataCheckout);
+  // return (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_ID_WAREHOUSE_ORIGIN",
+  //   });
+  // };
 };
 
 const passLocation = (dataLocation, dataIdUser) => {
   dataCheckout.alamat = dataLocation;
   dataCheckout.id_user = dataIdUser;
-  console.log(dataCheckout);
-  return (dispatch) => {
-    return dispatch({
-      type: "PASS_LOCATION",
-    });
-  };
+  // console.log(dataCheckout);
+  // return (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_LOCATION",
+  //   });
+  // };
 };
 
 const passTotalHarga = (dataTotalHarga) => {
   dataCheckout.total_harga = dataTotalHarga;
-  return (dispatch) => {
-    return dispatch({
-      type: "PASS_DATA_HARGA_TOTAL",
-    });
-  };
+  // return (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_DATA_HARGA_TOTAL",
+  //   });
+  // };
 };
 
 const passKeterangan = (dataKeterangan) => {
   dataCheckout.keterangan = dataKeterangan;
-  console.log(dataCheckout);
-  return (dispatch) => {
-    return dispatch({
-      type: "PASS_KETERANGAN_DATA",
-    });
-  };
+  // console.log(dataCheckout);
+  // return (dispatch) => {
+  //   return dispatch({
+  //     type: "PASS_KETERANGAN_DATA",
+  //   });
+  // };
 };
 
 const passAllCheckoutDatas = () => {

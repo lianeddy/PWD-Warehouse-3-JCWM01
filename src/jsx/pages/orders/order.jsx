@@ -18,9 +18,9 @@ class Orders extends React.Component {
   }
 
   renderTransactions = (data) => {
-    return data.map((el) => {
+    return data.map((el, idx) => {
       return (
-        <div class="col-md-12">
+        <div key={idx} class="col-md-12">
           <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-120 position-relative">
             <div class="col p-2 d-flex flex-column position-static">
               <div class="d-flex align-items-start">
@@ -43,7 +43,7 @@ class Orders extends React.Component {
                   </div>
                   <span class="badge bg-primary p-1 mx-1">Belum Bayar</span>
                   <div class="d-flex align-items-start flex-column p-1">
-                    <h7 class="mb-0">{el.getDetail[0].nm_master_produk}</h7>
+                    <h6 class="mb-0">{el.getDetail[0].nm_master_produk}</h6>
                     <p class="card-text mb-auto">
                       {el.getDetail[0].jumlah} barang x ${el.getDetail[0].harga}
                     </p>

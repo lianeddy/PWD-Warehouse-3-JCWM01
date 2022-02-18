@@ -189,7 +189,6 @@ module.exports = {
     id_master_barang,
     data
   ) {
-    console.log(data);
     try {
       // data from req query + req params id
       const newRow = { ...data, id_master_barang };
@@ -220,6 +219,7 @@ module.exports = {
               error: err,
             };
           });
+
         responseMessage(response, 200, "Produk berhasil ditambahkan");
       } else {
         // add product to cart which is new in database cart
