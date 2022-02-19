@@ -7,6 +7,7 @@ import { Button, Card, Badge } from "react-bootstrap";
 
 import { getBuyTransactionDatas } from "../../../redux/actions/transaksiProdukAction";
 import { URL_API, URL_WEB } from "../../../helper";
+import { status, badgeEl } from "../../../utility/Checker.js";
 import "./styles.css";
 
 class Orders extends React.Component {
@@ -41,7 +42,11 @@ class Orders extends React.Component {
                       {moment(el.updated_at).format("DD MMM YYYY")}
                     </div>
                   </div>
-                  <span class="badge bg-primary p-1 mx-1">Belum Bayar</span>
+                  <span
+                    className={badgeEl(el.is_bayar, el.is_verify, el.is_tolak)}
+                  >
+                    {status(el.is_bayar, el.is_verify, el.is_tolak)}
+                  </span>
                   <div class="d-flex align-items-start flex-column p-1">
                     <h6 class="mb-0">{el.getDetail[0].nm_master_produk}</h6>
                     <p class="card-text mb-auto">
