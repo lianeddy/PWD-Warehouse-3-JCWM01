@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Col,
   Button,
@@ -37,7 +38,12 @@ const UploadProductComponent = ({
     }
   };
 
+  const id_user = useSelector((state) => state.authReducer.id_user);
+  const dataSelectorSQL = {};
+  dataSelectorSQL.id_user = id_user;
   const uploadBtnHandler = () => {
+    console.log(dataSelectorSQL);
+    const { id_user, id_transaksi_master_produk } = dataSelectorSQL;
     setIsLoading(true);
     const formData = new FormData();
 
@@ -49,7 +55,10 @@ const UploadProductComponent = ({
       };
       formData.append("data", JSON.stringify(dataSend));
       formData.append("file", data.addFile);
-      Axios.post(`${URL_API}/transactions/paymentProof`, formData)
+      Axios.post(
+        `${URL_API}/transactions/paymentProof?id_user=${id_user}&id_transaksi_master_produk=${id_transaksi_master_produk}`,
+        formData
+      )
         .then((result) => {
           const { code, message } = result.data;
           if (code == 1) {
@@ -70,6 +79,7 @@ const UploadProductComponent = ({
           setIsLoading(false);
         });
     }
+
     // if (isUpdate) {
     //   formData.append("file", data.addFile);
     //   Axios.patch(`${URL_API}/users/profile-image/${idUser}`, formData)
@@ -92,6 +102,23 @@ const UploadProductComponent = ({
     //     });
     // }
   };
+  const selectHandler = (e) => {
+    // FIXME
+    const id = e.target.value;
+    dataSelectorSQL.id_transaksi_master_produk = id;
+    // console.log(e.target.value);
+  };
+
+  const OrderId = () => {
+    const transaksiProduk = useSelector(
+      (state) => state.transaksiProdukReducer.buyTransactionData
+    );
+    return transaksiProduk.map((el) => {
+      return (
+        <option value={el.id_transaksi_master_produk}>{el.invoice_code}</option>
+      );
+    });
+  };
 
   return (
     <Container>
@@ -104,6 +131,16 @@ const UploadProductComponent = ({
             <Form.Control type="file" onChange={formDataOnChangeHandler} />
           </Col>
         </Form.Group>
+        <div className="mb-3">
+          <Form.Select
+            isValid={false}
+            onChange={selectHandler}
+            aria-label="Default select example"
+          >
+            <option value="">Order Number</option>
+            {OrderId()}
+          </Form.Select>
+        </div>
         <Card className="mb-3">
           <Card.Header>Tampilan Image</Card.Header>
           <Card.Body>
@@ -129,15 +166,18 @@ const UploadProductComponent = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userGlobal: state.authReducer,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     userGlobal: state.authReducer,
+//     transaksiProdukReducer: state.transaksiProdukReducer,
+//   };
+// };
 
-const mapDispatchToProps = {};
+// const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadProductComponent);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(UploadProductComponent);
+
+export default UploadProductComponent;

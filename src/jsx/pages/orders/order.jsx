@@ -3,8 +3,6 @@ import Axios from "axios";
 import { connect } from "react-redux";
 import moment from "moment";
 
-import { Button, Card, Badge } from "react-bootstrap";
-
 import { getBuyTransactionDatas } from "../../../redux/actions/transaksiProdukAction";
 import { URL_API, URL_WEB } from "../../../helper";
 import { status, badgeEl } from "../../../utility/Checker.js";

@@ -49,9 +49,11 @@ module.exports = {
         console.log(filePath);
 
         // Simpan data ke table, untuk update per-id_transaksi_master_produk
-        let sqlInsert = `Update app_transaksi_master_produk set updated_at=now() , bukti_bayar=${db.escape(
+        let sqlInsert = `Update app_transaksi_master_produk set updated_at=now(), is_bayar=1 , bukti_bayar=${db.escape(
           filePath
-        )} where id_transaksi_master_produk=1;`;
+        )} where id_transaksi_master_produk=${db.escape(
+          req.query.id_transaksi_master_produk
+        )} AND id_user=${db.escape(req.query.id_user)};`;
         db.query(sqlInsert, (err, results) => {
           if (err) {
             console.log(err);
