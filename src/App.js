@@ -15,7 +15,9 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
-import { keepLoginAction } from "./redux/actions/user";
+import AuthVerify from "./common/AuthVerify";
+
+import { keepLoginAction, logoutUser } from "./redux/actions/user";
 import { getCart } from "./redux/actions/cartAction";
 
 function App(props) {
@@ -72,6 +74,7 @@ function App(props) {
               <Route path="/" component={DasboardExample} />
             </Switch>
           </BrowserRouter>
+          <AuthVerify logOut={props.logoutUser} />
         </div>
       </div>
     </div>
@@ -88,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   keepLoginAction,
   getCart,
+  logoutUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

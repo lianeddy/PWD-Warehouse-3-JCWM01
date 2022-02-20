@@ -21,7 +21,6 @@ module.exports = {
           id_role,
           username,
           email,
-          password,
           full_name,
           gender,
           birth_date,
@@ -29,7 +28,6 @@ module.exports = {
           address,
           is_valid,
         } = results[0];
-        console.log(results[0]);
         let token = createToken({
           id_user,
           id_warehouse,
@@ -92,8 +90,6 @@ module.exports = {
             password,
             is_valid,
           });
-
-          console.log(token);
 
           //configuration for send an email
           let mail = {

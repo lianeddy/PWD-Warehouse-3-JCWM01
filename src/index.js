@@ -21,9 +21,11 @@ const storeReducer = configureStore({
 });
 
 ReactDOM.render(
-  <Provider store={storeReducer}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={storeReducer}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
