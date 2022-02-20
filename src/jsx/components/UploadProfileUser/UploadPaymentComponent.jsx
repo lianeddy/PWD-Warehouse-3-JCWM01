@@ -113,11 +113,15 @@ const UploadProductComponent = ({
     const transaksiProduk = useSelector(
       (state) => state.transaksiProdukReducer.buyTransactionData
     );
-    return transaksiProduk.map((el) => {
-      return (
-        <option value={el.id_transaksi_master_produk}>{el.invoice_code}</option>
-      );
-    });
+    return transaksiProduk
+      .filter((el) => !el.is_bayar)
+      .map((el) => {
+        return (
+          <option value={el.id_transaksi_master_produk}>
+            {el.invoice_code}
+          </option>
+        );
+      });
   };
 
   return (
