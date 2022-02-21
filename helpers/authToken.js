@@ -1,4 +1,8 @@
+"use strict";
 const jwt = require("jsonwebtoken");
+
+const { Api404Error } = require("../utils/Error");
+const { OK, BAD_REQUEST, NOT_FOUND } = require("../utils/httpStatusCodes");
 
 module.exports = {
   auth: (req, res, next) => {

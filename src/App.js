@@ -4,7 +4,6 @@ import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Login from "./jsx/pages/login";
-import AppDataAlamatUserView from "./jsx/components/AppDataAlamatUser/AppDataAlamatUserView";
 import register from "./jsx/pages/register";
 import verification from "./jsx/pages/verification";
 import { connect } from "react-redux";
@@ -15,19 +14,24 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
-import AuthVerify from "./common/AuthVerify";
 
 import { keepLoginAction, logoutUser } from "./redux/actions/user";
 import { getCart } from "./redux/actions/cartAction";
+import { parseJwt } from "./utility/parsing";
 
 function App(props) {
   const userDataStorage = JSON.parse(localStorage.getItem("dataUser"));
   const userTokenStorage = localStorage.getItem("dataToken");
 
   const keepLogin = () => {
-    // FIXME
     if (userTokenStorage !== null) {
-      console.log(userTokenStorage);
+      const decodedJwt = parseJwt(userTokenStorage);
+
+      // check token expired
+      if (decodedJwt.exp * 1000 < Date.now()) {
+        props.logoutUser();
+      }
+
       //get user login action
       props.keepLoginAction(userTokenStorage);
     }
@@ -74,7 +78,6 @@ function App(props) {
               <Route path="/" component={DasboardExample} />
             </Switch>
           </BrowserRouter>
-          <AuthVerify logOut={props.logoutUser} />
         </div>
       </div>
     </div>

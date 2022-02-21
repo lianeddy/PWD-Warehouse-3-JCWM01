@@ -25,6 +25,7 @@ module.exports = {
           gender,
           birth_date,
           phone,
+          password,
           address,
           is_valid,
         } = results[0];

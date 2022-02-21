@@ -49,6 +49,7 @@ export const keepLoginAction = (userLocalStorage) => {
 export const logoutUser = () => {
   return async (dispatch) => {
     try {
+      console.log("HEre");
       localStorage.removeItem("dataToken");
       localStorage.removeItem("dataUser");
       dispatch({
