@@ -2,13 +2,11 @@ import React from "react";
 import Axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { URL_API } from "../../helper";
+import { URL_API } from "../../../helper";
 import { connect } from "react-redux";
-import { authLogin } from "../../redux/actions/user";
-import "./auth.css";
+import { authLogin } from "../../../redux/actions/user";
+import "./login.css";
 import { Redirect } from "react-router";
-import Form from "../components/form";
-import { Container, Row, Col } from "react-bootstrap";
 
 const eye = <FontAwesomeIcon icon={faEye} />;
 

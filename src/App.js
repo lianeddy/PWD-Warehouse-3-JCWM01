@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import Login from "./jsx/pages/login";
-import register from "./jsx/pages/register";
-import verification from "./jsx/pages/verification";
-import { connect } from "react-redux";
+import Login from "./jsx/pages/login/Login";
+import Register from "./jsx/pages/register/Register";
+import Verification from "./jsx/pages/register/Verification";
 import AddProfileImages from "./jsx/example/AddProfileImages";
 import UpdateProfileImages from "./jsx/example/UpdateProfileImages";
 import ChangePassword from "./jsx/pages/change.password";
@@ -52,8 +53,8 @@ function App(props) {
         <div className="auth-inner">
           <BrowserRouter>
             <Switch>
-              <Route path="/register" component={register} />
-              <Route path="/verification/:token" component={verification} />
+              <Route path="/register" component={Register} />
+              <Route path="/verification/:token" component={Verification} />
               <Route path="/login" component={Login} />
               <Route path="/change-password" component={ChangePassword} />
               <Route path="/forgot-password" component={ForgotPassword} />

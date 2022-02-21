@@ -1,8 +1,8 @@
 import React from "react";
 import Axios from "axios";
-import { URL_API } from "../../helper";
+import { URL_API } from "../../../helper";
 import { connect } from "react-redux";
-import "./auth.css";
+import "./register.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
 
