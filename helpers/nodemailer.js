@@ -26,4 +26,21 @@ const verificationEmail = (email, name, token) => {
   );
 };
 
-module.exports = { transporter, verificationEmail };
+const forgotPasswordEmail = (email, name, token) => {
+  transporter.sendMail(
+    {
+      from: `Admin <4dminPWDHshop@gmail.com>`,
+      to: `${email}`,
+      subject: `Reset Password`,
+      html: `<p>Hai ${username}, you have been requested to reset your password, click link below to continue</p>
+          <p><a href='http://localhost:3000/forgot-password-update/${token}'>Click here to reset password</a></p>
+          <p>If it's not you, ignore this email</p>
+          <p>Thanks!</p>`,
+    },
+    (err, info) => {
+      throw new Api500Error("req forgot password failed", err);
+    }
+  );
+};
+
+module.exports = { transporter, verificationEmail, forgotPasswordEmail };

@@ -1,7 +1,7 @@
 "use strict";
 const jwt = require("jsonwebtoken");
 
-const { Api401Error } = require("../utils/Error");
+const { Api401Error, Api500Error } = require("../utils/Error");
 const { db } = require("./Database");
 
 module.exports = {
@@ -24,9 +24,12 @@ module.exports = {
       const user = await db
         .query(`SELECT * FROM sys_user WHERE id_user=${decoded.id_user}`)
         .catch((e) => {
-          throw new Api401Error("Please authentication", e);
+          throw new Api500Error("Something from in server", e);
         });
 
+      if (!user.length) {
+        throw new Api401Error("please authentication");
+      }
       req.token = token;
       req.user = user[0];
       next();

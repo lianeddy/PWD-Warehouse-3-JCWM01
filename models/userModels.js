@@ -95,4 +95,17 @@ module.exports = {
       next(err);
     }
   },
+  verificationMdl: async function (response, updateStatement, id_user, next) {
+    try {
+      const verification = await db
+        .query(updateStatement, [1, id_user])
+        .catch((e) => {
+          throw new Api500Error("Something from in server", e);
+        });
+
+      responseMessage(response, OK, "Account Verified ✔️");
+    } catch (err) {
+      next(err);
+    }
+  },
 };
