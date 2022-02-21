@@ -7,7 +7,7 @@ const RajaOngkirHelper = require("./RajaOngkirHelper");
 const { db } = require("./Database");
 const { createToken } = require("./createToken");
 const { auth } = require("./authToken");
-const { transporter } = require("./nodemailer");
+const { transporter, verificationEmail } = require("./nodemailer");
 const { generateValueUniq } = require("./RandomHelper");
 
 module.exports = {
@@ -22,4 +22,5 @@ module.exports = {
   auth,
   transporter,
   generateValueUniq,
+  verificationEmail,
 };

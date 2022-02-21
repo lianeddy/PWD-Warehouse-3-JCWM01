@@ -2,7 +2,7 @@ const Crypto = require("crypto");
 const { db, createToken } = require("../helpers/index");
 const transporter = require("../helpers/nodemailer");
 
-const { loginMdl } = require("../models/userModels");
+const { loginMdl, registerMdl } = require("../models/userModels");
 
 module.exports = {
   userLogin: (req, res, next) => {
@@ -20,67 +20,79 @@ module.exports = {
     // pass to model
     loginMdl(res, querySelect, data.email, data.password, next);
   },
-  register: (req, res) => {
-    let { username, email, password } = req.body;
-    password = Crypto.createHmac("sha1", "hash123")
-      .update(password)
-      .digest("hex"); //hashing  before store in database
-    let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
-      username
-    )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null);`;
-    db.query(insertQuery, (err, results) => {
-      console.log(results);
-      if (err) res.status(500).send(err);
-      if (results.insertId) {
-        //get data
-        let getQuery = `Select * from sys_user where id_user = ${results.insertId};`;
-        db.query(getQuery, (errGet, resultsGet) => {
-          if (errGet) {
-            console.log(errGet);
-            res.status(500).send(errGet);
-          }
+  register: (req, res, next) => {
+    // FIXME
+    // let { username, email, password } = req.body;
+    // password = Crypto.createHmac("sha1", "hash123")
+    //   .update(password)
+    //   .digest("hex"); //hashing  before store in database
+    // let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
+    //   username
+    // )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null);`;
+    // db.query(insertQuery, (err, results) => {
+    //   console.log(results);
+    //   if (err) res.status(500).send(err);
+    //   if (results.insertId) {
+    //     //get data
+    //     let getQuery = `Select * from sys_user where id_user = ${results.insertId};`;
+    //     db.query(getQuery, (errGet, resultsGet) => {
+    //       if (errGet) {
+    //         console.log(errGet);
+    //         res.status(500).send(errGet);
+    //       }
 
-          console.log(resultsGet);
-          //material for token
-          let { id_user, id_role, username, email, password, is_valid } =
-            resultsGet[0];
+    //       console.log(resultsGet);
+    //       //material for token
+    //       let { id_user, id_role, username, email, password, is_valid } =
+    //         resultsGet[0];
 
-          //create token
-          let token = createToken({
-            id_user,
-            id_role,
-            username,
-            email,
-            password,
-            is_valid,
-          });
+    //       //create token
+    //       let token = createToken({
+    //         id_user,
+    //         id_role,
+    //         username,
+    //         email,
+    //         password,
+    //         is_valid,
+    //       });
 
-          //configuration for send an email
-          let mail = {
-            from: `Admin <4dminPWDHshop@gmail.com>`,
-            to: `${email}`,
-            subject: `Account Verification`,
-            html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
-          };
+    //       //configuration for send an email
+    //       let mail = {
+    //         from: `Admin <4dminPWDHshop@gmail.com>`,
+    //         to: `${email}`,
+    //         subject: `Account Verification`,
+    //         html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,
+    //       };
 
-          //send an email
-          transporter.sendMail(mail, (errMail, resMail) => {
-            if (errMail) {
-              console.log(errMail);
-              res.status(500).send({
-                message: "Registeration failed!",
-                success: false,
-                err: errMail,
-              });
-            }
-            res.status(200).send({
-              message: "Registeration success, please check your email!",
-              success: true,
-            });
-          });
-        });
-      }
-    });
+    //       //send an email
+    //       transporter.sendMail(mail, (errMail, resMail) => {
+    //         if (errMail) {
+    //           console.log(errMail);
+    //           res.status(500).send({
+    //             message: "Registeration failed!",
+    //             success: false,
+    //             err: errMail,
+    //           });
+    //         }
+    //         res.status(200).send({
+    //           message: "Registeration success, please check your email!",
+    //           success: true,
+    //         });
+    //       });
+    //     });
+    //   }
+    // });
+    const data = { ...req.body };
+    // hashing password
+    data.password = Crypto.createHmac("sha1", "hash123")
+      .update(data.password)
+      .digest("hex");
+
+    // query sql
+    const queryInsert = `INSERT INTO sys_user SET ?`;
+    const querySelect = `SELECT ?? FROM sys_user WHERE email=? && password=?`;
+
+    registerMdl(res, queryInsert, querySelect, data, next);
   },
   //change status middleware
   verification: (req, res) => {
