@@ -7,6 +7,7 @@ const {
   loginMdl,
   registerMdl,
   verificationMdl,
+  keepLoginMdl,
 } = require("../models/userModels");
 
 module.exports = {
@@ -82,20 +83,8 @@ module.exports = {
       }
     });
   },
-  keepLogin: (req, res) => {
-    console.log(req.user);
-    let sql = `Select id_user, id_warehouse, id_role, username, email, is_valid from sys_user where id_user= ${db.escape(
-      req.user.id_user
-    )}`;
-    db.query(sql, (err, results) => {
-      console.log(results);
-      if (err) {
-        return res
-          .status(500)
-          .send({ message: "Gagal mendapatkan data", error: err });
-      }
-      return res.status(200).send(results[0]);
-    });
+  keepLogin: (req, res, next) => {
+    keepLoginMdl(res, req.user, next);
   },
 
   forgotPassword: (req, res) => {

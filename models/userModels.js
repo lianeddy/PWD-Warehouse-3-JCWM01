@@ -108,4 +108,11 @@ module.exports = {
       next(err);
     }
   },
+  keepLoginMdl: async function (response, data, next) {
+    try {
+      responseData(response, OK, data);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

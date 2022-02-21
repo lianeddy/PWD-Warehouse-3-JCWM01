@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
+import Swal from "sweetalert2";
 
 export const authLogin = (data) => {
   console.log(`Data masuk Action dari component: ${data}`);
@@ -21,27 +22,34 @@ export const keepLoginAction = (userLocalStorage) => {
           },
         }
       );
-      delete getDataLogin.data.password;
-      if (getDataLogin.data.id_role === 1) {
+
+      const data = getDataLogin.data.data;
+      if (data.id_role === 1) {
         dispatch({
           type: "ADMIN_CHECK_LOGIN",
-          payload: getDataLogin.data,
+          payload: data,
         });
         return;
-      } else if (getDataLogin.data.id_role === 2) {
+      } else if (data.id_role === 2) {
         dispatch({
           type: "ADMIN_CHECK_LOGIN",
-          payload: getDataLogin.data,
+          payload: data,
         });
         return;
       } else {
         dispatch({
           type: "USER_CHECK_LOGIN",
-          payload: getDataLogin.data,
+          payload: data,
         });
       }
     } catch (err) {
-      alert(err);
+      const msgErr = err.response.data.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Something went wrong! ${msgErr}`,
+        footer: '<a href="">Why do I have this issue?</a>',
+      });
     }
   };
 };

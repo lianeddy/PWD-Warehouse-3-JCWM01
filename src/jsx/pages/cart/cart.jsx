@@ -1,12 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Table, Button, Stack } from "react-bootstrap";
-// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import InputSpinner from "react-bootstrap-input-spinner";
 
-import { URL_API, URL_WEB } from "../../../helper";
+import { URL_API } from "../../../helper";
 import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
 import { getCart } from "../../../redux/actions/cartAction";
 

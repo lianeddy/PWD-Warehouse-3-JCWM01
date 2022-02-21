@@ -17,12 +17,28 @@ module.exports = {
   // },
 
   auth: async (req, res, next) => {
+    const columns = [
+      "id_user",
+      "id_warehouse",
+      "id_role",
+      "username",
+      "email",
+      "full_name",
+      "gender",
+      "birth_date",
+      "phone",
+      "is_valid",
+    ];
     try {
       const token = req.header("Authorization").replace("Bearer ", "");
       const decoded = jwt.verify(token, "private123");
       // compare decoded data to db data
       const user = await db
-        .query(`SELECT * FROM sys_user WHERE id_user=${decoded.id_user}`)
+        // .query(`SELECT * FROM sys_user WHERE id_user=${decoded.id_user}`)
+        .query(`SELECT ?? FROM sys_user WHERE id_user=?`, [
+          columns,
+          decoded.id_user,
+        ])
         .catch((e) => {
           throw new Api500Error("Something from in server", e);
         });
