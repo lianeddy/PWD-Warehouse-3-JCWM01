@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import CardAdmin from "../components/CardAdmin";
-import "./Products.css";
-import { URL_API, URL_WEB } from "../../helper";
+import CardAdmin from "../../components/CardAdmin";
+import "./productAdmin.css";
+import { URL_API, URL_WEB } from "../../../helper";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Col, Container, Row, Card } from "react-bootstrap";
 
 const Landing = () => {

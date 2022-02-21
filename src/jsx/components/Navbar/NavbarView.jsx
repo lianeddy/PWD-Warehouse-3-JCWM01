@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
 import AddProfileImages from "../../example/AddProfileImages";
 import UpdateProfileImages from "../../example/UpdateProfileImages";
 import AppDataAlamatUserView from "../AppDataAlamatUser/AppDataAlamatUserView";
@@ -9,14 +11,13 @@ import CreateWarehouseComponent from "../AppWarehouse/CreateWarehouseComponent";
 import AppPermintaanBarangView from "../AppPermintaanBarang/AppPermintaanBarangView";
 import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
-import { connect } from "react-redux";
 import ProfileEdit from "../../pages/profile.edit";
 import AdminProducts from "../../pages/admin.products";
 import UploadPaymentImages from "../../example/UploadPaymentImages";
 import UploadProductImage from "../../example/UploadProductImage";
-import ProductAdmin from "../../pages/ProductsAdmin";
-import ProductList from "../../pages/ProductLists";
-import productDetail from "../../pages/ProductDetail";
+import ProductAdmin from "../../pages/product-admin/ProductsAdmin";
+import ProductList from "../../pages/product-user/ProductLists";
+import productDetail from "../../pages/product-detail-user/ProductDetail";
 import AppTransaksiAdminView from "../AppTransaksiAdmin/AppTransaksiAdminView";
 import AppTransaksiAdminDetail from "../AppTransaksiAdmin/AppTransaksiAdminDetail";
 import Profile from "../../pages/profile";

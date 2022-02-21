@@ -5,8 +5,8 @@ import "./productDetail.css";
 import Swal from "sweetalert2";
 import { Card, Badge } from "react-bootstrap";
 
-import { URL_API } from "../../helper";
-import { quickShowStocks } from "../../redux/actions/transaksiProdukAction";
+import { URL_API } from "../../../helper";
+import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
 
 const ProductDetail = (props) => {
   //global state

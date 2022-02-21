@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import CardProduct from "../components/Card";
-import "./Products.css";
-import { URL_API } from "../../helper";
+import CardProduct from "../../components/Card";
+import "./productUser.css";
+import { URL_API } from "../../../helper";
 import { Col, Container, Row, Card } from "react-bootstrap";
 
 const Landing = () => {
