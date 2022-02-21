@@ -2,60 +2,75 @@ const Crypto = require("crypto");
 const { db, createToken } = require("../helpers/index");
 const transporter = require("../helpers/nodemailer");
 
+const { loginMdl } = require("../models/userModels");
+
 module.exports = {
-  userLogin: (req, res) => {
-    req.body.password = Crypto.createHmac("sha1", "hash123")
-      .update(req.body.password)
+  userLogin: (req, res, next) => {
+    // req.body.password = Crypto.createHmac("sha1", "hash123")
+    //   .update(req.body.password)
+    //   .digest("hex");
+    // let scriptQuery = `Select * from sys_user where email = ${db.escape(
+    //   req.body.email
+    // )} and password = ${db.escape(req.body.password)}`;
+    // db.query(scriptQuery, (err, results) => {
+    //   // console.log(results);
+    //   if (err) res.status(500).send(err);
+    //   if (results[0]) {
+    //     let {
+    //       id_user,
+    //       id_warehouse,
+    //       id_role,
+    //       username,
+    //       email,
+    //       full_name,
+    //       gender,
+    //       birth_date,
+    //       phone,
+    //       password,
+    //       address,
+    //       is_valid,
+    //     } = results[0];
+    //     let token = createToken({
+    //       id_user,
+    //       id_warehouse,
+    //       id_role,
+    //       username,
+    //       email,
+    //       password,
+    //       full_name,
+    //       gender,
+    //       birth_date,
+    //       phone,
+    //       address,
+    //       is_valid,
+    //     });
+    //     if (is_valid === 0) {
+    //       res.status(401).send({ message: "Your account not verified" });
+    //     } else {
+    //       res
+    //         .status(200)
+    //         .send({ dataLogin: results[0], token, message: "Login Berhasil" });
+    //     }
+    //   } else {
+    //     res.status(400).json({ error: "email/password not match" });
+    //   }
+    // });
+
+    /* -------------------------    New ------------------------------------------------------- */
+    // Data from client
+    const data = {
+      ...req.body,
+    };
+    data.password = Crypto.createHmac("sha1", "hash123")
+      .update(data.password)
       .digest("hex");
-    let scriptQuery = `Select * from sys_user where email = ${db.escape(
-      req.body.email
-    )} and password = ${db.escape(req.body.password)}`;
-    console.log(req.body);
-    db.query(scriptQuery, (err, results) => {
-      console.log(results);
-      if (err) res.status(500).send(err);
-      if (results[0]) {
-        let {
-          id_user,
-          id_warehouse,
-          id_role,
-          username,
-          email,
-          full_name,
-          gender,
-          birth_date,
-          phone,
-          password,
-          address,
-          is_valid,
-        } = results[0];
-        let token = createToken({
-          id_user,
-          id_warehouse,
-          id_role,
-          username,
-          email,
-          password,
-          full_name,
-          gender,
-          birth_date,
-          phone,
-          address,
-          is_valid,
-        });
-        if (is_valid === 0) {
-          res.status(401).send({ message: "Your account not verified" });
-        } else {
-          res
-            .status(200)
-            .send({ dataLogin: results[0], token, message: "Login Berhasil" });
-        }
-      } else {
-        res.status(400).json({ error: "email/password not match" });
-      }
-    });
+
+    // query SQL
+    const querySelect = `SELECT ?? FROM sys_user WHERE email=? && password=?`;
+
+    loginMdl(res, querySelect, data.email, data.password, next);
   },
-  addData: (req, res) => {
+  register: (req, res) => {
     let { username, email, password } = req.body;
     password = Crypto.createHmac("sha1", "hash123")
       .update(password)
@@ -63,8 +78,6 @@ module.exports = {
     let insertQuery = `insert into sys_user (id_warehouse, username, email, password, is_valid, created_at, updated_at, deleted_at) values (null, ${db.escape(
       username
     )}, ${db.escape(email)}, ${db.escape(password)}, 0, now(), now(), null);`;
-    console.log(username, email, password);
-    console.log(insertQuery);
     db.query(insertQuery, (err, results) => {
       console.log(results);
       if (err) res.status(500).send(err);
@@ -94,7 +107,7 @@ module.exports = {
 
           //configuration for send an email
           let mail = {
-            from: `Admin <armerray@gmail.com>`,
+            from: `Admin <4dminPWDHshop@gmail.com>`,
             to: `${email}`,
             subject: `Account Verification`,
             html: `<a href='http://localhost:3000/verification/${token}'>Click here for access your account</a>`,

@@ -1,5 +1,7 @@
 import React from "react";
 import Axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { URL_API } from "../../helper";
 import { connect } from "react-redux";
 import { authLogin } from "../../redux/actions/user";
@@ -8,6 +10,8 @@ import { Redirect } from "react-router";
 import Form from "../components/form";
 import { Container, Row, Col } from "react-bootstrap";
 
+const eye = <FontAwesomeIcon icon={faEye} />;
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +19,7 @@ class Login extends React.Component {
       alertShow: "none",
       redirect: false,
       error: "",
+      typePass: "password",
     };
   }
 
@@ -25,24 +30,25 @@ class Login extends React.Component {
         email: this.inputEmail.value,
         password: this.inputPassword.value,
       });
-      localStorage.setItem("dataToken", result.data.token);
-      localStorage.setItem("dataUser", JSON.stringify(result.data.dataLogin));
+
+      const user = result.data.data;
+      const currToken = result.data.data.token;
+      localStorage.setItem("dataToken", currToken);
 
       //action
-      this.props.authLogin(result.data.dataLogin);
+      this.props.authLogin(user);
       this.setState({ redirect: true });
-      localStorage.getItem("dataToken");
-      localStorage.getItem("dataUser");
-      this.inputUsername.value = "";
-      this.inputPassword.value = "";
     } catch (err) {
-      // event.preventDefault();
-      console.log(err);
-      console.log(err.message);
-
-      this.setState({ error: err.message });
+      const msgErr = err.response.data.name;
+      this.setState({ error: msgErr });
       this.setState({ alertShow: "block" });
     }
+  };
+
+  togglePassHandler = () => {
+    this.state.typePass === "password"
+      ? this.setState({ typePass: "text" })
+      : this.setState({ typePass: "password" });
   };
 
   render() {
@@ -50,14 +56,6 @@ class Login extends React.Component {
       return <Redirect to="/products" />;
     }
     return (
-      // <div className="intro">
-      //   <div className="form-inner">
-      //     <h3>Sign In</h3>
-      //     <Form />
-      //   </div>
-      // </div>
-
-      // Without OOP
       <div className="intro">
         <div className="form-inner">
           <div
@@ -70,7 +68,7 @@ class Login extends React.Component {
 
           <h3>Sign In</h3>
 
-          <div className="form-group">
+          <div className="form-group mt-2">
             <label>Email address</label>
             <input
               type="email"
@@ -80,22 +78,25 @@ class Login extends React.Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group mt-2">
             <label>Password</label>
             <input
-              type={this.passwordShown ? "text" : "password"}
+              type={this.state.typePass}
               className="form-control"
               placeholder="Enter password"
               ref={(e) => (this.inputPassword = e)}
             />
-            <p>
-              <a href="/forgot-password">Forget Password?</a>
-            </p>
+            <span toggle="#password-field" class="field-icon toggle-password">
+              <i onClick={this.togglePassHandler}>{eye}</i>
+            </span>
           </div>
+          <p className="mt-2">
+            <a href="/forgot-password">Forget Password?</a>
+          </p>
 
           <button
             type="button"
-            className="btn btn-primary btn-block btn-auth"
+            className="btn btn-primary btn-block btn-auth "
             onClick={this.onBtnLogin}
           >
             Login

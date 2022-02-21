@@ -10,7 +10,7 @@ const { auth } = require("../helpers");
 const routers = express.Router();
 
 routers.post("/login", userControllers.userLogin);
-routers.post("/register", userControllers.addData);
+routers.post("/register", userControllers.register);
 routers.patch("/verified", auth, userControllers.verification);
 
 routers.patch("/change-password", userControllers.changePassword);

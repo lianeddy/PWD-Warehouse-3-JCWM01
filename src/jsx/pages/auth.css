@@ -98,3 +98,22 @@ span {
   margin-top: 5px;
   width: 100%;
 }
+
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-right: 5px;
+  margin-top: -28px;
+  position: relative;
+  z-index: 2;
+}
+
+i {
+  position: absolute;
+  top: 50%;
+  right: 16%;
+}
+i:hover {
+  color: blue;
+  cursor: pointer;
+}
