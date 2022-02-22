@@ -167,7 +167,7 @@ const Landing = () => {
                     </div>
 
                     {/* Pagination */}
-                    <div className="mt-3">
+                    {/* <div className="mt-3">
                       <div className="d-flex flex-row justify-content-between align-items-center">
                         <button
                           disabled={pagination.currentPage === 1}
@@ -189,13 +189,41 @@ const Landing = () => {
                           {">"}
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </Col>
-                <Col xs={12} md={9}>
+              </Row>
+              <Row className="mt-4">
+                <Col>
                   <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                       {renderProducts()}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              {/* Pagination */}
+              <Row>
+                <Col>
+                  <div className="mt-3">
+                    <div className="d-flex flex-row justify-content-between align-items-center">
+                      <button
+                        disabled={pagination.currentPage === 1}
+                        onClick={prevPageHandler}
+                        className="btn btn-dark"
+                      >
+                        {"<"}
+                      </button>
+                      <div>
+                        Page {pagination.currentPage} of {pagination.maxPage}
+                      </div>
+                      <button
+                        disabled={pagination.currentPage === pagination.maxPage}
+                        onClick={nextPageHandler}
+                        className="btn btn-dark"
+                      >
+                        {">"}
+                      </button>
                     </div>
                   </div>
                 </Col>

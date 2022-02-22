@@ -197,8 +197,8 @@ const NavbarView = (props) => {
               {!props.userGlobal.id_role ? (
                 <Nav.Link href="/login">Login</Nav.Link>
               ) : null}
-              {/* <Nav.Link href="#link">Link</Nav.Link> */}
-              {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <Nav.Link href="#link">Link</Nav.Link>
+              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.2">
                   Notification
                 </NavDropdown.Item>
@@ -207,9 +207,20 @@ const NavbarView = (props) => {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
-              </NavDropdown> */}
+              </NavDropdown>
             </Nav>
           </Navbar.Collapse>
+          <form class="d-flex flex-row">
+            <input
+              class="form-control me-2 p-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success p-2" type="submit">
+              Search
+            </button>
+          </form>
         </Container>
       </Navbar>
       <div className="p-2">
