@@ -85,11 +85,7 @@ module.exports = {
         const { email, username } = user[0];
         verificationEmail(email, username, token);
 
-        responseMessage(
-          response,
-          OK,
-          "Success ✔️, cek email for authentication"
-        );
+        responseMessage(response, OK, "Success ✔️, cek email for verification");
       }
     } catch (err) {
       next(err);

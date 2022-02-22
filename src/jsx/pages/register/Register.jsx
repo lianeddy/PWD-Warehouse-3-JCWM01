@@ -1,10 +1,14 @@
 import React from "react";
 import Axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { URL_API } from "../../../helper";
 import { connect } from "react-redux";
 import "./register.css";
 import { Redirect } from "react-router-dom";
 import Swal from "sweetalert2";
+
+const eye = <FontAwesomeIcon icon={faEye} />;
 
 class Register extends React.Component {
   constructor(props) {
@@ -13,6 +17,8 @@ class Register extends React.Component {
       redirect: false,
       alertShow: "none",
       disableBtn: false,
+      typePass: "password",
+      typeConfirmPass: "password",
     };
   }
 
@@ -20,11 +26,14 @@ class Register extends React.Component {
     let username = this.inputUsername.value;
     let email = this.inputEmail.value;
     let password = this.inputPassword.value;
+    let confirmPass = this.inputConfirmPassword.value;
 
     this.setState({ disableBtn: true });
 
     if (username === "" || email === "" || password === "") {
-      alert("Fill in all the form");
+      Swal.fire("Fill in all the form");
+    } else if (password !== confirmPass) {
+      Swal.fire("password and confirm password field must be same");
     } else {
       Axios.post(`${URL_API}/users/register`, {
         username,
@@ -45,6 +54,18 @@ class Register extends React.Component {
     }
   };
 
+  togglePassHandler = () => {
+    this.state.typePass === "password"
+      ? this.setState({ typePass: "text" })
+      : this.setState({ typePass: "password" });
+  };
+
+  toggleConfirmPassHandler = () => {
+    this.state.typeConfirmPass === "password"
+      ? this.setState({ typeConfirmPass: "text" })
+      : this.setState({ typeConfirmPass: "password" });
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/login" />;
@@ -63,7 +84,7 @@ class Register extends React.Component {
 
           <h3>Sign Up</h3>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label>Username</label>
             <input
               type="text"
@@ -73,7 +94,7 @@ class Register extends React.Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label>Email address</label>
             <input
               type="email"
@@ -83,25 +104,54 @@ class Register extends React.Component {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group mb-2">
             <label>Password</label>
             <input
-              type="password"
-              className="form-control"
+              type={this.state.typePass}
+              className="form-control "
               placeholder="Enter password"
               ref={(e) => (this.inputPassword = e)}
             />
+            <span toggle="#password-field" class="field-icon toggle-password">
+              <i onClick={this.togglePassHandler}>{eye}</i>
+            </span>
           </div>
+
+          <div className="form-group mb-2">
+            <label>Confirm Password</label>
+            <input
+              type={this.state.typeConfirmPass}
+              className="form-control"
+              placeholder="Enter confirm password"
+              ref={(e) => (this.inputConfirmPassword = e)}
+            />
+            <span toggle="#password-field" class="field-icon toggle-password">
+              <i onClick={this.toggleConfirmPassHandler}>{eye}</i>
+            </span>
+          </div>
+
+          {/* <div className="form-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              className="form-control mb-2"
+              placeholder="Enter confirm password"
+              ref={(e) => (this.inputPassword = e)}
+            />
+            <span toggle="#password-field" class="field-icon toggle-password">
+              <i onClick={this.togglePassHandler}>{eye}</i>
+            </span>
+          </div> */}
 
           <button
             type="submit"
-            className="btn btn-primary btn-block btn-register"
+            className="btn btn-primary btn-block btn-register mt-3"
             onClick={this.onBtnRegister}
             disabled={this.state.disableBtn}
           >
             Sign Up
           </button>
-          <p className="forgot-password text-right">
+          <p className="forgot-password text-right mt-2">
             Already registered <a href="/login">sign in?</a>
           </p>
         </div>
