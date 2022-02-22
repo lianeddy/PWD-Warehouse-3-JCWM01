@@ -69,6 +69,7 @@ class Login extends React.Component {
           <div className="form-group mt-2">
             <label>Email address</label>
             <input
+              required
               type="email"
               className="form-control"
               placeholder="Enter email"
@@ -79,6 +80,7 @@ class Login extends React.Component {
           <div className="form-group mt-2">
             <label>Password</label>
             <input
+              required
               type={this.state.typePass}
               className="form-control"
               placeholder="Enter password"
