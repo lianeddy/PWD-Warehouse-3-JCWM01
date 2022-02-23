@@ -39,7 +39,7 @@ module.exports = {
       if (+data.nextPage > 1) data.prevPage = page - 1;
       if (+data.maxPage === +page) data.nextPage = undefined;
       if (+page === 1) data.prevPage = undefined;
-
+      // data.nextPage =
       if (countSearch.length) {
         const products = await db
           .query(getStatement, [columns, productName, pagLimit, offset])
@@ -60,7 +60,13 @@ module.exports = {
       next(err);
     }
   },
-  getProductsByFilterMdl: async function (response, getStatement, data, next) {
+  getProductsByFilterMdl: async function (
+    response,
+    countStatement,
+    getStatement,
+    data,
+    next
+  ) {
     // INJECT QUERY
     const columns = [
       `id_master_produk`,
@@ -70,18 +76,31 @@ module.exports = {
       `app_category_master_produk.nm_category_master_produk`,
       `URL`,
     ];
-    const { page, category, pagLimit } = data;
+    const { page, offset, id_category, pagLimit } = data;
     // RESPONSUCCES
     try {
-      const datas = await db
-        .query(getStatement, [columns, category, pagLimit, page])
-        .catch((err) => {
-          throw new Api500Error("gagal mendapatkan produk", err);
-        });
+      const count = await db.query(countStatement, id_category).catch((e) => {
+        throw new Api500Error("Gagal menghitung produk", e);
+      });
 
-      if (!datas.length) throw new Api404Error("Product not found");
+      if (count.length) {
+        const datas = await db
+          .query(getStatement, [columns, id_category, pagLimit, offset])
+          .catch((err) => {
+            throw new Api500Error("gagal mendapatkan produk", err);
+          });
 
-      responseData(response, OK, datas);
+        const resData = {};
+        resData.products = datas;
+        resData.productsCount = count[0].productsCount;
+        resData.maxPage = Math.ceil(+resData.productsCount / +data.pagLimit);
+        if (+page !== +resData.maxPage) resData.nextPage = +page + 1;
+        if (+page !== 1) resData.previousPage = +page - 1;
+
+        responseData(response, OK, resData);
+      } else {
+        throw new Api404Error("Product not found");
+      }
     } catch (err) {
       // ERROR HADLING TO MIDDLEWARE
       next(err);

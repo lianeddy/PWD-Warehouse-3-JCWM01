@@ -256,7 +256,7 @@ module.exports = {
     // Data from clint
     /**
      * page=${pagination.currentPage} INT (*OFFSET)
-     * productName=${filtering.byName} VARCHAR FIXME : FALSE IF DONT FILTER
+     * productName=${filtering.byName} VARCHAR: FALSE IF DONT FILTER
      * category=${filtering.byCategory} VARCHAR
      * sortBy=${filtering.sort} NAME(A-Z, Z-A), PRICE(A-Z, Z-A)
      */
@@ -298,13 +298,14 @@ module.exports = {
      * sortBy=${filtering.sort} NAME(A-Z, Z-A), PRICE(A-Z, Z-A)
      */
 
+    console.log(req.query);
     const pagLimit = 6;
     let offset = 0;
     let rows = "";
 
     const data = { ...req.query, pagLimit };
-    offset = pagLimit * +data.page;
-    data.page = offset;
+    offset = pagLimit * +(data.page - 1);
+    data.offset = offset;
 
     // No sorting
     if (!data.sortBy) data.sortBy = "";
@@ -323,9 +324,13 @@ module.exports = {
     console.log(data);
 
     // query
-    const querySelect = `SELECT ?? FROM app_master_produk JOIN app_category_master_produk ON app_master_produk.id_category = app_category_master_produk.id_category_master_produk WHERE nm_category_master_produk = ? ${data.sortBy} LIMIT ? OFFSET ?`;
+    const queryCount = `SELECT COUNT(*) AS productsCount FROM app_master_produk WHERE id_category = ?;`;
+    const querySelect = `SELECT ?? FROM app_master_produk 
+                          JOIN app_category_master_produk 
+                          ON app_master_produk.id_category = app_category_master_produk.id_category_master_produk 
+                          WHERE app_master_produk.id_category = ? ${data.sortBy} LIMIT ? OFFSET ?`;
 
     // pass to model
-    getProductsByFilterMdl(res, querySelect, data, next);
+    getProductsByFilterMdl(res, queryCount, querySelect, data, next);
   },
 };

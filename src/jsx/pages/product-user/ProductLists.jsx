@@ -10,11 +10,13 @@ import { parseQueryString } from "../../../utility/parsing";
 import { URL_API } from "../../../helper";
 
 const Landing = (props) => {
+  const { id_category } = parseQueryString(props.location.search);
+  console.log(id_category);
   const { product } = parseQueryString(props.location.search);
   const [products, setProducts] = useState([]);
 
   const [pagination, setPagination] = useState({
-    currentPage: 2,
+    currentPage: 1,
     previousPage: 0,
     nextPage: 0,
     maxPage: 1,
@@ -39,7 +41,7 @@ const Landing = (props) => {
           `${URL_API}/products/search-product?sortBy=${filtering.sort}&page=${pagination.currentPage}&productName=${product}`
         );
 
-        const { products, count, pagLimit, prevPage, nextPage, maxPage } =
+        const { products, count, prevPage, nextPage, maxPage } =
           getProducts.data.data;
         setProducts(products);
         setPagination({
@@ -56,29 +58,28 @@ const Landing = (props) => {
     }
   };
 
-  const fetchProducts = () => {
-    Axios.get(
-      `${URL_API}/products?page=${pagination.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
-    )
-      .then((res) => {
-        console.log(res.data);
-        setProducts(res.data.dataProduct);
+  const fetchFilteredProducts = async () => {
+    try {
+      if (id_category !== undefined) {
+        const productDatas = await Axios.get(
+          `${URL_API}/products/get-product-filter?id_category=${id_category}&page=${pagination.currentPage}&sortBy=${filtering.sort}`
+        );
+        const { products, productsCount, maxPage, nextPage, previousPage } =
+          productDatas.data.data;
 
+        setProducts(products);
         setPagination({
           ...pagination,
-          previousPage: res.data.prevPage || pagination.previousPage,
-          nextPage: res.data.nextPage || pagination.nextPage,
-          productsCount: res.data.productsCount || pagination.productsCount,
-          maxPage: res.data.maxPage || pagination.maxPage,
+          productsCount,
+          previousPage,
+          nextPage,
+          maxPage,
         });
-
-        console.log(res.data);
-
         renderProducts();
-      })
-      .catch((err) => {
-        alert(err);
-      });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const renderProducts = () => {
@@ -97,7 +98,7 @@ const Landing = (props) => {
 
   useEffect(() => {
     fetchProductsBySearch();
-    // fetchProducts();
+    fetchFilteredProducts();
     renderProducts();
   }, [pagination.currentPage, filtering]);
 
@@ -126,15 +127,6 @@ const Landing = (props) => {
     setFiltering({ ...filtering, [name]: value });
   };
 
-  const searchBtnHandler = () => {
-    setPagination({ ...pagination, currentPage: 1 });
-    setFiltering({
-      ...filtering,
-      byName: inputProduct.inputByName,
-      byCategory: inputProduct.inputByCategory,
-    });
-  };
-
   return (
     <div>
       {/* <NavbarView /> */}
@@ -142,90 +134,30 @@ const Landing = (props) => {
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 className="h2">Find Your Product</h1>
           <div className="btn-toolbar mb-2 mb-md-0">
-            <div className="btn-group me-2">dsadsa</div>
+            <div className="btn-group me-2">
+              {/* dropdown */}
+              {/* dropdown Sort Products */}
+              <div className="card-body">
+                <label htmlFor="sort">Sort by</label>
+                <select
+                  onChange={inputHandler}
+                  name="sort"
+                  className="form-control"
+                >
+                  <option value="">Default</option>
+                  <option value="lowPrice">Lowest Price</option>
+                  <option value="highPrice">Highest Price</option>
+                  <option value="az">A-Z</option>
+                  <option value="za">Z-A</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
         <Card body className="mb-3">
           <div className="container-fluid">
             <div className="row"></div>
             <Container>
-              <Row>
-                <Col>
-                  <div className="card">
-                    <div className="card-body">
-                      <label htmlFor="inputByName">Product Name</label>
-                      {/* filter by name */}
-                      <input
-                        onChange={inputHandler}
-                        name="inputByName"
-                        type="text"
-                        className="form-control mb-3"
-                      />
-                      {/* Filter by categories */}
-                      <label htmlFor="inputByCategory">Product Category</label>
-                      <select
-                        name="inputByCategory"
-                        onChange={inputHandler}
-                        className="form-control"
-                      >
-                        <option value="">All Items</option>
-                        <option value="Sport Performance">
-                          Sport Performance
-                        </option>
-                        <option value="Core / Neo">Core / Neo</option>
-                        <option value="Originals">Originals</option>
-                      </select>
-                      <button
-                        onClick={searchBtnHandler}
-                        className="btn btn-primary mt-3"
-                      >
-                        Search
-                      </button>
-                    </div>
-
-                    {/* dropdown Sort Products */}
-                    <div className="card-body">
-                      <label htmlFor="sort">Sort by</label>
-                      <select
-                        onChange={inputHandler}
-                        name="sort"
-                        className="form-control"
-                      >
-                        <option value="">Default</option>
-                        <option value="lowPrice">Lowest Price</option>
-                        <option value="highPrice">Highest Price</option>
-                        <option value="az">A-Z</option>
-                        <option value="za">Z-A</option>
-                      </select>
-                    </div>
-
-                    {/* Pagination */}
-                    {/* <div className="mt-3">
-                      <div className="d-flex flex-row justify-content-between align-items-center">
-                        <button
-                          disabled={pagination.currentPage === 1}
-                          onClick={prevPageHandler}
-                          className="btn btn-dark"
-                        >
-                          {"<"}
-                        </button>
-                        <div>
-                          Page {pagination.currentPage} of {pagination.maxPage}
-                        </div>
-                        <button
-                          disabled={
-                            pagination.currentPage === pagination.maxPage
-                          }
-                          onClick={nextPageHandler}
-                          className="btn btn-dark"
-                        >
-                          {">"}
-                        </button>
-                      </div>
-                    </div> */}
-                  </div>
-                </Col>
-              </Row>
               <Row className="mt-4">
                 <Col>
                   <div class="container">

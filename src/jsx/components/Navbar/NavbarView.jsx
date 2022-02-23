@@ -197,33 +197,29 @@ const NavbarView = (props) => {
               {!props.userGlobal.id_role ? (
                 <Nav.Link href="/login">Login</Nav.Link>
               ) : null}
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.2">
-                  Notification
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Edit Profile
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
-              </NavDropdown>
+              {/* <Nav.Link href="#link">Link</Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
+          <NavDropdown title="Category" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/products?id_category=1">
+              Sport Performance
+            </NavDropdown.Item>
+            <NavDropdown.Item href="/products?id_category=2">
+              Core / Neo
+            </NavDropdown.Item>
+            <NavDropdown.Item href="/products?id_category=3">
+              Originals
+            </NavDropdown.Item>
+          </NavDropdown>
           <form action="/products" class="d-flex flex-row">
             <input
               name="product"
               class="form-control me-2 p-2"
-              type="search"
+              type="search products"
               placeholder="Search"
               aria-label="Search"
             />
-            <button
-              class="btn btn-outline-success p-2"
-              // type="submit"
-            >
-              Search
-            </button>
+            <button class="btn btn-outline-success p-2">Search</button>
           </form>
         </Container>
       </Navbar>
