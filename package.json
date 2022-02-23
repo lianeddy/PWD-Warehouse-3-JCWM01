@@ -45,6 +45,7 @@
     "objection": "^2.2.16",
     "objection-js-soft-delete": "^1.1.5",
     "pagination": "^0.4.6",
+    "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-rc.0",
     "react-bootstrap-input-spinner": "^1.0.2",

@@ -265,8 +265,8 @@ module.exports = {
     let rows = "";
 
     const data = { ...req.query, pagLimit };
-    offset = pagLimit * +data.page;
-    data.page = offset;
+    offset = pagLimit * +(data.page - 1);
+    data.offset = offset;
     data.productName = `%${data.productName}%`;
 
     // No sorting
@@ -283,9 +283,11 @@ module.exports = {
       data.sortBy = `ORDER BY ${rows} DESC`;
     if (!data.sortBy) data.sortBy = "";
 
+    const queryCount = `SELECT COUNT(*) AS count FROM app_master_produk WHERE nm_master_produk LIKE ?;`;
+
     const querySelect = `SELECT ?? FROM app_master_produk WHERE nm_master_produk LIKE ? ${data.sortBy} LIMIT ? OFFSET ?`;
     // Pass to Model
-    searchProductMdl(res, querySelect, data, next);
+    searchProductMdl(res, queryCount, querySelect, data, next);
   },
   getProductsByFilter: async (req, res, next) => {
     // Data from clint

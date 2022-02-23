@@ -210,14 +210,18 @@ const NavbarView = (props) => {
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
-          <form class="d-flex flex-row">
+          <form action="/products" class="d-flex flex-row">
             <input
+              name="product"
               class="form-control me-2 p-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button class="btn btn-outline-success p-2" type="submit">
+            <button
+              class="btn btn-outline-success p-2"
+              // type="submit"
+            >
               Search
             </button>
           </form>

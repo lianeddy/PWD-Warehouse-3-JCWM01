@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import CardProduct from "../../components/Card";
-import "./productUser.css";
-import { URL_API } from "../../../helper";
 import { Col, Container, Row, Card } from "react-bootstrap";
 
-const Landing = () => {
+import "./productUser.css";
+
+import CardProduct from "../../components/Card";
+
+import { parseQueryString } from "../../../utility/parsing";
+import { URL_API } from "../../../helper";
+
+const Landing = (props) => {
+  const { product } = parseQueryString(props.location.search);
   const [products, setProducts] = useState([]);
 
   const [pagination, setPagination] = useState({
-    currentPage: 1,
+    currentPage: 2,
     previousPage: 0,
     nextPage: 0,
     maxPage: 1,
@@ -27,12 +32,36 @@ const Landing = () => {
     inputByCategory: "",
   });
 
+  const fetchProductsBySearch = async () => {
+    try {
+      if (product !== undefined) {
+        let getProducts = await Axios.get(
+          `${URL_API}/products/search-product?sortBy=${filtering.sort}&page=${pagination.currentPage}&productName=${product}`
+        );
+
+        const { products, count, pagLimit, prevPage, nextPage, maxPage } =
+          getProducts.data.data;
+        setProducts(products);
+        setPagination({
+          ...pagination,
+          productsCount: count,
+          previousPage: prevPage,
+          nextPage,
+          maxPage,
+        });
+        renderProducts();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchProducts = () => {
-    console.log(filtering.byCategory);
     Axios.get(
       `${URL_API}/products?page=${pagination.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
     )
       .then((res) => {
+        console.log(res.data);
         setProducts(res.data.dataProduct);
 
         setPagination({
@@ -42,6 +71,8 @@ const Landing = () => {
           productsCount: res.data.productsCount || pagination.productsCount,
           maxPage: res.data.maxPage || pagination.maxPage,
         });
+
+        console.log(res.data);
 
         renderProducts();
       })
@@ -54,6 +85,7 @@ const Landing = () => {
     return products.map((product) => {
       return (
         <CardProduct
+          key={product.id_master_produk}
           id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
@@ -64,7 +96,8 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProductsBySearch();
+    // fetchProducts();
     renderProducts();
   }, [pagination.currentPage, filtering]);
 
@@ -109,7 +142,7 @@ const Landing = () => {
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 className="h2">Find Your Product</h1>
           <div className="btn-toolbar mb-2 mb-md-0">
-            <div className="btn-group me-2"></div>
+            <div className="btn-group me-2">dsadsa</div>
           </div>
         </div>
         <Card body className="mb-3">

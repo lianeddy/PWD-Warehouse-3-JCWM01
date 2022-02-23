@@ -5,7 +5,13 @@ const { OK } = require("../utils/httpStatusCodes.js");
 const { responseData, responseMessage } = require("../utils/response-handler");
 
 module.exports = {
-  searchProductMdl: async function (response, getStatement, data, next) {
+  searchProductMdl: async function (
+    response,
+    countStatement,
+    getStatement,
+    data,
+    next
+  ) {
     const columns = [
       "id_master_produk",
       "nm_master_produk",
@@ -13,19 +19,43 @@ module.exports = {
       "description",
       "URL",
     ];
-    const { productName, pagLimit, page } = data;
+
+    const { productName, pagLimit, offset, page } = data;
+
     try {
       // INJECT QUERY
-      const getDatas = await db
-        .query(getStatement, [columns, productName, pagLimit, page])
-        .catch((err) => {
-          throw new Api500Error("gagal mendapatkan produk", err);
+      const countSearch = await db
+        .query(countStatement, productName)
+        .catch((e) => {
+          throw new Api500Error("Gagal menghitung produk", e);
         });
 
-      if (!getDatas.length)
-        throw new Api404Error("Product not found, Try another keyword");
+      // send this data to client back
+      const data = { ...countSearch[0] };
+      // add pagLimit
+      data.pagLimit = pagLimit;
+      data.maxPage = Math.ceil(data.count / data.pagLimit);
+      data.nextPage = +page + 1;
+      if (+data.nextPage > 1) data.prevPage = page - 1;
+      if (+data.maxPage === +page) data.nextPage = undefined;
+      if (+page === 1) data.prevPage = undefined;
 
-      responseData(response, OK, getDatas);
+      if (countSearch.length) {
+        const products = await db
+          .query(getStatement, [columns, productName, pagLimit, offset])
+          .catch((err) => {
+            throw new Api500Error("gagal mendapatkan produk", err);
+          });
+
+        // add product list
+        data.products = products;
+
+        responseData(response, OK, data);
+      } else {
+        throw new Api404Error("Product not found, Try another keyword");
+      }
+
+      // if (!products.length)
     } catch (err) {
       next(err);
     }

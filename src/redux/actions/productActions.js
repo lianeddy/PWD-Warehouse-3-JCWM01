@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { URL_API } from "../../helpers/";
+import { URL_API } from "../../helper";
 import {
   API_PRODUCT_FAILED,
   API_PRODUCT_SUCCESS,
@@ -165,3 +165,20 @@ export const nullifyErrorAction = () => {
     type: NULLIFY_ERROR,
   };
 };
+
+// export const searchProducts = () => {
+//   return async (dispatch) => {
+//     try {
+//       let search = await Axios.get(
+//         `${url}/search-product?sortBy=${
+//           filtering.sort
+//         }&page=${0}&productName=${product}`
+//       );
+//     } catch (err) {}
+
+//     dispatch({
+//       type: "SEARCH_PRODUCTS",
+//       payload: data,
+//     });
+//   };
+// };
