@@ -24,6 +24,7 @@ import Profile from "../../pages/profile";
 import Cart from "../../pages/cart/cart";
 import Checkout from "../../pages/checkout/Checkout";
 import Orders from "../../pages/orders/order";
+import Landing from "../../pages/landing/Landing";
 
 const NavbarView = (props) => {
   const [pageAdmin, setPageAdmin] = useState([
@@ -98,6 +99,7 @@ const NavbarView = (props) => {
     //   path: "/profile",
     //   component: ProfileExample,
     // },
+
     {
       path: "/profileold/",
       component: ProfileExample,
@@ -146,6 +148,10 @@ const NavbarView = (props) => {
       path: "/orders",
       component: Orders,
     },
+    {
+      path: "/",
+      component: Landing,
+    },
   ]);
 
   const [pageNonLogin, setPageNonLogin] = useState([
@@ -156,6 +162,10 @@ const NavbarView = (props) => {
     {
       path: "/product-detail/:id_master_produk",
       component: productDetail,
+    },
+    {
+      path: "/",
+      component: Landing,
     },
   ]);
 
@@ -187,7 +197,7 @@ const NavbarView = (props) => {
     <>
       <Navbar bg="dark" expand="lg" variant="dark">
         <Container fluid>
-          <Navbar.Brand href="#home">SPORTYFY</Navbar.Brand>
+          <Navbar.Brand href="/">Halaman Utama</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"

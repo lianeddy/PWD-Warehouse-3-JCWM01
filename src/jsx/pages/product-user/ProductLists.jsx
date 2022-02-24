@@ -9,7 +9,7 @@ import CardProduct from "../../components/Card";
 import { parseQueryString } from "../../../utility/parsing";
 import { URL_API } from "../../../helper";
 
-const Landing = (props) => {
+const ProductList = (props) => {
   const { id_category } = parseQueryString(props.location.search);
   console.log(id_category);
   const { product } = parseQueryString(props.location.search);
@@ -103,20 +103,15 @@ const Landing = (props) => {
   }, [pagination.currentPage, filtering]);
 
   const nextPageHandler = () => {
-    console.log(pagination.nextPage);
-
     setPagination({
       currentPage: pagination.currentPage + 1,
     });
-    console.log(pagination.nextPage);
   };
 
   const prevPageHandler = () => {
-    console.log(pagination.previousPage);
     setPagination({
       currentPage: pagination.currentPage - 1,
     });
-    console.log(pagination.previousPage);
   };
 
   const inputHandler = (event) => {
@@ -201,4 +196,4 @@ const Landing = (props) => {
   );
 };
 
-export default Landing;
+export default ProductList;

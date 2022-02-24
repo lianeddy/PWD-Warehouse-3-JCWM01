@@ -51,7 +51,7 @@ class Login extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/products" />;
+      return <Redirect to="/" />;
     }
     return (
       <div className="intro">

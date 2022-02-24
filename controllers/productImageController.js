@@ -52,4 +52,36 @@ module.exports = {
       // next();
     }
   },
+  addImgLanding: async (req, res, next) => {
+    let path = "/imagescover-image";
+    let outUploader = StorageHelper.uploader(path, "cover-landing").fields([
+      {
+        name: "file",
+      },
+    ]);
+
+    outUploader(req, res, async (err) => {
+      if (err) {
+        console.error(err);
+        // next();
+      }
+
+      // Parsing url file
+      console.log(req.files);
+      const { file } = req.files;
+      const filePath = file ? "/images" + path + "/" + file[0].filename : null;
+
+      // Simpan data ke table, untuk update per-id-product
+      const sqlInsert = `INSERT INTO sys_file (url_file, id_user, nm_file) VALUES ("${filePath}", 1, "cover-images")`;
+
+      db.query(sqlInsert, (err, results) => {
+        if (err) {
+          console.log(err);
+          fs.unlinkSync("./public" + filePath);
+          res.status(500).send({ message: "error", err });
+        }
+        res.status(201).send({ filePath, message: "success", code: 1 });
+      });
+    });
+  },
 };

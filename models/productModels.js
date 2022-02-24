@@ -124,4 +124,26 @@ module.exports = {
       next(err);
     }
   },
+  getProductLandingMdl: async function (
+    response,
+    getStatement,
+    limit,
+    offset,
+    next
+  ) {
+    console.log(limit, offset);
+    const columns = ["nm_master_produk", "description", "URL"];
+    try {
+      const products = await db
+        .query(getStatement, [columns, limit, offset])
+        .catch((e) => {
+          throw new Api500Error("Gagal mendapatkan data landing", e);
+        });
+
+      console.log(products);
+      responseData(response, OK, products);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

@@ -42,7 +42,6 @@ const SidebarsView = (props) => {
   ]);
 
   const [sidebarItemCustomer, setsidebarItemCustomer] = useState([
-    { link: "/products", icon: "#grid", name: "Products" },
     {
       link: "/cart",
       icon: "#cart",
@@ -60,9 +59,7 @@ const SidebarsView = (props) => {
     },
   ]);
 
-  const [sidebarItemNonLogin, setsidebarItemNonLogin] = useState([
-    { link: "/products", icon: "#grid", name: "Products" },
-  ]);
+  // const [sidebarItemNonLogin, setsidebarItemNonLogin] = useState([]);
 
   const renderMenuAdmin = () => {
     let output = sidebarItemAdmin.map((el, index) => {
@@ -115,22 +112,22 @@ const SidebarsView = (props) => {
     return output;
   };
 
-  const renderMenuNonLogin = () => {
-    let output = sidebarItemNonLogin.map((el, index) => {
-      const { link, icon, name } = el;
-      return (
-        <li className="nav-item" key={index}>
-          <NavLink to={link} className={`nav-link link-dark`}>
-            <svg className="bi me-2" width="16" height="16">
-              <use xlinkHref={icon} />
-            </svg>
-            {name}
-          </NavLink>
-        </li>
-      );
-    });
-    return output;
-  };
+  // const renderMenuNonLogin = () => {
+  //   let output = sidebarItemNonLogin.map((el, index) => {
+  //     const { link, icon, name } = el;
+  //     return (
+  //       <li className="nav-item" key={index}>
+  //         <NavLink to={link} className={`nav-link link-dark`}>
+  //           <svg className="bi me-2" width="16" height="16">
+  //             <use xlinkHref={icon} />
+  //           </svg>
+  //           {name}
+  //         </NavLink>
+  //       </li>
+  //     );
+  //   });
+  //   return output;
+  // };
 
   return (
     <>
@@ -141,9 +138,7 @@ const SidebarsView = (props) => {
         style={{ width: "16.66666667%", minHeight: "100vh", position: "fixed" }}
       >
         <ul className="nav nav-pills flex-column mb-auto">
-          {props.userGlobal.id_role === null
-            ? renderMenuNonLogin()
-            : props.userGlobal.id_role === 2
+          {props.userGlobal.id_role === 2
             ? renderMenuAdmin()
             : props.userGlobal.id_role === 1
             ? renderMenuSuperAdmin()

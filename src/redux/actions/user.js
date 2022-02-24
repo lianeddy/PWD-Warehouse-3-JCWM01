@@ -65,7 +65,7 @@ export const logoutUser = () => {
       dispatch({
         type: "ADMIN_LOGOUT",
       });
-      window.location.assign("/products");
+      window.location.assign("/");
     } catch (err) {
       alert(err);
     }

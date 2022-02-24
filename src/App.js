@@ -15,6 +15,7 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
+import Landing from "./jsx/pages/landing/Landing";
 
 import { keepLoginAction, logoutUser } from "./redux/actions/user";
 import { getCart } from "./redux/actions/cartAction";
