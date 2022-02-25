@@ -170,7 +170,22 @@ class Cart extends React.Component {
   render() {
     return (
       <>
-        <Container>
+        <div className="col-md-12 col-lg-12 px-md-4">
+          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2">Your Cart Item</h1>
+            <div className="btn-toolbar mb-2 mb-md-0">
+              <div className="btn-group me-2">
+                {/* <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.tambahModalHandler}
+            >
+              &#10147; Kirim Permintaan
+            </button> */}
+              </div>
+            </div>
+          </div>
+
           <Row>
             <Col>
               <Table responsive>
@@ -187,20 +202,20 @@ class Cart extends React.Component {
               </Table>
             </Col>
           </Row>
-        </Container>
-        <Container>
-          <Stack gap={2} className="col-md-5 mx-auto">
-            <hr />
-            <Button
-              onClick={this.routeChange}
-              variant="primary"
-              disabled={this.props.cartGlobal.cartList.length === 0}
-            >
-              Process your cart
-            </Button>
-            <hr />
-          </Stack>
-        </Container>
+          <Container>
+            <Stack gap={2} className="col-md-5 mx-auto">
+              <hr />
+              <Button
+                onClick={this.routeChange}
+                variant="primary"
+                disabled={this.props.cartGlobal.cartList.length === 0}
+              >
+                Process your cart
+              </Button>
+              <hr />
+            </Stack>
+          </Container>
+        </div>
       </>
     );
   }

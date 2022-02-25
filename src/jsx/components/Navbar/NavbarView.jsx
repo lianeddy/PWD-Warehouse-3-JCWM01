@@ -233,7 +233,8 @@ const NavbarView = (props) => {
           </form>
         </Container>
       </Navbar>
-      <div className="p-2">
+      {/* <div className="p-2"> */}
+      <div>
         <Switch>
           {props.userGlobal.id_role === 1
             ? renderItemAdmin()
