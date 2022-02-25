@@ -7,6 +7,7 @@ import { Card, Badge } from "react-bootstrap";
 
 import { URL_API } from "../../../helper";
 import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
+import cartServices from "../../pages/cart/cart.services";
 
 const ProductDetail = (props) => {
   //global state
@@ -28,15 +29,7 @@ const ProductDetail = (props) => {
   }, []);
 
   const fetchProducts = () => {
-    const token = localStorage.getItem("dataToken");
-    Axios.get(
-      `${URL_API}/products/${props.match.params.id_master_produk}`
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // }
-    )
+    Axios.get(`${URL_API}/products/${props.match.params.id_master_produk}`)
       .then((res) => {
         setProductDetail(res.data[0]);
         dispatch(quickShowStocks(res.data[0].id_master_produk, setOtherInfo));
@@ -49,8 +42,14 @@ const ProductDetail = (props) => {
   const addToCartHandler = async () => {
     // AJAX CALL
     try {
-      const { data } = await Axios.post(
-        `${URL_API}/cart/add-from-product-list/${productDetail.id_master_produk}?quantity=${countAddToCart}&id_user=${id_user}`
+      // const { data } = await Axios.post(
+      //   `${URL_API}/cart/add-from-product-list/${productDetail.id_master_produk}?quantity=${countAddToCart}&id_user=${id_user}`
+      // );
+      const id_produk = productDetail.id_master_produk;
+      const { data } = await cartServices.addToCart(
+        id_produk,
+        countAddToCart,
+        id_user
       );
 
       const msg = data.data;

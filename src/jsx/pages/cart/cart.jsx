@@ -1,13 +1,15 @@
 import React from "react";
 import { Container, Row, Col, Table, Button, Stack } from "react-bootstrap";
 import { connect } from "react-redux";
-import Axios from "axios";
 import Swal from "sweetalert2";
 import InputSpinner from "react-bootstrap-input-spinner";
 
 import { URL_API } from "../../../helper";
 import { quickShowStocks } from "../../../redux/actions/transaksiProdukAction";
 import { getCart } from "../../../redux/actions/cartAction";
+import CartService from "./cart.services";
+import productService from "../product-user/product.services";
+import cartServices from "./cart.services";
 
 class Cart extends React.Component {
   constructor(props) {
@@ -28,7 +30,6 @@ class Cart extends React.Component {
   }
 
   confirmDelete = async function (id) {
-    console.log(id);
     Swal.fire({
       title: "Kamu yakin mau hapus produk ini?",
       text: "Beri tahu kami jika ini tidak cocok",
@@ -47,9 +48,7 @@ class Cart extends React.Component {
 
   BtnDeleteHandler = async function (id) {
     try {
-      const cartDelete = await Axios.delete(
-        `${URL_API}/cart/delete-item-in-cart/${id}`
-      );
+      await CartService.deleteCart(id);
       this.props.getCart(this.props.userGlobal.id_user);
     } catch (err) {
       const msgErr = err.response.data.message;
@@ -84,13 +83,9 @@ class Cart extends React.Component {
   };
 
   sendToParent = async (qty, id_cart) => {
-    console.log(qty);
-
     let value = qty;
     try {
-      const { data } = await Axios.patch(
-        `${URL_API}/cart/edit-Qtyitem-in-cart/${id_cart}?quantity=${value}`
-      );
+      await cartServices.updateQTY(id_cart, value);
       this.props.getCart(this.props.userGlobal.id_user);
     } catch (err) {
       console.log(err);
@@ -98,12 +93,8 @@ class Cart extends React.Component {
   };
 
   quickShowStocks = async (id_product) => {
-    console.log(id_product);
     try {
-      const { data } = await Axios.get(
-        `${URL_API}/products/quick-check-stocks?id=${id_product}`
-      );
-
+      const { data } = await productService.checkStock(id_product);
       const stock = ++data.data[0].total_stock;
       this.setState({
         stock,

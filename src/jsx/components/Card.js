@@ -3,33 +3,29 @@ import Axios from "axios";
 import Swal from "sweetalert2";
 import { Link, Redirect } from "react-router-dom";
 import "./Card.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { URL_API } from "../../helper";
+import cartServices from "../pages/cart/cart.services";
 
 const Card = (props) => {
+  const dispatch = useDispatch();
   const userGlobal = useSelector((state) => state.authReducer);
   const { id_user } = userGlobal;
 
   const [stok, setStok] = useState(0);
 
-  const checkStokProduct = () => {
+  const checkStokProduct = async () => {
     // FIXME
-    // Axios.get(
-    //   `${URL_API}/products/check-stok?product=${props.id_master_produk}`
-    // )
-    //   .then((res) => {
-    //     setStok(res.data.dataStok);
-    //   })
-    //   .catch((err) => {
-    //     alert(err);
-    //   });
+    try {
+      // dispatch({})
+    } catch (err) {}
   };
 
   const AddToCart = async () => {
     try {
-      const { data } = await Axios.post(
-        `${URL_API}/cart/add-from-product-list/${props.id_master_produk}?quantity=1&id_user=${id_user}`
-      );
+      const id_produk = props.id_master_produk;
+
+      const { data } = await cartServices.add1Cart(id_produk, 1, id_user);
 
       const msg = data.data;
 

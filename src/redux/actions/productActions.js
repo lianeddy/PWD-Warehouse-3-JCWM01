@@ -182,3 +182,17 @@ export const nullifyErrorAction = () => {
 //     });
 //   };
 // };
+
+export const getStock = async (id_product) => {
+  try {
+    const { data } = await CartService.checkStock(id_product);
+    const stock = ++data.data[0].total_stock;
+    return await stock;
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${err.response.data}`,
+    });
+  }
+};

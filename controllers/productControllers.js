@@ -51,29 +51,6 @@ module.exports = {
         });
       }
 
-      // const filteredResults = results.filter((val) => {
-      //   if (filterProductByName && filterProductByCategory) {
-      //     return (
-      //       val.nm_master_produk
-      //         .toLowerCase()
-      //         .includes(filterProductByName.toLowerCase()) &&
-      //       val.nm_category_master_produk
-      //         .toLowerCase()
-      //         .includes(filterProductByCategory.toLowerCase())
-      //     );
-      //   } else if (filterProductByName) {
-      //     return val.nm_master_produk
-      //       .toLowerCase()
-      //       .includes(filterProductByName.toLowerCase());
-      //   } else if (filterProductByCategory) {
-      //     return val.nm_category_master_produk
-      //       .toLowerCase()
-      //       .includes(filterProductByCategory.toLowerCase());
-      //   } else {
-      //     return results;
-      //   }
-      // });
-      // console.table(results);
       let productsCount = results.length;
       let maxPageProducts = Math.ceil(productsCount / limit);
 

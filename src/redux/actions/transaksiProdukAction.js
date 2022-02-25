@@ -2,6 +2,7 @@ import Axios from "axios";
 import { URL_API } from "../../helper";
 import { SwalFire } from "../../utility/SwalFire";
 import Swal from "sweetalert2";
+import productServices from "../../jsx/pages/product-user/product.services";
 
 const getDataTransaksiProdukHandler = (
   pages,
@@ -207,10 +208,7 @@ const isTolakPesanan = (id, propsHistory) => {
 
 const quickShowStocks = async (id_product, state) => {
   try {
-    const { data } = await Axios.get(
-      `${URL_API}/products/quick-check-stocks?id=${id_product}`
-    );
-
+    const { data } = await productServices.checkStock(id_product);
     const stock = ++data.data[0].total_stock;
     return state({ stock });
   } catch (err) {

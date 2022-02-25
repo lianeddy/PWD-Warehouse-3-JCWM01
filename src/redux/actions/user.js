@@ -1,6 +1,8 @@
 import Axios from "axios";
-import { URL_API } from "../../helper";
 import Swal from "sweetalert2";
+
+import authHeader from "../../utility/authHeader";
+import { URL_API } from "../../helper";
 
 export const authLogin = (data) => {
   console.log(`Data masuk Action dari component: ${data}`);
@@ -17,9 +19,7 @@ export const keepLoginAction = (userLocalStorage) => {
         `${URL_API}/users/keep-login`,
         {},
         {
-          headers: {
-            authorization: `Bearer ${userLocalStorage}`,
-          },
+          headers: authHeader(),
         }
       );
 

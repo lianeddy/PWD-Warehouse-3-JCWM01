@@ -46,6 +46,7 @@ module.exports = {
   },
 
   deleteItemInCart: async (req, res, next) => {
+    console.log(req.user);
     // query sql
     const querySelect =
       "SELECT * FROM app_carts_produk WHERE id_app_carts_produk = ?";
