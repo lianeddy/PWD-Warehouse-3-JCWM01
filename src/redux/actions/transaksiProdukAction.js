@@ -212,10 +212,11 @@ const quickShowStocks = async (id_product, state) => {
     const stock = ++data.data[0].total_stock;
     return state({ stock });
   } catch (err) {
+    const msg = err.response.data.name;
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: `${err.response.data}`,
+      text: `${msg}`,
     });
   }
 };

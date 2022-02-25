@@ -1,12 +1,11 @@
 import React from "react";
-import Axios from "axios";
 import { connect } from "react-redux";
-import { Nav } from "react-bootstrap";
 import moment from "moment";
 
 import { getBuyTransactionDatas } from "../../../redux/actions/transaksiProdukAction";
-import { URL_API, URL_WEB } from "../../../helper";
+import { URL_API } from "../../../helper";
 import { status, badgeEl } from "../../../utility/Checker.js";
+import orderServices from "./order.services";
 import "./styles.css";
 
 class Orders extends React.Component {
@@ -67,9 +66,8 @@ class Orders extends React.Component {
   fetchData = async () => {
     const id_user = this.props.userGlobal.id_user;
     try {
-      const value = await Axios.get(
-        `${URL_API}/transactions/see-my-ongoing-transaction/${id_user}`
-      );
+      const value = await orderServices.getDataOrder(id_user);
+
       const dataTransactions = value.data.data;
       this.props.getBuyTransactionDatas(dataTransactions);
     } catch (err) {

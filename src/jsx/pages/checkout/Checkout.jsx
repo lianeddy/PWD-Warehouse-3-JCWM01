@@ -19,6 +19,7 @@ import {
   passAllCheckoutDatas,
 } from "../../../redux/actions/transaksiProdukAction";
 import "./styles.css";
+import checkoutServices from "./checkout.services";
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -30,17 +31,7 @@ class Checkout extends React.Component {
     isFirst: false,
     redirect: false,
     shippingCostSelected: "",
-    checkoutDatas: {
-      id_user: 0,
-      id_metode_pembayaran: 0,
-      id_metode_pengiriman: 0,
-      id_warehouse: 0,
-      invoice_code: "",
-      keterangan: "",
-      alamat: "",
-      total_harga: 0,
-      ongkos_kirim: 0,
-    },
+    ongkos_kirim: 0,
   };
 
   componentDidMount() {
@@ -62,6 +53,7 @@ class Checkout extends React.Component {
       );
 
     if (findAddressDefault !== undefined) {
+      // Render Adress for shipping
       const {
         nm_data_alamat_user,
         address_data_alamat_user,
@@ -70,8 +62,10 @@ class Checkout extends React.Component {
         contact_data_alamat_user,
       } = findAddressDefault;
 
+      // template delivery address
       const alamat = `[${nm_data_alamat_user}], ${address_data_alamat_user}, ${datakabkota.type} ${datakabkota.nm_kabkota} - Provinsi ${datapropinsi.nm_propinsi}`;
 
+      // it sends for collecting data to database
       passLocation(alamat, this.props.userGlobal.id_user);
 
       return (
@@ -90,6 +84,7 @@ class Checkout extends React.Component {
   };
 
   renderCartInfo = () => {
+    // just render for UI this page
     return this.props.cartGlobal.cartList.map((value, idx) => {
       return (
         <li
@@ -109,10 +104,12 @@ class Checkout extends React.Component {
   };
 
   renderTotalCart = () => {
+    // this data just for render UI
     const total_harga = this.props.cartGlobal.cartList
       .map((value) => value.TOTAL)
       .reduce((cur, price) => cur + price, 0);
 
+    // exclude shipping cost
     passTotalHarga(total_harga);
     return total_harga;
   };
@@ -131,8 +128,11 @@ class Checkout extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
+    // all data for checkout
     const props_checkout = this.props.transaksiProdukReducer.checkoutData;
     const props_detailTrans = this.props.cartGlobal.cartList;
+
+    // compare global state
     if (props_checkout !== prevProps.transaksiProdukReducer.checkoutData) {
       this.postDataCheckout(props_checkout, props_detailTrans);
     }
@@ -140,37 +140,24 @@ class Checkout extends React.Component {
 
   postDataCheckout = async (checkout, detailTrans) => {
     try {
-      const dataDetailTrancs = detailTrans.map((elem) => ({
-        id_master_barang: elem.id_master_barang,
-        harga: elem.PRICE,
-        jumlah: elem.QTY,
+      // extract from cart global, mapping into data to be saved in detail transactions
+      const dataDetailTrancs = detailTrans.map((el) => ({
+        id_master_barang: el.id_master_barang,
+        harga: el.PRICE,
+        jumlah: el.QTY,
       }));
 
-      const {
-        alamat,
-        id_metode_pembayaran,
-        id_metode_pengiriman,
-        id_user,
-        id_warehouse,
-        keterangan,
-        ongkos_kirim,
-        total_harga,
-      } = checkout;
-
-      let url = `${URL_API}/transactions/checkout`;
-      if (alamat !== undefined) url += `?alamat=${alamat}`;
-      if (id_metode_pembayaran !== undefined)
-        url += `&id_metode_pembayaran=${id_metode_pembayaran}`;
-      if (id_metode_pengiriman !== undefined)
-        url += `&id_metode_pengiriman=${id_metode_pengiriman}`;
-      if (id_user !== undefined) url += `&id_user=${id_user}`;
-      if (id_warehouse !== undefined) url += `&id_warehouse=${id_warehouse}`;
-      if (keterangan !== undefined) url += `&keterangan=${keterangan}`;
-      if (ongkos_kirim !== undefined) url += `&ongkos_kirim=${ongkos_kirim}`;
-      if (total_harga !== undefined) url += `&total_harga=${total_harga}`;
-      console.log(url);
-
-      const postData = await Axios.post(`${url}`, dataDetailTrancs);
+      await checkoutServices.checkout(
+        checkout.alamat,
+        checkout.id_metode_pembayaran,
+        checkout.id_metode_pengiriman,
+        checkout.id_user,
+        checkout.id_warehouse,
+        checkout.keterangan,
+        checkout.ongkos_kirim,
+        checkout.total_harga,
+        dataDetailTrancs
+      );
     } catch (err) {
       console.log(err);
     }
@@ -183,9 +170,13 @@ class Checkout extends React.Component {
   inputHandler = (e, service) => {
     const ongkos_kirim = e.target.value;
     console.log(ongkos_kirim);
+
+    this.setState({ ongkos_kirim });
     const data = this.props.transaksiProdukReducer.shippingMethods.find(
       (el) => el.kode_metode_pengiriman === service
     );
+    console.log(data);
+
     const id_metode_pengiriman = data.id_metode_pengiriman;
     passOngkirAndIdMetodePengiriman(ongkos_kirim, id_metode_pengiriman);
   };
@@ -201,7 +192,9 @@ class Checkout extends React.Component {
   };
 
   renderShippingServices = (courier) => {
+    console.log(courier);
     return courier.map((value) => {
+      console.log(value);
       return (
         <React.Fragment>
           <input
@@ -262,16 +255,12 @@ class Checkout extends React.Component {
                 <div className="text-success">
                   <h6 className="my-0">Shipping Costs</h6>
                 </div>
-                <span className="text-success">
-                  ${this.state.checkoutDatas.ongkos_kirim}
-                </span>
+                <span className="text-success">${this.state.ongkos_kirim}</span>
               </li>
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
                 <strong>
-                  $
-                  {+this.renderTotalCart() +
-                    +this.state.checkoutDatas.ongkos_kirim}
+                  ${+this.renderTotalCart() + +this.state.ongkos_kirim}
                 </strong>
               </li>
             </ul>

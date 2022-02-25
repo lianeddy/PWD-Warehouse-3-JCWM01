@@ -1,11 +1,13 @@
 const express = require("express");
 const { TransactionsController } = require("../controllers");
 const route = express.Router();
+const { auth } = require("../helpers");
 
 route.post("/paymentProof", TransactionsController.addPaymentProof);
-route.post("/checkout", TransactionsController.checkout);
+route.post("/checkout", auth, TransactionsController.checkout);
 route.get(
   "/see-my-ongoing-transaction/:id",
+  auth,
   TransactionsController.seeOnGoingMyTransaction
 );
 route.get("/ongkir", TransactionsController.generatedOngkir);

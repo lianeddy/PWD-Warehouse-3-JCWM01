@@ -15,20 +15,22 @@ import ForgotPassword from "./jsx/pages/forgot.password";
 import ForgotPasswordUpdate from "./jsx/pages/forgot.password.update";
 import AdminProducts from "./jsx/pages/admin.products";
 import DasboardExample from "./jsx/example/DashboardExample";
-import Landing from "./jsx/pages/landing/Landing";
 
 import { keepLoginAction, logoutUser } from "./redux/actions/user";
 import { getCart } from "./redux/actions/cartAction";
 import { parseJwt } from "./utility/parsing";
 
 function App(props) {
-  const userDataStorage = JSON.parse(localStorage.getItem("dataUser"));
+  // global state
+  let userData = "";
+  // from local storage
   const userTokenStorage = localStorage.getItem("dataToken");
 
   const keepLogin = () => {
     if (userTokenStorage !== null) {
       const decodedJwt = parseJwt(userTokenStorage);
-
+      // re-assign data user from token
+      userData = decodedJwt;
       // check token expired
       if (decodedJwt.exp * 1000 < Date.now()) {
         props.logoutUser();
@@ -43,8 +45,8 @@ function App(props) {
     if (userTokenStorage !== null) {
       keepLogin();
     }
-    if (userDataStorage !== null) {
-      props.getCart(+userDataStorage.id_user);
+    if (userData) {
+      props.getCart(userData.id_user);
     }
   }, []);
 

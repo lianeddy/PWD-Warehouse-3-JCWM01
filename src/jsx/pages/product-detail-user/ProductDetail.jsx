@@ -63,10 +63,11 @@ const ProductDetail = (props) => {
       });
     } catch (err) {
       // Error Handling
+      const msg = err.response.data.name;
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: `${err.response.data}`,
+        text: `${msg}`,
       });
     }
   };
