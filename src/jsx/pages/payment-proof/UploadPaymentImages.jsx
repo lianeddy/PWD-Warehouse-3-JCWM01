@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
-import UploadPaymentComponent from "../components/UploadProfileUser/UploadPaymentComponent";
-import { Col, Container, Row, Card } from "react-bootstrap";
+import UploadPaymentComponent from "./UploadPaymentComponent";
+import { Card } from "react-bootstrap";
 
 const UploadPaymentImage = () => {
   return (

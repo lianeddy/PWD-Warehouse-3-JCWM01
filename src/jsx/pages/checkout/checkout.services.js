@@ -30,9 +30,26 @@ class CheckoutService {
       URL_CHECKOUT += `&ongkos_kirim=${ongkos_kirim}`;
     if (total_harga !== undefined)
       URL_CHECKOUT += `&total_harga=${total_harga}`;
-    console.log(URL_CHECKOUT);
 
     return Axios.post(`${URL_CHECKOUT}`, detailTransactions, {
+      headers: authHeader(),
+    });
+  }
+  getShipping(id, courier) {
+    return Axios.get(
+      `${url}/min-cost-shipping?id_user=${id}&courier=${courier}`,
+      {
+        headers: authHeader(),
+      }
+    );
+  }
+  getPayment() {
+    return Axios.get(`${url}/get-payment-method`, {
+      headers: authHeader(),
+    });
+  }
+  getShippingMethods() {
+    return Axios.get(`${url}/get-shipping-method`, {
       headers: authHeader(),
     });
   }

@@ -3,6 +3,7 @@ import { URL_API } from "../../helper";
 import { SwalFire } from "../../utility/SwalFire";
 import Swal from "sweetalert2";
 import productServices from "../../jsx/pages/product-user/product.services";
+import checkoutServices from "../../jsx/pages/checkout/checkout.services";
 
 const getDataTransaksiProdukHandler = (
   pages,
@@ -210,6 +211,7 @@ const quickShowStocks = async (id_product, state) => {
   try {
     const { data } = await productServices.checkStock(id_product);
     const stock = ++data.data[0].total_stock;
+
     return state({ stock });
   } catch (err) {
     const msg = err.response.data.name;
@@ -224,11 +226,9 @@ const quickShowStocks = async (id_product, state) => {
 const getShippingService = (id, courier) => {
   return async (dispatch) => {
     try {
-      const data = await Axios.get(
-        `${URL_API}/transactions/min-cost-shipping?id_user=${id}&courier=${courier}`
-      );
+      const couriers = await checkoutServices.getShipping(id, courier);
+      const courierService = couriers.data.data;
 
-      const courierService = data.data.data;
       dispatch({ type: "GET_SHIPPING_COURIER", payload: courierService });
     } catch (err) {
       const msgErr = err.response.data.message;
@@ -244,11 +244,9 @@ const getShippingService = (id, courier) => {
 const getPaymentMethods = () => {
   return async (dispatch) => {
     try {
-      const value = await Axios.get(
-        `${URL_API}/transactions/get-payment-method`
-      );
+      const value = await checkoutServices.getPayment();
       const paymentMethods = value.data.data;
-      console.log(paymentMethods);
+
       dispatch({ type: "GET_PAYMENT_METHODS", payload: paymentMethods });
     } catch (err) {
       const msgErr = err.response.data.message;
@@ -264,11 +262,9 @@ const getPaymentMethods = () => {
 const getShippingMethods = () => {
   return async (dispatch) => {
     try {
-      const value = await Axios.get(
-        `${URL_API}/transactions/get-shipping-method`
-      );
-
+      const value = await checkoutServices.getShippingMethods();
       const shippingMethods = value.data.data;
+
       dispatch({ type: "GET_SHIPPING_METHODS", payload: shippingMethods });
     } catch (err) {
       const msgErr = err.response.data.message;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Col,
   Button,
@@ -9,10 +9,8 @@ import {
   Card,
   Image,
 } from "react-bootstrap";
-import Axios from "axios";
-import { URL_API } from "../../../helper";
-import { connect } from "react-redux";
 import { SwalFire } from "../../../utility/SwalFire";
+import paymentProofServices from "./uploadPayment.services";
 
 const UploadProductComponent = ({
   title = "Input Product Images",
@@ -27,6 +25,7 @@ const UploadProductComponent = ({
     preview: null,
   });
 
+  const [dataSQL, setDataSQL] = useState({});
   const formDataOnChangeHandler = (e) => {
     if (e.target.files[0]) {
       setData({
@@ -39,13 +38,14 @@ const UploadProductComponent = ({
   };
 
   const id_user = useSelector((state) => state.authReducer.id_user);
+
   const dataSelectorSQL = {};
   dataSelectorSQL.id_user = id_user;
   const uploadBtnHandler = () => {
-    console.log(dataSelectorSQL);
-    const { id_user, id_transaksi_master_produk } = dataSelectorSQL;
     setIsLoading(true);
     const formData = new FormData();
+
+    const { id_user, id_transaksi_master_produk } = dataSQL;
 
     if (isAdd) {
       let dataSend = {
@@ -55,10 +55,9 @@ const UploadProductComponent = ({
       };
       formData.append("data", JSON.stringify(dataSend));
       formData.append("file", data.addFile);
-      Axios.post(
-        `${URL_API}/transactions/paymentProof?id_user=${id_user}&id_transaksi_master_produk=${id_transaksi_master_produk}`,
-        formData
-      )
+
+      paymentProofServices
+        .upload(id_user, id_transaksi_master_produk, formData)
         .then((result) => {
           const { code, message } = result.data;
           if (code == 1) {
@@ -79,34 +78,11 @@ const UploadProductComponent = ({
           setIsLoading(false);
         });
     }
-
-    // if (isUpdate) {
-    //   formData.append("file", data.addFile);
-    //   Axios.patch(`${URL_API}/users/profile-image/${idUser}`, formData)
-    //     .then((result) => {
-    //       const { code, message } = result.data;
-    //       if (code == 1) {
-    //         SwalFire.fire("Berhasil", message, "success");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       SwalFire.fire({
-    //         icon: "error",
-    //         title: "Oops...",
-    //         text: "Server Error",
-    //       });
-    //       console.log(err);
-    //     })
-    //     .finally(() => {
-    //       setIsLoading(false);
-    //     });
-    // }
   };
   const selectHandler = (e) => {
-    // FIXME
     const id = e.target.value;
     dataSelectorSQL.id_transaksi_master_produk = id;
-    // console.log(e.target.value);
+    setDataSQL(dataSelectorSQL);
   };
 
   const OrderId = () => {
@@ -169,19 +145,5 @@ const UploadProductComponent = ({
     </Container>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     userGlobal: state.authReducer,
-//     transaksiProdukReducer: state.transaksiProdukReducer,
-//   };
-// };
-
-// const mapDispatchToProps = {};
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(UploadProductComponent);
 
 export default UploadProductComponent;

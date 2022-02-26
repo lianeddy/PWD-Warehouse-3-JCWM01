@@ -1,10 +1,8 @@
 import React from "react";
-import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Card, Form } from "react-bootstrap";
 
-import { URL_API } from "../../../helper";
 import { getDataMultiAddress } from "../../../redux/actions/userMultiAddressAction";
 import {
   getShippingService,
@@ -169,13 +167,11 @@ class Checkout extends React.Component {
 
   inputHandler = (e, service) => {
     const ongkos_kirim = e.target.value;
-    console.log(ongkos_kirim);
 
     this.setState({ ongkos_kirim });
     const data = this.props.transaksiProdukReducer.shippingMethods.find(
       (el) => el.kode_metode_pengiriman === service
     );
-    console.log(data);
 
     const id_metode_pengiriman = data.id_metode_pengiriman;
     passOngkirAndIdMetodePengiriman(ongkos_kirim, id_metode_pengiriman);
@@ -192,9 +188,8 @@ class Checkout extends React.Component {
   };
 
   renderShippingServices = (courier) => {
-    console.log(courier);
+    // render data from RAJA ONGKIR API
     return courier.map((value) => {
-      console.log(value);
       return (
         <React.Fragment>
           <input
@@ -221,16 +216,19 @@ class Checkout extends React.Component {
   };
 
   dropDownPaymentHandler = (e) => {
+    // id from dropdown to pass into database
     const id_metode_pembayaran = e.target.value;
     passIdMetodePembayaran(id_metode_pembayaran);
   };
 
   inputAdditionalInfo = (e) => {
+    // Additional information (opsional) for shipping
     const keterangan = e.target.value;
     passKeterangan(keterangan);
   };
 
   render() {
+    // redirect as soon as possible when data submited
     if (this.state.redirect) {
       return <Redirect to="/orders" />;
     }

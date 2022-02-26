@@ -13,7 +13,7 @@ import AppHistoryProdukView from "../AppHistoryProduk/AppHistoryProdukView";
 import AppHistoryTransaksiAdminView from "../AppHistoryTransaksiAdmin/AppHistoryTransaksiAdminView";
 import ProfileEdit from "../../pages/profile.edit";
 import AdminProducts from "../../pages/admin.products";
-import UploadPaymentImages from "../../example/UploadPaymentImages";
+import UploadPaymentImages from "../../pages/payment-proof/UploadPaymentImages";
 import UploadProductImage from "../../example/UploadProductImage";
 import ProductAdmin from "../../pages/product-admin/ProductsAdmin";
 import ProductList from "../../pages/product-user/ProductLists";
