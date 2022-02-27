@@ -25,6 +25,7 @@ module.exports = {
     });
   },
   getDataAdmin: (req, res) => {
+    console.log(req.user);
     console.log(req.query.sortBy);
 
     // filter products & sort by query

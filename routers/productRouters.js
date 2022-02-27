@@ -7,7 +7,7 @@ const routers = express.Router();
 // endpoint product
 routers.get("/search-product", productControllers.searchProduct);
 routers.get("/get-product-filter", productControllers.getProductsByFilter);
-routers.get("/product-admin", productControllers.getDataAdmin);
+routers.get("/product-admin", auth, productControllers.getDataAdmin);
 routers.get("/quick-check-stocks", auth, productControllers.quickCheckStocks);
 routers.get("/landing", productControllers.getProductLanding);
 routers.get("/:id_master_produk", productControllers.getDataById);
