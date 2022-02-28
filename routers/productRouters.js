@@ -8,6 +8,7 @@ const routers = express.Router();
 routers.get("/search-product", productControllers.searchProduct);
 routers.get("/get-product-filter", productControllers.getProductsByFilter);
 routers.get("/product-admin", auth, productControllers.getDataAdmin);
+routers.get("/admin-products", auth, productControllers.getProductAdmin);
 routers.get("/quick-check-stocks", auth, productControllers.quickCheckStocks);
 routers.get("/landing", productControllers.getProductLanding);
 routers.get("/:id_master_produk", productControllers.getDataById);

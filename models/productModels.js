@@ -146,4 +146,25 @@ module.exports = {
       next(err);
     }
   },
+  getProductAdminMdl: async function (response, getStatement, data, next) {
+    const column = [
+      "app_master_produk.id_master_produk",
+      "nm_master_produk",
+      "harga",
+      "stok",
+      "URL",
+    ];
+    try {
+      const { id_warehouse, pagLimit, offset } = data;
+      const products = await db
+        .query(getStatement, [column, id_warehouse, pagLimit, offset])
+        .catch((e) => {
+          throw new Api500Error("gagal akses data product admin", e);
+        });
+
+      responseData(response, OK, products);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

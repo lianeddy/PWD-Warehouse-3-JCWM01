@@ -29,6 +29,7 @@ const Landing = () => {
       .getProducts(pagination.currentPage, filtering.sort)
       .then((res) => {
         setProducts(res.data.dataProduct);
+        console.log(res.data.dataProduct);
 
         setPagination({
           ...pagination,
@@ -46,8 +47,6 @@ const Landing = () => {
   };
 
   const renderProducts = () => {
-    console.log(products);
-
     return products.map((product) => {
       return (
         <CardAdmin

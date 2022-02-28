@@ -4,6 +4,7 @@ const {
   getProductsByFilterMdl,
   quickCheckStocksMdl,
   getProductLandingMdl,
+  getProductAdminMdl,
 } = require("../models/productModels");
 
 module.exports = {
@@ -165,7 +166,6 @@ module.exports = {
      * sortBy=${filtering.sort} NAME(A-Z, Z-A), PRICE(A-Z, Z-A)
      */
 
-    console.log(req.query);
     const pagLimit = 6;
     let offset = 0;
     let rows = "";
@@ -188,8 +188,6 @@ module.exports = {
       data.sortBy = `ORDER BY ${rows} DESC`;
     if (!data.sortBy) data.sortBy = "";
 
-    console.log(data);
-
     // query
     const queryCount = `SELECT COUNT(*) AS productsCount FROM app_master_produk WHERE id_category = ?;`;
     const querySelect = `SELECT ?? FROM app_master_produk 
@@ -206,5 +204,38 @@ module.exports = {
     const querySelect = `SELECT ?? FROM app_master_produk LIMIT ? OFFSET ?`;
 
     getProductLandingMdl(res, querySelect, limit, offset, next);
+  },
+  getProductAdmin: (req, res, next) => {
+    // FROM AUTH TOKEN DECODED
+    const id_warehouse = req.user.id_warehouse;
+    const pagLimit = 6;
+    let offset = 0;
+    let rows = "";
+
+    const data = { ...req.query, pagLimit, id_warehouse };
+
+    offset = pagLimit * +(data.page - 1);
+    data.offset = offset;
+
+    // No sorting
+    if (!data.sortBy) data.sortBy = "";
+    // sort by rows
+    if (data.sortBy === "lowStock" || data.sortBy === "highStock")
+      rows = "stok";
+    if (data.sortBy === "az" || data.sortBy === "za") rows = "nm_master_produk";
+
+    // sorting
+    if (data.sortBy === "lowStock" || data.sortBy === "az")
+      data.sortBy = `ORDER BY ${rows} ASC`;
+    if (data.sortBy === "highStock" || data.sortBy === "za")
+      data.sortBy = `ORDER BY ${rows} DESC`;
+    if (!data.sortBy) data.sortBy = "";
+
+    const querySelect = `SELECT ??
+                FROM app_master_produk
+                JOIN app_persediaan_produk ON
+                app_master_produk.id_master_produk = app_persediaan_produk.id_master_produk
+                WHERE id_warehouse = ? ${data.sortBy} LIMIT ? OFFSET ?;`;
+    getProductAdminMdl(res, querySelect, data, next);
   },
 };
