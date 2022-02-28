@@ -24,37 +24,40 @@ const Landing = () => {
     sort: "",
   });
 
-  const fetchProducts = () => {
-    productAdminServices
-      .getProducts(pagination.currentPage, filtering.sort)
-      .then((res) => {
-        setProducts(res.data.dataProduct);
-        console.log(res.data.dataProduct);
+  const fetchProducts = async () => {
+    try {
+      const getProducts = await productAdminServices.getProducts(
+        pagination.currentPage,
+        filtering.sort
+      );
+      const { products, productsCount, previousPage, nextPage, maxPage } =
+        getProducts.data.data;
+      setProducts(products);
 
-        setPagination({
-          ...pagination,
-          previousPage: res.data.prevPage || pagination.previousPage,
-          nextPage: res.data.nextPage || pagination.nextPage,
-          productsCount: res.data.productsCount || pagination.productsCount,
-          maxPage: res.data.maxPage || pagination.maxPage,
-        });
-
-        renderProducts();
-      })
-      .catch((err) => {
-        alert(err);
+      setPagination({
+        ...pagination,
+        previousPage,
+        nextPage,
+        productsCount,
+        maxPage,
       });
+
+      renderProducts();
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const renderProducts = () => {
     return products.map((product) => {
       return (
         <CardAdmin
+          key={product.id_master_produk}
           id_master_produk={product.id_master_produk}
           productName={product.nm_master_produk}
           price={product.harga}
           image={URL_API + product.URL}
-          total_stok={product.total_stok + " item tersedia"}
+          total_stok={product.stok + " item tersedia"}
         />
       );
     });
@@ -109,8 +112,8 @@ const Landing = () => {
                   className="form-control"
                 >
                   <option value="">Default</option>
-                  <option value="lowPrice">Lowest Price</option>
-                  <option value="highPrice">Highest Price</option>
+                  <option value="lowStock">Lowest Stock</option>
+                  <option value="highStock">Highest Stock</option>
                   <option value="az">A-Z</option>
                   <option value="za">Z-A</option>
                 </select>

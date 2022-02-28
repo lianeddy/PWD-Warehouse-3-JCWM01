@@ -146,7 +146,13 @@ module.exports = {
       next(err);
     }
   },
-  getProductAdminMdl: async function (response, getStatement, data, next) {
+  getProductAdminMdl: async function (
+    response,
+    countStatement,
+    getStatement,
+    data,
+    next
+  ) {
     const column = [
       "app_master_produk.id_master_produk",
       "nm_master_produk",
@@ -155,14 +161,31 @@ module.exports = {
       "URL",
     ];
     try {
-      const { id_warehouse, pagLimit, offset } = data;
+      const { id_warehouse, pagLimit, offset, page } = data;
+      const count = await db.query(countStatement).catch((e) => {
+        throw new Api500Error("gagal menghitung product");
+      });
+
       const products = await db
-        .query(getStatement, [column, id_warehouse, pagLimit, offset])
+        .query(
+          getStatement,
+          +id_warehouse !== 0
+            ? [column, id_warehouse, pagLimit, offset]
+            : [pagLimit, offset]
+        )
         .catch((e) => {
           throw new Api500Error("gagal akses data product admin", e);
         });
-
-      responseData(response, OK, products);
+      // all data from query db stored in object to send to client
+      const resData = {};
+      resData.products = products;
+      resData.productsCount = count[0].productsCount;
+      resData.maxPage = Math.ceil(+resData.productsCount / +data.pagLimit);
+      // determine next page and prev to navigate client
+      if (+page !== +resData.maxPage) resData.nextPage = +page + 1;
+      if (+page !== 1) resData.previousPage = +page - 1;
+      // send to centralized response
+      responseData(response, OK, resData);
     } catch (err) {
       next(err);
     }

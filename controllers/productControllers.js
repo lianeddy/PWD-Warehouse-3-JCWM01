@@ -231,11 +231,30 @@ module.exports = {
       data.sortBy = `ORDER BY ${rows} DESC`;
     if (!data.sortBy) data.sortBy = "";
 
+    const queryCount = `SELECT COUNT(*) AS productsCount FROM app_master_produk;`;
+    // For admin. just show stock in the wh
     const querySelect = `SELECT ??
-                FROM app_master_produk
-                JOIN app_persediaan_produk ON
-                app_master_produk.id_master_produk = app_persediaan_produk.id_master_produk
-                WHERE id_warehouse = ? ${data.sortBy} LIMIT ? OFFSET ?;`;
-    getProductAdminMdl(res, querySelect, data, next);
+                          FROM app_master_produk
+                          JOIN app_persediaan_produk ON
+                          app_master_produk.id_master_produk = app_persediaan_produk.id_master_produk
+                          WHERE id_warehouse = ? ${data.sortBy} LIMIT ? OFFSET ?;`;
+    // for super admin, show total stock WH
+    const querySelect0 = `SELECT 
+                                  app_master_produk.id_master_produk,
+                                  nm_master_produk,
+                                  harga,
+                                  SUM(stok) AS stok,
+                                  URL
+                          FROM app_master_produk
+                          JOIN app_persediaan_produk ON
+                          app_master_produk.id_master_produk = app_persediaan_produk.id_master_produk 
+                          GROUP BY app_persediaan_produk.id_master_produk ${data.sortBy} LIMIT ? OFFSET ?;`;
+    getProductAdminMdl(
+      res,
+      queryCount,
+      +data.id_warehouse !== 0 ? querySelect : querySelect0,
+      data,
+      next
+    );
   },
 };

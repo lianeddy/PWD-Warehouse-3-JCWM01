@@ -6,7 +6,7 @@ const url = `${URL_API}/products`;
 
 class ProductAdminService {
   getProducts(curPage, sort) {
-    return Axios.get(`${url}/product-admin?page=${curPage}&sortBy=${sort}`, {
+    return Axios.get(`${url}/admin-products?page=${curPage}&sortBy=${sort}`, {
       headers: authHeader(),
     });
   }

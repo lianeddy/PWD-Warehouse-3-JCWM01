@@ -38,6 +38,7 @@ const SidebarsView = (props) => {
 
   const [sidebarItemSuperAdmin, setsidebarItemSuperAdmin] = useState([
     // { link: "/home", icon: "#home", name: "Home" },
+    { link: "/products", icon: "#grid", name: "Products" },
     { link: "/warehouse", icon: "#home", name: "Warehouse" },
   ]);
 
