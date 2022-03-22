@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bearerToken = require("express-bearer-token");
 
+const { sequelize } = require("./helpers");
 const logger = require("./utils/logger");
 const { error } = require("./utils/logger");
 
@@ -17,6 +18,17 @@ app.use(express.json());
 app.use(bearerToken());
 
 app.use(express.static("public"));
+
+// Testing database connection
+(async () => {
+  try {
+    // await sequelize.sync({ force: true, match: /_test$/ });
+    await sequelize.sync();
+    console.log("Connection has been established successfully");
+  } catch (err) {
+    console.error("Unable to connect to the database:", err);
+  }
+})();
 
 const {
   userRouters,

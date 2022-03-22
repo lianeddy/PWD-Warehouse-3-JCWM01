@@ -13,6 +13,7 @@ const {
   forgotPasswordEmail,
 } = require("./nodemailer");
 const { generateValueUniq } = require("./RandomHelper");
+const sequelize = require("./sequelize");
 
 module.exports = {
   MysqlConnector,
@@ -28,4 +29,5 @@ module.exports = {
   generateValueUniq,
   verificationEmail,
   forgotPasswordEmail,
+  sequelize,
 };
