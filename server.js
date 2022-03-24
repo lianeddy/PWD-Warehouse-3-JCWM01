@@ -22,11 +22,10 @@ app.use(express.static("public"));
 // Testing database connection
 (async () => {
   try {
-    // await sequelize.sync({ force: true, match: /_test$/ });
     await sequelize.sync();
-    console.log("Connection has been established successfully");
+    logger.info("Connection has been established successfully");
   } catch (err) {
-    console.error("Unable to connect to the database:", err);
+    logger.error("Unable to connect to the database:", err);
   }
 })();
 
@@ -41,6 +40,7 @@ const {
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
   cartRouters,
+  User,
 } = require("./routers");
 
 app.use("/users", userRouters);
@@ -53,6 +53,14 @@ app.use("/transactions", TransactionsRouters);
 app.use("/persediaan-produk", AppPersediaanProdukRouter);
 app.use("/history-transaksi-produk", AppTransaksiProdukRouter);
 app.use("/cart", cartRouters);
+
+/**
+ * ORM
+ *
+ *
+ */
+
+app.use("/ORM", User);
 
 // if the Promise is rejected this will catch it
 process.on("unhandledRejection", (error) => {

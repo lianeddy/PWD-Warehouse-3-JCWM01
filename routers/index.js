@@ -7,7 +7,14 @@ const uploadProductRouter = require("./uploadProductRouter");
 const TransactionsRouters = require("./TransactionsRouters");
 const AppPersediaanProdukRouter = require("./AppPersediaanProdukRouter");
 const AppTransaksiProdukRouter = require("./AppTransaksiProdukRouter");
-const cartRouters = require('./cartRouters')
+const cartRouters = require("./cartRouters");
+
+/**
+ * ORM login
+ *
+ */
+
+const User = require("./User");
 
 module.exports = {
   userRouters,
@@ -19,5 +26,6 @@ module.exports = {
   TransactionsRouters,
   AppPersediaanProdukRouter,
   AppTransaksiProdukRouter,
-  cartRouters
+  cartRouters,
+  User,
 };
