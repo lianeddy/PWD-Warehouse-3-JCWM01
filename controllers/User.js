@@ -7,7 +7,7 @@ module.exports = {
     try {
       const user = await User.findByCredentials(email, password);
 
-      const token = await user.generateToken();
+      const token = await user.generateToken(user.dataValues);
       res.status(200).send(token);
     } catch (err) {
       console.log(err);

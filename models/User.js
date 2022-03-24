@@ -1,10 +1,13 @@
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../helpers");
 const Crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 class User extends Model {
   static async findByCredentials(email, password) {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+    });
 
     if (!user) {
       throw new Error("Unable to login");
@@ -21,8 +24,10 @@ class User extends Model {
     return Crypto.createHmac("sha1", "hash123").update(input).digest("hex");
   }
 
-  generateToken() {
-    return "Token";
+  generateToken(payload) {
+    return jwt.sign(payload, "private123", {
+      expiresIn: "12h",
+    });
   }
 }
 
